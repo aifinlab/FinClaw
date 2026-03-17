@@ -1,0 +1,25 @@
+{
+  "name": "akshare-fund",
+  "version": "1.0.0",
+  "description": "ETF/LOF fund quotes and search via Tencent Finance API",
+  "author": "FinClaw",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "/root/.openclaw/workspace/skills/akshare-fund",
+  "data_source": "Tencent Finance",
+  "evaluation": {
+    "safety": 9,
+    "completeness": 8,
+    "executability": 10,
+    "maintainability": 8,
+    "cost_awareness": 10,
+    "overall": 9.0
+  },
+  "relations": [
+    {"source": "akshare-fund", "target": "akshare-stock", "type": "similar_to"},
+    {"source": "akshare-fund", "target": "zhitu-data", "type": "similar_to"}
+  ],
+  "features": ["ETF quotes", "LOF quotes", "fund search"],
+  "api_required": false
+}

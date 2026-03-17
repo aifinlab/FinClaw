@@ -1,0 +1,20 @@
+{
+  "eval_id": 0,
+  "eval_name": "single-report-validation",
+  "run_type": "with_skill",
+  "expectations": [
+    {"text": "余额>金额", "passed": true, "evidence": "识别了LN0000000002贷款余额210>贷款金额200"},
+    {"text": "编号格式错误", "passed": true, "evidence": "识别了LN000000003编号仅9位数字，不符合LN+10位数字格式"},
+    {"text": "证件号位数不足", "passed": true, "evidence": "识别了王五证件号码17位不足18位"},
+    {"text": "借款人名称为空", "passed": true, "evidence": "识别了LN0000000004借款人名称为空"},
+    {"text": "到期日早于发放日", "passed": true, "evidence": "识别了LN0000000005到期日期(2023-03-01)早于发放日期(2023-09-01)"},
+    {"text": "金额为负", "passed": true, "evidence": "识别了LN0000000006贷款金额-80.00为负数"},
+    {"text": "五级分类非法值", "passed": true, "evidence": "识别了LN0000000007五级分类'好的'不在取值范围"},
+    {"text": "利率为零", "passed": true, "evidence": "识别了LN0000000009利率为0"},
+    {"text": "日期格式错误", "passed": true, "evidence": "识别了LN0000000010发放日期2024/03/15格式不符合YYYY-MM-DD"},
+    {"text": "担保方式非法值", "passed": true, "evidence": "识别了LN0000000010担保方式'混合'不在取值范围"},
+    {"text": "问题严重性分级", "passed": true, "evidence": "将问题分为阻断性问题（必须修复）并提供了修复优先级建议（高优先级/中优先级）"},
+    {"text": "结论优先", "passed": true, "evidence": "第一部分即为校验结果汇总，先给出通过率和问题数量"},
+    {"text": "免责提示", "passed": true, "evidence": "末尾声明：本校验报告仅作为报送前数据质量复核参考，不替代正式报送审批流程"}
+  ]
+}

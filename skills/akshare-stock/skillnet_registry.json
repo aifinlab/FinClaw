@@ -1,0 +1,26 @@
+{
+  "name": "akshare-stock",
+  "version": "1.0.0",
+  "description": "A-share real-time quotes, sector analysis, capital flow, dragon/tiger list via Tencent Finance API",
+  "author": "FinClaw",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "/root/.openclaw/workspace/skills/akshare-stock",
+  "data_source": "Tencent Finance",
+  "evaluation": {
+    "safety": 9,
+    "completeness": 9,
+    "executability": 10,
+    "maintainability": 8,
+    "cost_awareness": 10,
+    "overall": 9.2
+  },
+  "relations": [
+    {"source": "akshare-stock", "target": "akshare-fund", "type": "similar_to"},
+    {"source": "akshare-stock", "target": "zhitu-data", "type": "similar_to"},
+    {"source": "akshare-stock", "target": "tushare-pro", "type": "compose_with"}
+  ],
+  "features": ["real-time quotes", "sector analysis", "capital flow", "dragon tiger list"],
+  "api_required": false
+}

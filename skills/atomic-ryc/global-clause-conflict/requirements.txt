@@ -1,0 +1,4 @@
+requests>=2.31.0
+beautifulsoup4>=4.12.3
+pdfminer.six>=20231228
+lxml>=5.2.1

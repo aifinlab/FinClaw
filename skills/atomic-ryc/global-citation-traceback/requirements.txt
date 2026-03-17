@@ -1,0 +1,5 @@
+requests>=2.31.0
+beautifulsoup4>=4.12.3
+pypdf>=4.2.0
+scikit-learn>=1.4.2
+numpy>=1.26.4
