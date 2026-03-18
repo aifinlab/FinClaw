@@ -2,7 +2,7 @@
   <div style="font-size: 120px;">🦞</div>
 </div>
 
-# FinClaw 🦞 | 开源金融数据投研平台
+# FinClaw 🦞 | 开源免费开箱即用的金融版大龙虾，960个自研Skills免费用
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
