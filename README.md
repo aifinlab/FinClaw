@@ -120,6 +120,9 @@ ls -1 skills/ | grep "^fund-"        # 基金相关
 |:---|:---|
 | K线行情 | efinance → akshare → adata → ashare → snowball |
 | 实时报价 | efinance → adata → snowball |
+| 资金流向 | efinance → adata → snowball |
+| 财务指标 | adata → akshare → snowball |
+| 北向资金 | adata 独占 |
 | 跨市场(港/美) | snowball 独占 |
 
 **统一代码格式（SH600519）、统一字段名（英文 snake_case）、自动 Fallback，上层 Skill 无需关心数据源差异。**
