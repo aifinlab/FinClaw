@@ -18,9 +18,42 @@
 
 ## 🚀 快速开始
 
-FinClaw 是基于 **OpenClaw** 开发的金融数据 Skills 集合。
+FinClaw 是基于 **OpenClaw** 开发的金融数据 Skills 集合，必须基于 OpenClaw 运行。
 
+### 安装部署
 
+**标准安装（推荐）**
+
+```bash
+# 1. 安装 OpenClaw
+curl -fsSL https://openclaw.ai/install.sh | bash
+
+# 2. 进入 workspace 目录
+cd ~/.openclaw/workspace
+
+# 3. 克隆 FinClaw 项目
+git clone https://github.com/aifinlab/FinClaw .
+
+# 4. 安装 Python 依赖
+pip install akshare pandas numpy requests
+
+# 5. 启动 OpenClaw
+openclaw start
+```
+
+**Docker 部署**
+
+```bash
+# 1. 启动 OpenClaw 容器
+docker run -d --name openclaw -p 18789:18789 openclaw/openclaw:latest
+
+# 2. 复制 FinClaw 到容器
+docker exec openclaw mkdir /home/node/.openclaw/workspace/
+docker cp ./FinClaw openclaw:/home/node/.openclaw/workspace/FinClaw
+
+# 3. 重启容器
+docker restart openclaw
+```
 
 ### 使用方法
 
@@ -35,13 +68,13 @@ FinClaw 是基于 **OpenClaw** 开发的金融数据 Skills 集合。
 **方式二：命令行直接运行 Skills**
 
 ```bash
-# 股票行情
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-stock/scripts
-python stock_quote_tx.py 600519
+# 查看所有 skills
+ls -1 skills/
 
-# 量化数据（统一数据层）
-cd ~/.openclaw/workspace/FinClaw/skills/cn-stock-data/scripts
-python /cn_stock_data.py kline --code SH600519 --freq daily --start 2024-01-01
+# 按类别查找
+ls -1 skills/ | grep "^bank-"        # 银行业务
+ls -1 skills/ | grep "^a-share-"     # A股相关
+ls -1 skills/ | grep "^fund-"        # 基金相关
 ```
 
 ---
@@ -521,153 +554,6 @@ python /cn_stock_data.py kline --code SH600519 --freq daily --start 2024-01-01
 
 
 
-
-## 🔐 安全配置（重要）
-
-FinClaw 使用环境变量管理敏感信息（API Key、账号密码等），**代码中不硬编码任何密钥**。
-
-### 使用示例
-
-```bash
-# ===== 股票数据 =====
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-stock/scripts
-python stock_quote_tx.py 600519      # 茅台实时行情
-python stock_sector.py 半导体         # 半导体板块
-python stock_lhb.py                   # 龙虎榜
-
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-stock/scripts
-python margin_balance.py              # 融资融券余额
-python margin_rank.py --type buy      # 融资买入排行
-
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-stock/scripts
-python lhb_daily.py                   # 龙虎榜日报
-python lhb_dealer.py                  # 游资追踪
-
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-block-trade/scripts
-python block_daily.py                 # 大宗交易
-python block_premium.py               # 折溢价分析
-
-# ===== 基金数据 =====
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-fof/scripts
-python fof_list.py                    # FOF基金列表
-python fof_rank.py                    # FOF业绩排行
-
-cd ~/.openclaw/workspace/FinClaw/skills/fund-backtest/scripts
-python fund_backtest.py --code 006308 --start 2023-01-01 --end 2024-01-01
-python fund_dca.py --code 006308 --amount 1000 --years 3
-
-# ===== 宏观数据 =====
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-macro/scripts
-python macro_summary.py               # 宏观经济仪表盘
-python macro_gdp.py                   # GDP数据
-python macro_cpi.py                   # CPI通胀数据
-
-cd ~/.openclaw/workspace/FinClaw/skills/fred-data/scripts
-python fred_rate.py                   # 美联储利率
-python fred_cpi.py                    # 美国CPI
-
-cd ~/.openclaw/workspace/FinClaw/skills/global-macro/scripts
-python global_dashboard.py            # 全球宏观仪表盘
-
-# ===== 另类数据 =====
-cd ~/.openclaw/workspace/FinClaw/skills/akshare-esg/scripts
-python esg_rating.py --code 000001    # ESG评级
-python esg_carbon.py                  # 碳中和股票
-
-cd ~/.openclaw/workspace/FinClaw/skills/sentiment-xueqiu/scripts
-python xueqiu_hot.py                  # 雪球热股榜
-
-# ===== 量化工具 =====
-cd ~/.openclaw/workspace/FinClaw/skills/ai-stock-pick/scripts
-python ai_pick.py                     # AI选股
-
-cd ~/.openclaw/workspace/FinClaw/skills/factor-analysis/scripts
-python factor_analyze.py              # 多因子分析
-```
-
----
-
-## 🐳 部署方式
-
-FinClaw 是 OpenClaw 的扩展，必须基于 OpenClaw 运行。
-
-### openclaw正常安装安装步骤（如果你已经安装了Openclaw可以跳过）
-
-```bash
-# 1. 安装 OpenClaw（如果尚未安装）
-curl -fsSL https://openclaw.ai/install.sh | bash
-
-# 2. 克隆 FinClaw 到 OpenClaw workspace
-cd ~/.openclaw/workspace
-git clone https://github.com/aifinlab/FinClaw  .
-
-# 3. 安装 Python 依赖
-pip install akshare pandas numpy requests
-
-# 4. 启动 OpenClaw
-openclaw start
-```
-
-### 方式一：标准安装（推荐）
-
-```bash
-# 1. 安装 OpenClaw
-curl -fsSL https://openclaw.ai/install.sh | bash
-
-# 2. 进入 workspace 目录
-cd ~/.openclaw/workspace
-
-# 3. 克隆 FinClaw项目（或复制已有代码）
-git clone https://github.com/aifinlab/FinClaw .
-
-# 4. 添加额外的skills路径
-openclaw config set skills.load.extraDirs '["~/.openclaw/workspace/FinClaw/skills"]'
-
-# 5. 重启启动 OpenClaw
-openclaw restart gateway
-```
-
-### 方式二：Docker 部署（基于 OpenClaw）
-
-```bash
-# 1. 启动 OpenClaw 容器
-docker run -d --name openclaw \
-  -p 18789:18789 \
-  openclaw/openclaw:latest
-
-# 2. 创建目录，copy skills（需要等容器启动完成）
-docker exec openclaw mkdir /home/node/.openclaw/workspace/
-docker cp ./FinClaw openclaw:/home/node/.openclaw/workspace/FinClaw
-
-# 3. 添加额外的skills路径(容器会自动stop)
-docker exec -it openclaw bash
-openclaw config set skills.load.extraDirs '["~/.openclaw/workspace/FinClaw"]'
-
-# 4. 重启容器
-docker start openclaw
-```
-
-### 方式三：离线安装
-
-适用于内网环境或已有 OpenClaw 的情况：
-
-```bash
-# 1. 确认 OpenClaw 已安装
-openclaw version
-
-# 2. 复制 FinClaw 文件到 workspace
-cp -r /FinClaw  ~/.openclaw/workspace/
-
-# 3. 安装 Python 依赖
-openclaw config set skills.load.extraDirs '["~/.openclaw/workspace/FinClaw/skills"]'
-
-# 4. 重启 OpenClaw
-openclaw restart gateway
-```
-
----
-
----
 
 ## 🎯 实战案例
 
