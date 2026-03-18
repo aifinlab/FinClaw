@@ -643,7 +643,7 @@ git push origin feature/your-feature
 
 ## ⭐ Star 历史
 
-[![Star History Chart](https://www.star-history.com/?repos=aifinlab%2Faifinlab&type=date&legend=top-left)](https://www.star-history.com/#AiFinlab/AiFinlab&date&)
+[![Star History Chart](https://www.star-history.com/?repos=aifinlab%2Faifinlab&type=date&legend=top-left)](https://api.star-history.com/svg?repos=aifinlab/aifinlab&type=Date)
 
 ---
 
