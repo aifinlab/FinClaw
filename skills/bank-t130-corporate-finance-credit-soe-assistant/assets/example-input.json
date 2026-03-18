@@ -1,0 +1,30 @@
+{
+  "company": {
+    "name": "某市产业发展集团有限公司",
+    "shareholding_chain": "市国资委-集团公司-申请主体"
+  },
+  "application": {
+    "amount_mn": 50,
+    "product_type": "流动资金贷款",
+    "purpose": "补充主营业务周转",
+    "repayment_source": "经营回款"
+  },
+  "financials": {
+    "revenue_mn": 180,
+    "net_profit_mn": 6.2,
+    "operating_cash_flow_mn": 1.4,
+    "interest_bearing_debt_mn": 96
+  },
+  "operations": {
+    "main_responsibility": "产业园区运营和配套服务",
+    "support_document_status": "待补充"
+  },
+  "materials": [
+    {"name": "股权链条图", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "董事会决议", "provided": false, "note": "待补", "source": "待提供"},
+    {"name": "上级支持文件", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "authorization_unclear": true
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "company": {
+    "name": "宁波锐联科技有限公司",
+    "actual_controller": "赵某"
+  },
+  "application": {
+    "amount_mn": 12,
+    "product_type": "流动资金贷款",
+    "purpose": "采购周转",
+    "repayment_source": "主营业务回款"
+  },
+  "financials": {
+    "revenue_mn": 88,
+    "net_profit_mn": 4.2,
+    "operating_cash_flow_mn": 1.1,
+    "interest_bearing_debt_mn": 28
+  },
+  "operations": {
+    "top_customers": ["客户A", "客户B"]
+  },
+  "materials": [
+    {"name": "股权结构图", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "对外担保明细", "provided": false, "note": "待补", "source": "待提供"},
+    {"name": "实控人资产负债说明", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "pledged_shares_ratio": 0.58,
+    "external_guarantee_pressure": true
+  }
+}

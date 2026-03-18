@@ -1,0 +1,16 @@
+{
+  "name": "summarize",
+  "version": "1.0.0",
+  "description": "Text summarization capabilities for long documents and articles",
+  "author": "openclaw",
+  "category": "NLP/Text",
+  "source": "skillhub",
+  "installed_at": "2026-03-13",
+  "path": "$SKILLS_ROOT/summarize",
+  "api_required": false,
+  "features": [
+    "Text summarization",
+    "Document compression",
+    "Key points extraction"
+  ]
+}

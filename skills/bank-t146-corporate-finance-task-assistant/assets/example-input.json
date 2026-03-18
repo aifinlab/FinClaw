@@ -1,0 +1,35 @@
+{
+  "company": { "name": "广州海辰物流有限公司" },
+  "monitoring": {
+    "time_window": "近90天",
+    "signals": [
+      {
+        "title": "新增中标项目（潜在融资/保函机会）",
+        "bucket": "opportunity",
+        "severity": 3,
+        "confidence": 0.7,
+        "recency_days": 12,
+        "magnitude_hint": "中标金额约80mn",
+        "suggested_products": ["项目融资", "保函", "结算"]
+      },
+      {
+        "title": "被执行信息新增（需核验）",
+        "bucket": "risk",
+        "severity": 5,
+        "confidence": 0.8,
+        "recency_days": 5,
+        "magnitude_hint": "执行标的2.6mn"
+      },
+      {
+        "title": "结算资金沉淀上升（现金管理机会）",
+        "bucket": "opportunity",
+        "severity": 2,
+        "confidence": 0.8,
+        "recency_days": 20,
+        "magnitude_hint": "日均余额提升约5mn",
+        "suggested_products": ["现金管理", "资金归集", "代发薪"]
+      }
+    ]
+  }
+}
+

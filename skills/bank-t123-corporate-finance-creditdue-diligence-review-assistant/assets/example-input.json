@@ -1,0 +1,78 @@
+{
+  "company": {
+    "name": "宁波海川装备有限公司",
+    "industry": "工业设备制造",
+    "region": "浙江宁波",
+    "years_in_operation": 11,
+    "actual_controller": "周某",
+    "shareholder_structure": [
+      {"name": "周某", "holding_pct": 65},
+      {"name": "王某", "holding_pct": 35}
+    ],
+    "licenses_status": "主要经营资质齐备"
+  },
+  "application": {
+    "product_type": "流动资金贷款",
+    "amount_mn": 30,
+    "term_months": 12,
+    "purpose": "执行新增订单并补充采购周转",
+    "drawdown_plan": "分两笔提款，预计 3 个月内用完",
+    "repayment_source": "核心客户设备交付后的销售回款",
+    "guarantee_mode": "实控人连带保证+厂房抵押"
+  },
+  "financials": {
+    "revenue_mn": 220,
+    "net_profit_mn": 9.2,
+    "operating_cash_flow_mn": 1.8,
+    "ebitda_mn": 15.6,
+    "total_assets_mn": 180,
+    "total_liabilities_mn": 118,
+    "interest_bearing_debt_mn": 56,
+    "accounts_receivable_mn": 58,
+    "inventory_mn": 36
+  },
+  "operations": {
+    "main_products": ["自动化输送设备", "智能分拣模块"],
+    "top_customers": ["物流企业A", "制造企业B"],
+    "top_suppliers": ["钢材供应商C", "电控系统供应商D"],
+    "order_backlog_mn": 72,
+    "contract_match_status": "合同和订单总体可对应，但部分补充协议待提供",
+    "bank_flow_match_status": "主要回款可对应，仍有部分大额往来需进一步解释",
+    "tax_match_status": "开票与收入规模大体匹配"
+  },
+  "credit_exposure": {
+    "existing_limits_mn": 48,
+    "existing_loans_mn": 39,
+    "other_bank_borrowings_mn": 22,
+    "overdue_history": "无重大逾期，但存在短期续作记录",
+    "guarantee_out_mn": 10
+  },
+  "collateral": {
+    "collateral_type": "工业厂房",
+    "ownership_clear": true,
+    "estimated_value_mn": 26,
+    "liquidity_comment": "区位尚可，但处置周期预计较长",
+    "guarantor_strength": "实控人名下资产较多，但需补财力证明"
+  },
+  "materials": [
+    {"name": "营业执照", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "近三年审计报告", "provided": true, "note": "2025 年附注待补", "source": "客户经理"},
+    {"name": "近6个月主要账户流水", "provided": true, "note": "已提供主要结算户", "source": "客户经理"},
+    {"name": "前五大客户销售合同", "provided": false, "note": "待补", "source": "待提供"},
+    {"name": "存量借款与担保明细", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "litigation_cases": 1,
+    "administrative_penalties": 0,
+    "major_negative_news": 0,
+    "cross_guarantee_risk": "存在关联公司担保往来，需要进一步核实",
+    "dishonest_status": false,
+    "credit_report_flags": "无重大不良，但短贷占比较高"
+  },
+  "review_goals": {
+    "task_type": "生成审查要点+补件清单+审查提问单",
+    "deadline": "2026-03-18",
+    "audience": "支行审查岗与分行授信审查接口人",
+    "review_stage": "贷前审查复核"
+  }
+}

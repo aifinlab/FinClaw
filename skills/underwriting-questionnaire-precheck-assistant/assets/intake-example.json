@@ -1,0 +1,15 @@
+{
+  "insurance_type": "医疗险",
+  "product_name": "示例产品",
+  "insured": {
+    "name": "张三",
+    "age": 36,
+    "gender": "男",
+    "occupation": "个体经营"
+  },
+  "questionnaire_type": "健康告知问卷",
+  "source_type": "OCR文本",
+  "sum_assured": "100万元",
+  "filled_at": "2026-03-15",
+  "questionnaire_text": "被保人自述既往无重大疾病，2024年体检提示肺结节，未说明复查情况；职业填写为个体经营；吸烟偶尔；既往投保情况填写有，但未说明公司及处理结果。"
+}

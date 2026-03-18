@@ -1,0 +1,16 @@
+{
+  "insurance_type": "健康险",
+  "product_name": "示例健康险产品",
+  "insured": {
+    "name": "王五",
+    "age": 38,
+    "gender": "女",
+    "occupation": "行政文员"
+  },
+  "questionnaire_type": "健康告知问卷",
+  "source_type": "OCR文本",
+  "questionnaire_text": "被保人自述2024年体检发现甲状腺结节，未说明TI-RADS分级及复查结果；既往有妊娠期高血压史，目前是否持续异常未说明；近两年无住院；长期服用降压药情况未明确；曾门诊复查甲状腺彩超。",
+  "notes": [
+    "希望重点关注结节和慢病情况"
+  ]
+}

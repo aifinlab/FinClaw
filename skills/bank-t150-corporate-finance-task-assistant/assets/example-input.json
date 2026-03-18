@@ -1,0 +1,18 @@
+{
+  "company": { "name": "苏州锐达精工科技有限公司" },
+  "verification": {
+    "time_window": "近12个月",
+    "contracts": [
+      {
+        "contract_id": "HT-2026-001",
+        "counterparty": "上海某某贸易有限公司",
+        "amount": 800000.0,
+        "payment_terms": "验收合格后180天付款；对方有权以质量异议抵销货款。",
+        "invoice_terms": "先票后款，专票。",
+        "acceptance_terms": "验收标准以对方内部标准为准，必要时可延长验收期。",
+        "other_terms": "发生争议提交对方所在地法院。"
+      }
+    ]
+  }
+}
+

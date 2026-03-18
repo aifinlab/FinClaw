@@ -1,0 +1,25 @@
+{
+  "name": "baostock-history",
+  "version": "1.0.0",
+  "description": "Historical K-line data (forward/backward adjusted), index data, fund data for backtesting via BaoStock",
+  "author": "FinClaw",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "$SKILLS_ROOT/baostock-history",
+  "data_source": "BaoStock",
+  "evaluation": {
+    "safety": 9,
+    "completeness": 9,
+    "executability": 10,
+    "maintainability": 9,
+    "cost_awareness": 10,
+    "overall": 9.4
+  },
+  "relations": [
+    {"source": "baostock-history", "target": "akshare-stock", "type": "compose_with"},
+    {"source": "baostock-history", "target": "zhitu-data", "type": "compose_with"}
+  ],
+  "features": ["adjusted K-line", "historical data", "index data", "fund data", "stock list"],
+  "api_required": false
+}

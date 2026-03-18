@@ -1,0 +1,16 @@
+{
+  "insurance_type": "寿险",
+  "product_name": "示例寿险产品",
+  "insured": {
+    "name": "周九",
+    "age": 39,
+    "gender": "男",
+    "occupation": "区域销售经理"
+  },
+  "questionnaire_type": "寿险综合告知问卷",
+  "source_type": "OCR文本",
+  "questionnaire_text": "被保人有高血压病史并长期服用降压药；吸烟多年，饮酒频率较高；职业外勤较多，频繁自驾出差；本次申请保额较高，但收入情况未详细说明；既往有多份寿险保单，是否曾延期承保未明确。",
+  "notes": [
+    "希望重点关注健康风险和高额投保匹配性"
+  ]
+}

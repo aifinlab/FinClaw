@@ -1,0 +1,49 @@
+{
+  "client_profile": {
+    "name": "客户B",
+    "risk_level": "平衡",
+    "investment_horizon_months": 36,
+    "liquidity_need": "中",
+    "goals": ["稳健增值", "长期增值"],
+    "constraints": ["权益占比不超过50%"]
+  },
+  "current_portfolio": [
+    {
+      "asset_class": "fixed_income",
+      "product_name": "固收组合",
+      "market_value": 500000
+    },
+    {
+      "asset_class": "equity",
+      "product_name": "权益组合",
+      "market_value": 350000
+    },
+    {
+      "asset_class": "cash",
+      "product_name": "活期存款",
+      "market_value": 150000
+    }
+  ],
+  "product_pool": [
+    {
+      "product_id": "B001",
+      "name": "平衡配置组合",
+      "asset_class": "balanced",
+      "risk_level": 3,
+      "min_holding_months": 12,
+      "liquidity": "封闭12个月",
+      "expected_return_range": "4%-6%",
+      "tags": ["平衡", "增值"]
+    },
+    {
+      "product_id": "B002",
+      "name": "权益增强组合",
+      "asset_class": "equity",
+      "risk_level": 4,
+      "min_holding_months": 24,
+      "liquidity": "封闭24个月",
+      "expected_return_range": "6%-9%",
+      "tags": ["进取", "增值"]
+    }
+  ]
+}

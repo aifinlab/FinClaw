@@ -1,0 +1,29 @@
+{
+  "company": {
+    "name": "苏州锐达精工科技有限公司",
+    "industry": "高端装备制造",
+    "region": "江苏苏州"
+  },
+  "portrait": { "time_window": "近12个月" },
+  "business": {
+    "model_summary": "为新能源与电子制造客户提供精密零部件与工装夹具，订单制生产，回款以验收后账期为主。"
+  },
+  "financials": {
+    "revenue_mn": 980.0,
+    "profit_mn": 42.0,
+    "operating_cf_mn": -18.0,
+    "debt_mn": 260.0,
+    "revenue_growth": "下降"
+  },
+  "exposures": {
+    "relationship_with_bank": "我行存量授信100mn，结算占比一般；近期申请新增流贷50mn。",
+    "customer_concentration_top1": 0.58,
+    "related_party_complexity": true
+  },
+  "external_risks": {
+    "major_negative_news": "供应链客户回款拖延传闻（待核验）",
+    "legal_cases": 1,
+    "tax_arrears": 0
+  }
+}
+

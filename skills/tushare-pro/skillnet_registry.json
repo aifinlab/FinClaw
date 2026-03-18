@@ -1,0 +1,27 @@
+{
+  "name": "tushare-pro",
+  "version": "1.0.0",
+  "description": "Professional financial data: balance sheet, income statement, cash flow, shareholders via Tushare Pro",
+  "author": "FinClaw",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "$SKILLS_ROOT/tushare-pro",
+  "data_source": "Tushare Pro",
+  "evaluation": {
+    "safety": 9,
+    "completeness": 10,
+    "executability": 9,
+    "maintainability": 9,
+    "cost_awareness": 8,
+    "overall": 9.0
+  },
+  "relations": [
+    {"source": "tushare-pro", "target": "akshare-stock", "type": "compose_with"},
+    {"source": "tushare-pro", "target": "yfinance-global", "type": "belong_to"},
+    {"source": "tushare-pro", "target": "yanpan-finance", "type": "similar_to"}
+  ],
+  "features": ["financial statements", "balance sheet", "income statement", "cash flow", "top 10 shareholders", "daily quotes"],
+  "api_required": true,
+  "env_var": "TUSHARE_TOKEN"
+}

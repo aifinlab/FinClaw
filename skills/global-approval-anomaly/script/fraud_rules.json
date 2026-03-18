@@ -1,0 +1,23 @@
+{
+  "title_rules": [
+    {"pattern": "未履行审议程序|未履行审批程序", "score": 40, "tag": "missing_approval"},
+    {"pattern": "追认|补充审议", "score": 18, "tag": "retroactive_approval"},
+    {"pattern": "关联交易", "score": 12, "tag": "related_party_transaction"},
+    {"pattern": "对外担保|违规担保", "score": 25, "tag": "external_guarantee"},
+    {"pattern": "资金占用|非经营性资金占用", "score": 30, "tag": "fund_occupation"},
+    {"pattern": "问询函|监管函|纪律处分|行政处罚", "score": 20, "tag": "regulatory_attention"},
+    {"pattern": "内部控制|内控", "score": 8, "tag": "internal_control"}
+  ],
+  "body_rules": [
+    {"pattern": "未经董事会审议|未经股东大会审议", "score": 35, "tag": "bypass_board_or_shareholder"},
+    {"pattern": "事后补充审议|提交追认", "score": 20, "tag": "after_the_fact_approval"},
+    {"pattern": "未及时披露|重大遗漏", "score": 20, "tag": "disclosure_failure"},
+    {"pattern": "实际控制人|控股股东", "score": 8, "tag": "controller_related"}
+  ],
+  "severity_thresholds": {
+    "low": 0,
+    "medium": 25,
+    "high": 50,
+    "critical": 80
+  }
+}

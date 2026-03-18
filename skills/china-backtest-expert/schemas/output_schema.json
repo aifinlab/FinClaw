@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ChinaBacktestExpertOutput",
+  "description": "中国回测专家输出结果规范",
+  "type": "object",
+  "required": ["verdict", "overall_score", "checks"],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "REVISE", "REJECT"]
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "market_type": { "type": "string" },
+        "overall_score": { "type": "number" },
+        "key_findings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "critical_issues": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "data_quality": { "$ref": "#/definitions/checkResult" },
+        "look_ahead_bias": { "$ref": "#/definitions/checkResult" },
+        "market_regulation": { "$ref": "#/definitions/checkResult" },
+        "overfitting": { "$ref": "#/definitions/checkResult" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "returns": {
+          "type": "object",
+          "properties": {
+            "annual_return": { "type": "number" },
+            "annual_volatility": { "type": "number" },
+            "sharpe_ratio": { "type": "number" }
+          }
+        },
+        "risk": {
+          "type": "object",
+          "properties": {
+            "max_drawdown": { "type": "number" },
+            "max_drawdown_duration": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low"]
+          },
+          "category": { "type": "string" },
+          "issue": { "type": "string" },
+          "suggestion": { "type": "string" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "checkResult": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["passed", "warning", "failed", "not_applicable"]
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "item": { "type": "string" },
+              "status": { "type": "string" },
+              "message": { "type": "string" },
+              "evidence": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

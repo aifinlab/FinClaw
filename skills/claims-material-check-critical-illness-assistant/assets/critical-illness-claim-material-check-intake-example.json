@@ -1,0 +1,22 @@
+{
+  "product_name": "某重疾险",
+  "insurance_type": "重疾险",
+  "claim_scene": "恶性肿瘤理赔",
+  "insured_person": {
+    "name": "李某",
+    "age": 47,
+    "gender": "女"
+  },
+  "source_materials": [
+    "理赔申请书",
+    "身份证照片",
+    "诊断证明",
+    "出院记录",
+    "病理报告OCR文本"
+  ],
+  "focus_points": [
+    "判断是否具备基础受理条件",
+    "识别关键病理和诊断缺失项",
+    "检查诊断证明与病理报告是否匹配"
+  ]
+}

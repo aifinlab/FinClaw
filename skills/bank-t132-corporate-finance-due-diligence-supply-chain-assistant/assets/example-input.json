@@ -1,0 +1,30 @@
+{
+  "company": {
+    "name": "苏州科衡电子有限公司"
+  },
+  "application": {
+    "amount_mn": 10,
+    "product_type": "应收账款融资",
+    "purpose": "补充订单执行周转",
+    "repayment_source": "核心企业回款"
+  },
+  "financials": {
+    "revenue_mn": 76,
+    "net_profit_mn": 3.4,
+    "operating_cash_flow_mn": 0.7
+  },
+  "operations": {
+    "core_enterprise": "核心企业A",
+    "trade_chain": "申请主体向核心企业A供货",
+    "receivable_verifiability": "待核验",
+    "core_enterprise_dependency": "高"
+  },
+  "materials": [
+    {"name": "核心订单合同", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "物流单据", "provided": false, "note": "待补", "source": "待提供"},
+    {"name": "应收账款明细", "provided": true, "note": "已提供", "source": "客户"}
+  ],
+  "external_risks": {
+    "trade_dispute_risk": false
+  }
+}

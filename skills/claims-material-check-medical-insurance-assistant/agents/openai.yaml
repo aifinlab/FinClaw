@@ -1,0 +1,4 @@
+interface:
+  display_name: "理赔材料检查助手-医疗险版"
+  short_description: "检查医疗险理赔材料齐全度、一致性与补件需求"
+  default_prompt: "Use $claims-material-check-medical-insurance-assistant to review a medical insurance claim package for completeness, clarity, consistency, key missing materials, and pre-acceptance supplement needs."

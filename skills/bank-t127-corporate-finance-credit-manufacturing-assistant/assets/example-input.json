@@ -1,0 +1,30 @@
+{
+  "company": {
+    "name": "常州智工自动化有限公司"
+  },
+  "application": {
+    "amount_mn": 18,
+    "product_type": "流动资金贷款",
+    "purpose": "采购原材料并执行在手订单",
+    "repayment_source": "设备交付回款"
+  },
+  "financials": {
+    "revenue_mn": 136,
+    "net_profit_mn": 6.1,
+    "operating_cash_flow_mn": 1.8,
+    "accounts_receivable_mn": 27,
+    "inventory_mn": 24
+  },
+  "operations": {
+    "capacity_utilization": 0.58,
+    "order_backlog_mn": 32,
+    "raw_material_volatility": "高",
+    "main_products": ["自动化装配设备"]
+  },
+  "materials": [
+    {"name": "在手订单清单", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "设备清单", "provided": true, "note": "已提供", "source": "客户"},
+    {"name": "原材料采购合同", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {}
+}

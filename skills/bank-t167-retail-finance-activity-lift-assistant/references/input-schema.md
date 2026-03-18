@@ -1,0 +1,24 @@
+# 输入字段参考（t167 活跃提升）
+
+```json
+{
+  "batch_id": "2026Q1-MOBILE-ACTIVE-001",
+  "time_window": "2026-02-01~2026-03-01",
+  "objective": "提升MAU与交易转化",
+  "channels": ["APP push", "短信", "客户经理"],
+  "customers": [
+    {
+      "customer_id": "U001",
+      "name": "赵一",
+      "segment": "潜力客户",
+      "aum": 260000,
+      "app_last_active_days": 35,
+      "login_30d": 1,
+      "txn_count_30d": 0,
+      "features_used_30d": 1,
+      "campaign_clicks_30d": 0,
+      "consent_marketing": true
+    }
+  ]
+}
+```

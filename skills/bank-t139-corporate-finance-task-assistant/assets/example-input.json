@@ -1,0 +1,22 @@
+{
+  "company": {
+    "name": "华南某建筑工程有限公司",
+    "industry": "建筑施工",
+    "region": "广东"
+  },
+  "operations": {
+    "time_window": "2026-02-01~2026-03-15",
+    "public_opinion_signals": "窗口期内出现欠薪投诉、项目停工消息与多起合同纠纷报道，社交平台传播范围扩大；同业传闻存在授信压降。"
+  },
+  "external_risks": {
+    "major_negative_news": "负面新闻5条（涉诉2、欠薪2、停工1）",
+    "litigation_cases": "新增执行案件1起，涉案金额约0.6亿元（待核验链接）",
+    "asset_freeze": "传闻存在账户冻结（待核验）"
+  },
+  "materials": [
+    { "name": "舆情事件摘要与时间线", "provided": true },
+    { "name": "司法/监管硬事件链接或截图", "provided": false },
+    { "name": "客户解释口径与佐证材料（合同/回款/资金安排）", "provided": false }
+  ]
+}
+

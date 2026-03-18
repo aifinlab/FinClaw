@@ -1,0 +1,71 @@
+{
+  "request_id": "t190-demo-001",
+  "client_profile": {
+    "name": "张女士",
+    "age": 45,
+    "risk_level": "稳健",
+    "investment_horizon_months": 18,
+    "liquidity_need": "中",
+    "goals": ["稳健增值", "子女教育"],
+    "constraints": ["不接受一年内大幅浮亏"],
+    "experience_level": "中",
+    "communication_preference": "清晰要点"
+  },
+  "product": {
+    "product_id": "PRD-2309",
+    "name": "稳健成长优选",
+    "asset_class": "混合",
+    "risk_level": "中低",
+    "strategy": "固收打底 + 低波权益增强",
+    "term_months": 12,
+    "liquidity": "封闭12个月",
+    "min_investment": "10万",
+    "expected_return_range": "3-5%/年",
+    "performance_features": "历史回撤控制良好",
+    "income_type": "浮动收益",
+    "fee_structure": "管理费1.0%/年",
+    "redemption_rules": "封闭期满后可赎回",
+    "key_risks": ["净值波动", "市场下行"],
+    "selling_highlights": ["固收打底", "波动控制"],
+    "suitable_for": "稳健型、偏保守客户"
+  },
+  "product_pool": [
+    {
+      "product_id": "ALT-1001",
+      "name": "稳健现金管理",
+      "asset_class": "固收",
+      "risk_level": "低",
+      "strategy": "短久期固收策略",
+      "term_months": 6,
+      "liquidity": "按季开放",
+      "min_investment": "5万",
+      "expected_return_range": "2-3%/年",
+      "performance_features": "波动小，流动性高",
+      "income_type": "浮动收益",
+      "fee_structure": "管理费0.6%/年",
+      "redemption_rules": "按季开放",
+      "key_risks": ["利率变化"],
+      "selling_highlights": ["流动性安排"],
+      "suitable_for": "短期资金配置"
+    }
+  ],
+  "market_view": {
+    "rate_environment": "利率低位震荡",
+    "volatility": "中等",
+    "trend_summary": "权益波动上升，稳健策略需求提升",
+    "policy_notes": "无重大政策变化",
+    "opportunities": ["低波固收增强"],
+    "risks": ["权益回撤加剧"]
+  },
+  "selling_context": {
+    "channel": "网点面谈",
+    "meeting_goal": "解释卖点并争取认购",
+    "stage": "首次沟通",
+    "objections": ["担心波动", "对封闭期敏感"],
+    "compliance_constraints": "不做收益承诺"
+  },
+  "constraints": {
+    "distribution_limits": "仅限线下签约",
+    "suitability_rules": "客户风险等级≥产品风险等级"
+  }
+}

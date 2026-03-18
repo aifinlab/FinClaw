@@ -1,0 +1,4 @@
+interface:
+  display_name: "责任范围判断助手-门诊版"
+  short_description: "辅助判断门诊理赔是否可能属于责任范围并识别限制因素。"
+  default_prompt: "Use $outpatient-coverage-scope-judgment-assistant to analyze an outpatient insurance claim, compare known facts with policy terms, identify coverage triggers, exclusions, limits, and material gaps, and produce a structured preliminary coverage opinion."

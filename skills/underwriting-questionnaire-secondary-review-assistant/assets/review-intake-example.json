@@ -1,0 +1,24 @@
+{
+  "insurance_type": "重疾险",
+  "product_name": "示例复核产品",
+  "insured": {
+    "name": "李四",
+    "age": 41,
+    "gender": "男",
+    "occupation": "自由职业"
+  },
+  "questionnaire_type": "综合健康告知问卷",
+  "source_type": "原始问卷文本+初审意见+补充说明",
+  "initial_review_conclusion": "需补充说明后再审，建议关注肺结节和既往投保情况。",
+  "initial_review_notes": [
+    "识别到肺结节待复查",
+    "职业信息较模糊",
+    "既往投保情况未说明处理结果"
+  ],
+  "supplementary_notes": [
+    "补充说明近一年无住院",
+    "客户称肺结节医生说问题不大",
+    "补充说明曾在其他公司投保但未说明结论"
+  ],
+  "questionnaire_text": "问卷提到2024年体检发现肺结节，后续复查情况未说明；职业填写自由职业；既往在其他公司投保，是否曾延期或加费未明确；偶尔吸烟。"
+}

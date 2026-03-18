@@ -1,0 +1,45 @@
+{
+  "company": {
+    "name": "华东某制造企业（示例）",
+    "uscc": "91310000XXXXXXXXXX",
+    "industry": "制造业"
+  },
+  "monitoring": {
+    "time_window": "2025Q3~2026Q1",
+    "kpi_definitions": {
+      "period_type": "Q",
+      "basis": "合并口径",
+      "change_basis": "环比",
+      "notes": "示例数据，仅用于演示"
+    },
+    "baseline": {
+      "peer_group": "同地区制造业",
+      "industry_event": "行业景气下行（示例）"
+    },
+    "alerts": [
+      "系统告警：经营现金流转负",
+      "人工观察：大客户回款延迟"
+    ],
+    "kpis": [
+      {
+        "period": "2025Q3",
+        "revenue_mn": 980,
+        "net_profit_mn": 55,
+        "operating_cashflow_mn": 18
+      },
+      {
+        "period": "2025Q4",
+        "revenue_mn": 1200,
+        "net_profit_mn": 60,
+        "operating_cashflow_mn": 30
+      },
+      {
+        "period": "2026Q1",
+        "revenue_mn": 780,
+        "net_profit_mn": 18,
+        "operating_cashflow_mn": -25
+      }
+    ]
+  }
+}
+

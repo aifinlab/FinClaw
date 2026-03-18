@@ -1,0 +1,120 @@
+{
+  "company": {
+    "name": "苏州凯晟精密部件有限公司",
+    "unified_credit_code": "91320594MA1EXAMPLE",
+    "industry": "汽车零部件",
+    "region": "江苏苏州",
+    "years_in_operation": 9,
+    "registered_capital_mn": 80.0,
+    "actual_controller": "张某某",
+    "customer_level": "新增",
+    "shareholder_structure": [
+      {
+        "shareholder": "张某某",
+        "holding_ratio": 62.0
+      },
+      {
+        "shareholder": "苏州凯岳投资合伙企业",
+        "holding_ratio": 38.0
+      }
+    ]
+  },
+  "application": {
+    "product_type": "流动资金贷款",
+    "amount_mn": 30.0,
+    "term_months": 12,
+    "purpose": "采购铝材和电子元件",
+    "repayment_source": "汽车零部件销售回款",
+    "guarantee_mode": "实控人保证+设备抵押",
+    "requested_stage": "预审"
+  },
+  "financials": {
+    "period": "2025Q4",
+    "revenue_mn": 380.0,
+    "net_profit_mn": 18.0,
+    "operating_cash_flow_mn": 9.5,
+    "ebitda_mn": 31.0,
+    "interest_expense_mn": 6.2,
+    "total_assets_mn": 260.0,
+    "total_liabilities_mn": 168.0,
+    "current_assets_mn": 150.0,
+    "current_liabilities_mn": 110.0,
+    "interest_bearing_debt_mn": 96.0,
+    "accounts_receivable_mn": 88.0,
+    "inventory_mn": 42.0
+  },
+  "operations": {
+    "main_products": [
+      "发动机壳体精密部件",
+      "传动系统模组"
+    ],
+    "top_customer_ratio_pct": 46.0,
+    "top_supplier_ratio_pct": 28.0,
+    "contract_coverage_months": 6,
+    "order_backlog_mn": 92.0,
+    "invoice_match_status": "基本匹配",
+    "bank_flow_match_status": "部分大额往来需解释",
+    "related_party_sales_ratio_pct": 4.0
+  },
+  "materials": [
+    {
+      "name": "营业执照",
+      "provided": true,
+      "date": "2025-12-31",
+      "note": "清晰"
+    },
+    {
+      "name": "公司章程",
+      "provided": true,
+      "date": "2024-06-15",
+      "note": "已提供扫描件"
+    },
+    {
+      "name": "最近三年财务报表",
+      "provided": true,
+      "date": "2025-12-31",
+      "note": "2025 年为管理报表"
+    },
+    {
+      "name": "审计报告",
+      "provided": false,
+      "date": "",
+      "note": "待补"
+    },
+    {
+      "name": "近 12 个月银行流水",
+      "provided": true,
+      "date": "2026-02-28",
+      "note": "已提供摘要"
+    },
+    {
+      "name": "主要销售合同",
+      "provided": true,
+      "date": "2026-01-20",
+      "note": "已提供前两大客户合同"
+    },
+    {
+      "name": "纳税申报资料",
+      "provided": false,
+      "date": "",
+      "note": "待补"
+    }
+  ],
+  "external_risks": {
+    "litigation_cases": 2,
+    "litigation_amount_mn": 4.3,
+    "administrative_penalties": 1,
+    "penalty_severity": "一般",
+    "dishonest_status": false,
+    "major_negative_news": false,
+    "overdue_history": false,
+    "cross_guarantee_risk": true
+  },
+  "credit_support": {
+    "guarantor": "张某某",
+    "collateral_type": "设备抵押",
+    "collateral_value_mn": 28.0,
+    "margin_mn": 0.0,
+    "shareholder_support": "实控人提供连带责任保证"
+  }
+}

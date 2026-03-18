@@ -1,0 +1,49 @@
+{
+  "client_profile": {
+    "name": "客户C",
+    "risk_level": "进取",
+    "investment_horizon_months": 60,
+    "liquidity_need": "低",
+    "goals": ["长期增值"],
+    "constraints": ["权益占比不低于50%"]
+  },
+  "current_portfolio": [
+    {
+      "asset_class": "equity",
+      "product_name": "权益核心组合",
+      "market_value": 800000
+    },
+    {
+      "asset_class": "fixed_income",
+      "product_name": "稳健固收",
+      "market_value": 300000
+    },
+    {
+      "asset_class": "alternative",
+      "product_name": "另类策略",
+      "market_value": 100000
+    }
+  ],
+  "product_pool": [
+    {
+      "product_id": "C001",
+      "name": "权益增强组合",
+      "asset_class": "equity",
+      "risk_level": 4,
+      "min_holding_months": 24,
+      "liquidity": "封闭24个月",
+      "expected_return_range": "8%-12%",
+      "tags": ["进取", "增值"]
+    },
+    {
+      "product_id": "C002",
+      "name": "另类策略组合",
+      "asset_class": "alternative",
+      "risk_level": 4,
+      "min_holding_months": 36,
+      "liquidity": "封闭36个月",
+      "expected_return_range": "7%-10%",
+      "tags": ["进取", "分散"]
+    }
+  ]
+}

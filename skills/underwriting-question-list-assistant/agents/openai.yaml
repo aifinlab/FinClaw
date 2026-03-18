@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保问题清单助手"
+  short_description: "整理核保追问问题、优先级和业务使用提示"
+  default_prompt: "Use $underwriting-question-list-assistant to turn underwriting gaps and risk clues into a clear question list with priorities, follow-up purpose, communication order, and next-step suggestions."

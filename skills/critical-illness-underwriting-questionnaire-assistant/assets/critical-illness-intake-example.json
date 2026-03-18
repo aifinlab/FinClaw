@@ -1,0 +1,16 @@
+{
+  "insurance_type": "重疾险",
+  "product_name": "示例重疾险产品",
+  "insured": {
+    "name": "赵六",
+    "age": 42,
+    "gender": "男",
+    "occupation": "企业管理人员"
+  },
+  "questionnaire_type": "重疾健康告知问卷",
+  "source_type": "OCR文本",
+  "questionnaire_text": "被保人自述2024年体检发现肺结节，未说明分级及复查结论；既往曾因胸痛住院检查，是否为心脑血管疾病未明确；长期服用降脂药；父亲50岁时患恶性肿瘤，具体类型未说明；近一年有专科门诊复查记录。",
+  "notes": [
+    "希望重点关注肿瘤和家族史风险"
+  ]
+}

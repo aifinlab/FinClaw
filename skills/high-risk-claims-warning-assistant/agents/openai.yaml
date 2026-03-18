@@ -1,0 +1,4 @@
+interface:
+  display_name: "高风险案件预警助手"
+  short_description: "辅助识别理赔案件高风险信号、风险分级与后续处置建议。"
+  default_prompt: "Use $high-risk-claims-warning-assistant to analyze a claim, identify high-payout, dispute, complaint, fraud, timeliness and complexity risk signals, classify the risk level, summarize the trigger evidence, and produce a structured warning report with follow-up recommendations."

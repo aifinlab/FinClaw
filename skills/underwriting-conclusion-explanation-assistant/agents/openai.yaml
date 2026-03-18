@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保结论解释助手"
+  short_description: "解释标准体、加费、除外、延期、拒保等核保结论"
+  default_prompt: "Use $underwriting-conclusion-explanation-assistant to turn an underwriting result into a clear business-facing explanation with impact, communication points, boundaries, and next steps."

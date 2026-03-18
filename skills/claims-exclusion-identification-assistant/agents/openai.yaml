@@ -1,0 +1,4 @@
+interface:
+  display_name: "除外责任识别助手"
+  short_description: "辅助识别理赔案件除外责任条款匹配、免责风险与争议边界。"
+  default_prompt: "Use $claims-exclusion-identification-assistant to analyze an insurance claim, identify potentially relevant exclusion clauses, compare claim facts with exclusion triggers, assess material sufficiency and dispute boundaries, and produce a structured preliminary exclusion-identification opinion."

@@ -1,0 +1,32 @@
+{
+  "company": {
+    "name": "华东某建材集团有限公司",
+    "industry": "建材",
+    "region": "浙江"
+  },
+  "financials": {
+    "period": "2025年",
+    "interest_bearing_debt_mn": 980.0,
+    "operating_cash_flow_mn": 60.0,
+    "cash_and_equivalents_mn": 140.0,
+    "restricted_cash_mn": 95.0
+  },
+  "operations": {
+    "debt_maturity_12m_mn": 420.0,
+    "unused_credit_line_mn": 80.0,
+    "debt_maturity_3m_mn": 160.0,
+    "debt_maturity_6m_mn": 260.0
+  },
+  "external_risks": {
+    "litigation_cases": "近半年新增2起合同纠纷诉讼，涉案金额约0.4亿元",
+    "asset_freeze": "存在银行账户冻结记录1次（已解除）"
+  },
+  "materials": [
+    { "name": "未来12个月到期梯度表（本金+利息）", "provided": true },
+    { "name": "授信批复、合同要素与用信明细", "provided": false },
+    { "name": "受限资金与保证金明细（票据/保函/保理）", "provided": false },
+    { "name": "已批未用授信额度证明与续作条件", "provided": false },
+    { "name": "资产处置清单与可变现性说明（如有）", "provided": false }
+  ]
+}
+

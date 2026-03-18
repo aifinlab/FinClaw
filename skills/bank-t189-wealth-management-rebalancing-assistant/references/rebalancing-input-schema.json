@@ -1,0 +1,20 @@
+{
+  "as_of": "YYYY-MM-DD",
+  "base_ccy": "CNY",
+  "portfolio": {
+    "cash": 0.0,
+    "holdings": [
+      {"asset": "资产名称", "value": 0.0}
+    ]
+  },
+  "targets": [
+    {"asset": "资产名称", "target_weight": 0.0}
+  ],
+  "constraints": {
+    "tolerance": 0.02,
+    "min_trade_value": 0.0,
+    "max_trade_value": null,
+    "allow_cash": true
+  },
+  "notes": "可选：客户目的/期限/沟通约束"
+}

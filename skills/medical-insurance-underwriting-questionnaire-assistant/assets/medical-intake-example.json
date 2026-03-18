@@ -1,0 +1,16 @@
+{
+  "insurance_type": "医疗险",
+  "product_name": "示例医疗险产品",
+  "insured": {
+    "name": "钱七",
+    "age": 35,
+    "gender": "女",
+    "occupation": "招商主管"
+  },
+  "questionnaire_type": "医疗险健康告知问卷",
+  "source_type": "OCR文本",
+  "questionnaire_text": "被保人自述2025年因胆囊结石住院并行手术治疗，出院后仍需复查；近半年多次门诊复诊；目前仍服药观察；最近一次彩超提示术后恢复中，是否完全恢复未明确；既往有甲状腺结节体检异常。",
+  "notes": [
+    "希望重点关注近期住院和当前治疗情况"
+  ]
+}

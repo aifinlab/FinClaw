@@ -1,0 +1,16 @@
+{
+  "company": {
+    "name": "宁波启航汽车零部件有限公司",
+    "industry": "汽车零部件"
+  },
+  "needs": {
+    "goal": "贸易融资 + 结算沉淀",
+    "constraints": {
+      "tenor": "6-12个月",
+      "credit_quota_limit_mn": 80,
+      "must_have": ["保函"],
+      "avoid": ["高波动理财"]
+    }
+  }
+}
+

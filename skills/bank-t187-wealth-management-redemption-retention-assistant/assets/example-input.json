@@ -1,0 +1,49 @@
+{
+  "client_profile": {
+    "client_id": "C88901",
+    "name": "王女士",
+    "age": 46,
+    "risk_level": "稳健",
+    "investment_horizon_months": 18,
+    "liquidity_need": "中",
+    "goals": ["稳健增值", "教育金"],
+    "communication_preference": "电话"
+  },
+  "redemption_request": {
+    "requested_amount": 300000,
+    "requested_ratio": 0.4,
+    "urgency": "中",
+    "reason": "近期市场波动加大，担心回撤",
+    "channel": "电话",
+    "cash_need_date": "2026-04-20"
+  },
+  "holdings": [
+    {
+      "product_id": "P-ALPHA-01",
+      "name": "稳健固收+产品A",
+      "asset_class": "固收+",
+      "risk_level": "中低",
+      "purchase_date": "2025-10-10",
+      "min_holding_months": 12,
+      "lockup_months": 6,
+      "market_value": 520000,
+      "unrealized_return_pct": -2.4,
+      "liquidity": "中",
+      "fees": "赎回费1.0%（持有不足12个月）",
+      "recent_events": "暂无重大公告"
+    }
+  ],
+  "market_context": {
+    "volatility_level": "高",
+    "rate_trend": "震荡",
+    "policy_notes": "短端利率阶段性抬升",
+    "headline_risks": "权益市场波动放大"
+  },
+  "compliance_constraints": {
+    "forbidden_phrases": ["保本保收益", "一定赚钱"],
+    "must_disclose": ["产品有净值波动", "不保证本金与收益"]
+  },
+  "output": {
+    "format": "markdown"
+  }
+}

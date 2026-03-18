@@ -1,0 +1,40 @@
+{
+  "company": {
+    "name": "苏州衡远机电有限公司",
+    "industry": "装备制造",
+    "region": "江苏苏州",
+    "actual_controller": "刘某"
+  },
+  "application": {
+    "product_type": "流动资金贷款",
+    "outstanding_balance_mn": 16,
+    "maturity_date": "2026-08-31",
+    "guarantee_mode": "实控人保证+厂房抵押"
+  },
+  "financials": {
+    "revenue_mn": 118,
+    "net_profit_mn": 3.6,
+    "operating_cash_flow_mn": -0.8,
+    "accounts_receivable_mn": 29,
+    "inventory_mn": 18
+  },
+  "operations": {
+    "top_customers": ["客户A", "客户B"]
+  },
+  "monitoring": {
+    "last_review_date": "2026-02-20",
+    "last_review_result": "关注",
+    "overdue_days": 0,
+    "fund_use_deviation": true,
+    "covenant_breach": false
+  },
+  "materials": [
+    {"name": "最近一次贷后检查纪要", "provided": true, "note": "已提供", "source": "贷后经理"},
+    {"name": "近6个月主要账户流水", "provided": true, "note": "已提供", "source": "客户"},
+    {"name": "资金用途说明", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "litigation_cases": 1,
+    "cross_guarantee_risk": "存在关联企业担保往来"
+  }
+}

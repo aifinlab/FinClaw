@@ -1,0 +1,16 @@
+{
+  "person": {
+    "name": "韩十六",
+    "age": 41,
+    "gender": "男"
+  },
+  "height_cm": 168,
+  "weight_kg": 92,
+  "recorded_bmi": "",
+  "measured_at": "2026-03-01",
+  "source_type": "投保问卷+体检摘要",
+  "context_text": "客户近一年体重增加较明显，既往资料提示血压偏高和脂肪肝，当前身高168cm，体重92kg。",
+  "notes": [
+    "希望重点关注肥胖程度和代谢风险"
+  ]
+}

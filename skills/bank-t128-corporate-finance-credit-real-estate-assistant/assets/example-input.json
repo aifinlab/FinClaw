@@ -1,0 +1,29 @@
+{
+  "company": {
+    "name": "华东某地产开发有限公司"
+  },
+  "application": {
+    "amount_mn": 120,
+    "product_type": "项目开发贷",
+    "purpose": "项目续建"
+  },
+  "financials": {
+    "cash_mn": 90,
+    "restricted_cash_mn": 58,
+    "revenue_mn": 320,
+    "net_profit_mn": 12,
+    "operating_cash_flow_mn": -16
+  },
+  "operations": {
+    "project_list": ["项目A", "项目B"],
+    "sell_through_rate": 0.42
+  },
+  "materials": [
+    {"name": "项目清单", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "受限资金明细", "provided": true, "note": "已提供", "source": "客户"},
+    {"name": "项目销售回款报表", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "policy_pressure": true
+  }
+}

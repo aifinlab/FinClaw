@@ -1,0 +1,27 @@
+{
+  "name": "zhitu-data",
+  "version": "1.0.0",
+  "description": "Free A-share/HK stock quotes and technical indicators via Zhitu API - no registration required",
+  "author": "FinClaw",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "$SKILLS_ROOT/zhitu-data",
+  "data_source": "智兔数服 (Zhitu API)",
+  "evaluation": {
+    "safety": 9,
+    "completeness": 8,
+    "executability": 10,
+    "maintainability": 9,
+    "cost_awareness": 10,
+    "overall": 9.2
+  },
+  "relations": [
+    {"source": "zhitu-data", "target": "akshare-stock", "type": "similar_to"},
+    {"source": "zhitu-data", "target": "akshare-fund", "type": "similar_to"},
+    {"source": "zhitu-data", "target": "baostock-history", "type": "compose_with"}
+  ],
+  "features": ["A-share quotes", "HK stock quotes", "fund quotes", "technical indicators", "MACD", "KDJ", "BOLL", "MA"],
+  "api_required": false,
+  "highlight": "免注册，完全免费"
+}

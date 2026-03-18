@@ -1,0 +1,31 @@
+{
+  "company": {
+    "name": "华东某制造有限公司",
+    "industry": "装备制造",
+    "region": "江苏"
+  },
+  "financials": {
+    "period": "2025年",
+    "operating_cash_flow_mn": -120.0,
+    "net_profit_mn": 80.0,
+    "accounts_receivable_mn": 560.0,
+    "inventory_mn": 430.0,
+    "prepayments_mn": 65.0,
+    "capex_mn": 150.0,
+    "restricted_cash_mn": 90.0
+  },
+  "operations": {
+    "period": "2025年",
+    "debt_maturity_12m_mn": 280.0,
+    "receivable_turnover_days": 132,
+    "inventory_turnover_days": 96
+  },
+  "materials": [
+    { "name": "近三期财务报表（审计/管理口径）", "provided": true },
+    { "name": "现金流量表附注/明细（含受限资金）", "provided": false },
+    { "name": "应收账款明细与账龄（前五大客户+期后回款）", "provided": false },
+    { "name": "存货明细（库龄/跌价/在制品结构）", "provided": false },
+    { "name": "未来12个月债务到期表（含授信续作条件）", "provided": true }
+  ]
+}
+

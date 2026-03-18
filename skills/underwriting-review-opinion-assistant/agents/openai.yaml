@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保复核意见助手"
+  short_description: "整理核保复核意见、边界提示和后续处理建议"
+  default_prompt: "Use $underwriting-review-opinion-assistant to turn underwriting materials and prior review outputs into a structured review opinion with support factors, limitations, unresolved issues, boundaries, and next-step suggestions."

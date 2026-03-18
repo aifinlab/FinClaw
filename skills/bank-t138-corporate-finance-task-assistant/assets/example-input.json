@@ -1,0 +1,30 @@
+{
+  "company": {
+    "name": "华东某化工有限公司",
+    "industry": "化工",
+    "region": "山东"
+  },
+  "operations": {
+    "penetration_goal": "识别关联交易是否存在资金占用与利润转移，并判断对现金流与授信风险的影响",
+    "time_window": "2025Q4~2026Q1",
+    "related_parties": [
+      { "name": "山东某贸易有限公司", "relation": "同一实控人控制" },
+      { "name": "XX投资合伙企业（有限合伙）", "relation": "股东关联" },
+      { "name": "华东某运输队", "relation": "关键管理人员亲属控制（待核验）" }
+    ],
+    "related_transactions_summary": "与贸易公司存在大额采购，账期90-180天；与投资合伙存在资金往来，名义为往来款；运输服务费用率明显高于外部可比。",
+    "transaction_samples": "已掌握10笔样本交易，存在期末集中开票与回款同日往返迹象（待核验流水）。"
+  },
+  "financials": {
+    "period": "2025年",
+    "accounts_receivable_mn": 680.0,
+    "other_receivables_mn": 210.0
+  },
+  "materials": [
+    { "name": "关联方清单与关系证明（股权/人员/地址）", "provided": true },
+    { "name": "关联交易明细（合同/发票/对账单/收发货凭证）", "provided": false },
+    { "name": "关联往来款明细（其他应收/预付）与形成原因说明", "provided": false },
+    { "name": "关键账户流水（含关联方收付）", "provided": false }
+  ]
+}
+

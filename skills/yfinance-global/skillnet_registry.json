@@ -1,0 +1,26 @@
+{
+  "name": "yfinance-global",
+  "version": "1.0.0",
+  "description": "Global stocks (US/HK), technical indicators, crypto via Yahoo Finance",
+  "author": "FinClaw",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "$SKILLS_ROOT/yfinance-global",
+  "data_source": "Yahoo Finance",
+  "evaluation": {
+    "safety": 9,
+    "completeness": 10,
+    "executability": 10,
+    "maintainability": 9,
+    "cost_awareness": 9,
+    "overall": 9.4
+  },
+  "relations": [
+    {"source": "yfinance-global", "target": "finance", "type": "similar_to"},
+    {"source": "yfinance-global", "target": "akshare-stock", "type": "similar_to"},
+    {"source": "yfinance-global", "target": "tushare-pro", "type": "belong_to"}
+  ],
+  "features": ["US stocks", "HK stocks", "global markets", "technical indicators", "crypto", "multi-stock comparison"],
+  "api_required": false
+}

@@ -1,0 +1,34 @@
+{
+  "case_id": "CLM-DEA-2026-001",
+  "product_name": "某寿险产品",
+  "insurance_type": "寿险",
+  "coverage_module": "疾病身故",
+  "death_type": "疾病身故",
+  "death_date": "2026-02-06",
+  "current_status": "审核中",
+  "insured_role": "被保险人",
+  "materials": [
+    "居民死亡医学证明（推断）书",
+    "抢救记录",
+    "住院病历",
+    "死亡记录",
+    "火化证明",
+    "受益人申请资料"
+  ],
+  "facts": {
+    "pre_death_summary": "突发胸痛后送医抢救",
+    "death_cause_text": "急性心肌梗死",
+    "rescue_summary": "经抢救无效死亡",
+    "hospital": "某市人民医院"
+  },
+  "policy_terms": {
+    "waiting_period": "90天",
+    "suicide_clause": "自合同成立或复效之日起两年内自杀不承担身故保险金责任",
+    "exclusion_focus": "违法犯罪、酒驾毒驾、高风险行为等除外责任"
+  },
+  "user_focus": [
+    "是否属于责任范围",
+    "是否存在免责或限制",
+    "当前材料是否足以支持判断"
+  ]
+}

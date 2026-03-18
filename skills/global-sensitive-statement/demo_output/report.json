@@ -1,0 +1,197 @@
+{
+  "summary": {
+    "total_findings": 7,
+    "risk_score": 11,
+    "risk_rating": "中",
+    "by_category": {
+      "预测性表述": 1,
+      "未完成/待确认表述": 2,
+      "风险揭示词": 3,
+      "预测表述缺少同句风险限定": 1
+    },
+    "by_level": {
+      "medium": 4,
+      "info": 3
+    }
+  },
+  "findings": [
+    {
+      "sentence": "预计2025年1月1日至2025年6月30日归属于上市公司股东的净利润为647,539.54万元至674,520.36万元，比上年同期增长20%至25%。",
+      "category": "预测性表述",
+      "matched_terms": [
+        "预计"
+      ],
+      "risk_level": "medium",
+      "reason": "预测、计划或展望类表述通常需要同时提示依据、假设前提和不确定性。",
+      "legal_basis": [
+        {
+          "id": "LAW-SEC-INFO-01",
+          "name": "《中华人民共和国证券法》信息披露要求",
+          "source": "中国证监会法规正文",
+          "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=1&secFutrsLawId=0fc431a2a10b47909beef058f6ac3335",
+          "summary": "信息披露义务人应当及时依法履行信息披露义务，披露的信息应当真实、准确、完整，简明清晰、通俗易懂。"
+        },
+        {
+          "id": "RULE-CSRC-182-03",
+          "name": "《上市公司信息披露管理办法》第三条",
+          "source": "中国证监会",
+          "url": "https://www.csrc.gov.cn/csrc/c106256/c1653948/content.shtml",
+          "summary": "上市公司披露的信息不得有虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    },
+    {
+      "sentence": "公司就业绩预告有关事项与年报审计会计师事务所进行了初步沟通，双方不存在分歧。",
+      "category": "未完成/待确认表述",
+      "matched_terms": [
+        "存在分歧"
+      ],
+      "risk_level": "medium",
+      "reason": "未完成、未经审计或待确认信息容易引发理解偏差，应审查是否充分提示口径边界。",
+      "legal_basis": [
+        {
+          "id": "LAW-SEC-INFO-01",
+          "name": "《中华人民共和国证券法》信息披露要求",
+          "source": "中国证监会法规正文",
+          "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=1&secFutrsLawId=0fc431a2a10b47909beef058f6ac3335",
+          "summary": "信息披露义务人应当及时依法履行信息披露义务，披露的信息应当真实、准确、完整，简明清晰、通俗易懂。"
+        },
+        {
+          "id": "RULE-SZSE-G2-2025",
+          "name": "《深圳证券交易所上市公司自律监管指南第2号——公告格式（2025年修订）》",
+          "source": "深圳证券交易所",
+          "url": "https://docs.static.szse.cn/www/lawrules/service/share/W020250425747814520529.pdf",
+          "summary": "上市公司和相关信息披露义务人应当按照公告格式编制公告，并声明内容不存在虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    },
+    {
+      "sentence": "预告期内，关税壁垒等非经济因素持续冲击全球产业链分工格局，国际经贸环境的不确定性显著增强。",
+      "category": "风险揭示词",
+      "matched_terms": [
+        "不确定性"
+      ],
+      "risk_level": "info",
+      "reason": "风险揭示词本身不代表违规，但可作为判断预测性表述是否伴随充分风险说明的辅助信号。",
+      "legal_basis": [
+        {
+          "id": "RULE-CSRC-182-03",
+          "name": "《上市公司信息披露管理办法》第三条",
+          "source": "中国证监会",
+          "url": "https://www.csrc.gov.cn/csrc/c106256/c1653948/content.shtml",
+          "summary": "上市公司披露的信息不得有虚假记载、误导性陈述或者重大遗漏。"
+        },
+        {
+          "id": "RULE-SZSE-G2-2025",
+          "name": "《深圳证券交易所上市公司自律监管指南第2号——公告格式（2025年修订）》",
+          "source": "深圳证券交易所",
+          "url": "https://docs.static.szse.cn/www/lawrules/service/share/W020250425747814520529.pdf",
+          "summary": "上市公司和相关信息披露义务人应当按照公告格式编制公告，并声明内容不存在虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    },
+    {
+      "sentence": "公司作为全球高端精密制造领域的领军企业，在复杂多变的外部环境中展现出卓越的抗风险能力，通过深化垂直整合战略强化技术护城河。",
+      "category": "风险揭示词",
+      "matched_terms": [
+        "风险"
+      ],
+      "risk_level": "info",
+      "reason": "风险揭示词本身不代表违规，但可作为判断预测性表述是否伴随充分风险说明的辅助信号。",
+      "legal_basis": [
+        {
+          "id": "RULE-CSRC-182-03",
+          "name": "《上市公司信息披露管理办法》第三条",
+          "source": "中国证监会",
+          "url": "https://www.csrc.gov.cn/csrc/c106256/c1653948/content.shtml",
+          "summary": "上市公司披露的信息不得有虚假记载、误导性陈述或者重大遗漏。"
+        },
+        {
+          "id": "RULE-SZSE-G2-2025",
+          "name": "《深圳证券交易所上市公司自律监管指南第2号——公告格式（2025年修订）》",
+          "source": "深圳证券交易所",
+          "url": "https://docs.static.szse.cn/www/lawrules/service/share/W020250425747814520529.pdf",
+          "summary": "上市公司和相关信息披露义务人应当按照公告格式编制公告，并声明内容不存在虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    },
+    {
+      "sentence": "本次业绩预告是公司财务部门初步测算的结果，具体财务数据以公司披露的2025年半年度报告为准。",
+      "category": "未完成/待确认表述",
+      "matched_terms": [
+        "以公司披露的2025年半年度报告为准",
+        "初步测算"
+      ],
+      "risk_level": "medium",
+      "reason": "未完成、未经审计或待确认信息容易引发理解偏差，应审查是否充分提示口径边界。",
+      "legal_basis": [
+        {
+          "id": "LAW-SEC-INFO-01",
+          "name": "《中华人民共和国证券法》信息披露要求",
+          "source": "中国证监会法规正文",
+          "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=1&secFutrsLawId=0fc431a2a10b47909beef058f6ac3335",
+          "summary": "信息披露义务人应当及时依法履行信息披露义务，披露的信息应当真实、准确、完整，简明清晰、通俗易懂。"
+        },
+        {
+          "id": "RULE-SZSE-G2-2025",
+          "name": "《深圳证券交易所上市公司自律监管指南第2号——公告格式（2025年修订）》",
+          "source": "深圳证券交易所",
+          "url": "https://docs.static.szse.cn/www/lawrules/service/share/W020250425747814520529.pdf",
+          "summary": "上市公司和相关信息披露义务人应当按照公告格式编制公告，并声明内容不存在虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    },
+    {
+      "sentence": "敬请广大投资者谨慎决策，注意投资风险。",
+      "category": "风险揭示词",
+      "matched_terms": [
+        "敬请广大投资者谨慎决策，注意投资风险",
+        "谨慎决策",
+        "风险"
+      ],
+      "risk_level": "info",
+      "reason": "风险揭示词本身不代表违规，但可作为判断预测性表述是否伴随充分风险说明的辅助信号。",
+      "legal_basis": [
+        {
+          "id": "RULE-CSRC-182-03",
+          "name": "《上市公司信息披露管理办法》第三条",
+          "source": "中国证监会",
+          "url": "https://www.csrc.gov.cn/csrc/c106256/c1653948/content.shtml",
+          "summary": "上市公司披露的信息不得有虚假记载、误导性陈述或者重大遗漏。"
+        },
+        {
+          "id": "RULE-SZSE-G2-2025",
+          "name": "《深圳证券交易所上市公司自律监管指南第2号——公告格式（2025年修订）》",
+          "source": "深圳证券交易所",
+          "url": "https://docs.static.szse.cn/www/lawrules/service/share/W020250425747814520529.pdf",
+          "summary": "上市公司和相关信息披露义务人应当按照公告格式编制公告，并声明内容不存在虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    },
+    {
+      "sentence": "预计2025年1月1日至2025年6月30日归属于上市公司股东的净利润为647,539.54万元至674,520.36万元，比上年同期增长20%至25%。",
+      "category": "预测表述缺少同句风险限定",
+      "matched_terms": [
+        "预计"
+      ],
+      "risk_level": "medium",
+      "reason": "发现预测性或展望性表述，但同句未见明显风险限定、依据边界或提示语。建议复核上下文是否已有充分说明。",
+      "legal_basis": [
+        {
+          "id": "LAW-SEC-INFO-01",
+          "name": "《中华人民共和国证券法》信息披露要求",
+          "source": "中国证监会法规正文",
+          "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=1&secFutrsLawId=0fc431a2a10b47909beef058f6ac3335",
+          "summary": "信息披露义务人应当及时依法履行信息披露义务，披露的信息应当真实、准确、完整，简明清晰、通俗易懂。"
+        },
+        {
+          "id": "RULE-CSRC-182-03",
+          "name": "《上市公司信息披露管理办法》第三条",
+          "source": "中国证监会",
+          "url": "https://www.csrc.gov.cn/csrc/c106256/c1653948/content.shtml",
+          "summary": "上市公司披露的信息不得有虚假记载、误导性陈述或者重大遗漏。"
+        }
+      ]
+    }
+  ]
+}

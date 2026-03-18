@@ -1,0 +1,21 @@
+# 输入字段参考（t168 客诉归因）
+
+```json
+{
+  "time_window": "2026-02-01~2026-03-01",
+  "complaints": [
+    {
+      "complaint_id": "CP001",
+      "channel": "电话",
+      "product": "信用卡",
+      "issue_type": "账单争议",
+      "process_stage": "账单出具",
+      "root_cause": "账单费用解释不清",
+      "status": "已结案",
+      "handle_days": 3,
+      "customer_segment": "大众",
+      "sentiment_score": -0.6
+    }
+  ]
+}
+```

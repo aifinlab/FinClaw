@@ -1,0 +1,45 @@
+{
+  "batch_id": "2026Q1-CC-CHURN-001",
+  "time_window": "2026-01-01~2026-03-01",
+  "policy_constraints": {
+    "consent_required": true,
+    "max_touch_per_week": 2
+  },
+  "customers": [
+    {
+      "customer_id": "C001",
+      "name": "张三",
+      "segment": "高价值",
+      "aum": 500000,
+      "card_spend_30d": 3200,
+      "card_spend_90d": 24000,
+      "active_days_30d": 2,
+      "last_active_days": 45,
+      "credit_limit_usage": 0.92,
+      "bill_pay_delay_count": 1,
+      "cash_advance_count": 1,
+      "reward_redeem_drop_ratio": 0.6,
+      "recent_complaint": true,
+      "consent_marketing": true,
+      "card_status": "active",
+      "notes": "近期减少消费"
+    },
+    {
+      "customer_id": "C002",
+      "name": "李四",
+      "segment": "大众",
+      "aum": 80000,
+      "card_spend_30d": 1500,
+      "card_spend_90d": 6000,
+      "active_days_30d": 4,
+      "last_active_days": 20,
+      "credit_limit_usage": 0.4,
+      "bill_pay_delay_count": 0,
+      "cash_advance_count": 0,
+      "reward_redeem_drop_ratio": 0.2,
+      "recent_complaint": false,
+      "consent_marketing": false,
+      "card_status": "active"
+    }
+  ]
+}

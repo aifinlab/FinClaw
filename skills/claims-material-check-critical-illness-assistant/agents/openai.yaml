@@ -1,0 +1,4 @@
+interface:
+  display_name: "理赔材料检查助手-重疾险版"
+  short_description: "检查重疾险理赔材料齐全度、一致性与补件需求"
+  default_prompt: "Use $claims-material-check-critical-illness-assistant to review a critical illness claim package for completeness, clarity, diagnosis support, consistency, key missing materials, and pre-acceptance supplement needs."

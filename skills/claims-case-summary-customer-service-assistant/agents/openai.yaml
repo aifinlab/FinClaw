@@ -1,0 +1,4 @@
+interface:
+  display_name: "理赔案件摘要助手 - 客服版"
+  short_description: "整理理赔进展、沟通口径、风险点与跟进建议。"
+  default_prompt: "Use $claims-case-summary-customer-service-assistant to summarize a claim case for customer service, including current status, timeline, material status, communication guidance, risks, and follow-up suggestions."

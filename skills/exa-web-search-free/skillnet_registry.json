@@ -1,0 +1,16 @@
+{
+  "name": "exa-web-search-free",
+  "version": "1.0.0",
+  "description": "Free web search using Exa API - semantic search for web content",
+  "author": "openclaw",
+  "category": "Search",
+  "source": "skillhub",
+  "installed_at": "2026-03-13",
+  "path": "$SKILLS_ROOT/exa-web-search-free",
+  "api_required": false,
+  "features": [
+    "Semantic web search",
+    "Content extraction",
+    "Free tier available"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "company": {
+    "name": "杭州诚拓贸易有限公司",
+    "industry": "商贸流通",
+    "region": "浙江杭州",
+    "actual_controller": "徐某",
+    "years_in_operation": 6
+  },
+  "application": {
+    "amount_mn": 5,
+    "product_type": "经营贷",
+    "purpose": "采购备货",
+    "term_months": 12,
+    "repayment_source": "主营销售回款"
+  },
+  "financials": {
+    "revenue_mn": 42,
+    "net_profit_mn": 1.3,
+    "operating_cash_flow_mn": 0.5,
+    "accounts_receivable_mn": 8,
+    "inventory_mn": 6
+  },
+  "operations": {
+    "tax_invoice_match": "待核验",
+    "top_customers": ["客户A", "客户B"],
+    "top_suppliers": ["供应商A", "供应商B"],
+    "site_status": "待现场核验"
+  },
+  "materials": [
+    {"name": "近12个月纳税申报表", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "近6个月主要账户流水", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "核心销售合同", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "controller_negative_events": false,
+    "litigation_cases": 0
+  }
+}

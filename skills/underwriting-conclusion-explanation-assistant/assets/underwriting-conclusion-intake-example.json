@@ -1,0 +1,24 @@
+{
+  "product_name": "某重疾险",
+  "insurance_type": "重疾险",
+  "underwriting_conclusion": "除外",
+  "insured_person": {
+    "age": 35,
+    "gender": "女"
+  },
+  "risk_background": [
+    "既往乳腺结节随访史",
+    "已提供近期彩超报告"
+  ],
+  "source_materials": [
+    "核保审核意见",
+    "体检报告OCR文本",
+    "业务备注"
+  ],
+  "business_context": "业务人员准备与客户沟通核保结果",
+  "focus_points": [
+    "客户最关心是否还能正常投保",
+    "需要说明除外对责任范围的影响",
+    "需要判断是否建议补充资料复议"
+  ]
+}

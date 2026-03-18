@@ -1,0 +1,51 @@
+{
+  "name": "china-backtest-expert",
+  "version": "1.0.0",
+  "description": "中国金融市场策略回测质量审查与验证专家。专为A股、期货、基金设计的研究纪律执行者，提供从假设定义到上线门禁的全流程质量把控。",
+  "author": "FinSkillsHub",
+  "category": "Finance",
+  "source": "local",
+  "installed_at": "2026-03-12",
+  "path": "$SKILLS_ROOT/china-backtest-expert",
+  "language": "python",
+  "python_version": "3.10+",
+  "dependencies": ["pandas", "numpy", "pyyaml"],
+  "features": [
+    "A股/期货/基金策略回测规范检查",
+    "研究假设验证",
+    "因子研究质量审查",
+    "策略上线前质量门禁",
+    "T+1、涨跌停、停牌等A股特殊机制检查",
+    "未来函数检测",
+    "过拟合检测(CSCV)",
+    "样本内/样本外验证",
+    "中国交易成本模型"
+  ],
+  "market_coverage": ["A股", "期货", "基金"],
+  "data_sources": ["Tushare", "AkShare", "JoinQuant", "CSV", "Parquet"],
+  "quality_dimensions": [
+    "假设定义与逻辑审查",
+    "数据质量与完整性",
+    "交易制度合规性",
+    "统计严谨性",
+    "未来函数与数据泄露",
+    "结果质量评估"
+  ],
+  "verdict_levels": ["PASS", "REVISE", "REJECT"],
+  "evaluation": {
+    "safety": 9,
+    "completeness": 9,
+    "executability": 8,
+    "maintainability": 8,
+    "cost_awareness": 9,
+    "overall": 8.6
+  },
+  "relations": [
+    {"source": "china-backtest-expert", "target": "akshare-stock", "type": "compose_with"},
+    {"source": "china-backtest-expert", "target": "tushare-pro", "type": "compose_with"},
+    {"source": "china-backtest-expert", "target": "baostock-history", "type": "compose_with"}
+  ],
+  "cli_entry": "scripts/quality_gate.py",
+  "usage": "python scripts/quality_gate.py --strategy-file strategy.py --backtest-result result.csv --config config.yaml",
+  "documentation": "SKILL.md"
+}

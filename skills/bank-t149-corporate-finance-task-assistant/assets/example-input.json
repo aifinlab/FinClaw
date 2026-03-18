@@ -1,0 +1,13 @@
+{
+  "company": { "name": "深圳某某科技有限公司" },
+  "verification": {
+    "time_window": "近12个月",
+    "invoices": [
+      { "invoice_no": "044001234567", "date": "2026-01-12", "seller": "深圳某某科技有限公司", "buyer": "上海某某贸易有限公司", "amount": 100000.0, "tax_rate": 13, "tax_amount": 13000.0, "total_amount": 113000.0, "status": "正常", "item": "设备配件" },
+      { "invoice_no": "044001234568", "date": "2026-01-13", "seller": "深圳某某科技有限公司", "buyer": "上海某某贸易有限公司", "amount": 200000.0, "tax_rate": 13, "tax_amount": 26000.0, "total_amount": 226000.0, "status": "正常", "item": "设备配件" },
+      { "invoice_no": "044001234568", "date": "2026-01-13", "seller": "深圳某某科技有限公司", "buyer": "上海某某贸易有限公司", "amount": 200000.0, "tax_rate": 13, "tax_amount": 25000.0, "total_amount": 225000.0, "status": "正常", "item": "重复号（需核验）" },
+      { "invoice_no": "044001234569", "date": "2026-02-02", "seller": "深圳某某科技有限公司", "buyer": "广州某某服务有限公司", "amount": 50000.0, "tax_rate": "17%", "status": "正常", "item": "服务费" }
+    ]
+  }
+}
+

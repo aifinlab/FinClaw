@@ -7,10 +7,10 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-3.0.0-orange.svg)](package.json)
-[![Skills](https://img.shields.io/badge/Skills-231个-blueviolet.svg)](#-skills-全景目录231个)
+[![Skills](https://img.shields.io/badge/Skills-960个-blueviolet.svg)](#-skills-全景目录960个)
 [![Free](https://img.shields.io/badge/免费-0元-brightgreen.svg)]()
 
-> **开箱即用的金融数据投研神器** —— **231 个 Skills**，覆盖 A股投研/量化策略/数据源/保险/银行/投研助手/通用工具全品类，**无需 API Key，一键上手！**
+> **开箱即用的金融数据投研神器** —— **960 个 Skills**，覆盖 A股投研/量化策略/数据源/保险/银行/投研助手/通用工具全品类，**无需 API Key，一键上手！**
 
 [English](README_EN.md) | [中文](README.md)
 
@@ -48,7 +48,7 @@ python /cn_stock_data.py kline --code SH600519 --freq daily --start 2024-01-01
 
 ## 🚀 四大核心亮点
 
-### 1️⃣ 231 个 Skills 全品类覆盖
+### 1️⃣ 960 个 Skills 全品类覆盖
 
 | 类别 | 数量 | 覆盖内容 |
 |:---|:---:|:---|
@@ -98,7 +98,7 @@ python /cn_stock_data.py kline --code SH600519 --freq daily --start 2024-01-01
 | **风控** | VaR分析、回撤分析、止损策略、尾部风险、仓位管理 |
 
 
-## 🧠 Skills 全景目录（231个）
+## 🧠 Skills 全景目录（960个）
 
 ### 一、数据源层（46 个）
 
@@ -582,7 +582,7 @@ curl -fsSL https://openclaw.ai/install.sh | bash
 
 # 2. 克隆 FinClaw 到 OpenClaw workspace
 cd ~/.openclaw/workspace
-git clone https://gitee.com/aisufe/FinClaw.git  .
+git clone https://github.com/aifinlab/FinClaw  .
 
 # 3. 安装 Python 依赖
 pip install akshare pandas numpy requests
@@ -601,7 +601,7 @@ curl -fsSL https://openclaw.ai/install.sh | bash
 cd ~/.openclaw/workspace
 
 # 3. 克隆 FinClaw项目（或复制已有代码）
-git clone https://gitee.com/aisufe/FinClaw.git .
+git clone https://github.com/aifinlab/FinClaw .
 
 # 4. 添加额外的skills路径
 openclaw config set skills.load.extraDirs '["~/.openclaw/workspace/FinClaw/skills"]'
@@ -706,9 +706,9 @@ python -c "import akshare; print(akshare.__version__)"
 
 ## 📅 路线图
 
-- ✅ **已完成**：231 个 Skills（数据源/投研/量化/保险/银行/助手/工具）、统一数据抽象层、环境变量驱动路径、Docker 部署
-- 🚧 **进行中**：Web 可视化界面、移动端适配、投研 Skill 触发测试
-- 📋 **规划中**：AI 智能问答增强、更多策略回测、跨市场数据扩展
+- ✅ **已完成**：960 个 Skills（数据源/投研/量化/保险/银行/助手/工具）、统一数据抽象层、环境变量驱动路径、Docker 部署
+- 🚧 **进行中**：Web 可视化界面、FinSkillsHub
+
 
 ---
 
@@ -727,6 +727,6 @@ git push origin feature/your-feature
 
 ## 📄 许可证
 
-[Apache 2.0](LICENSE) © 2026 FinSkills Contributors
+[Apache 2.0](LICENSE) © 2026 FinClaw Contributors
 
 ---

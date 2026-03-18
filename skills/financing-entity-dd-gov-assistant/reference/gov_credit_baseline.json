@@ -1,0 +1,16 @@
+{
+  "version": "2026-03",
+  "description": "政信主体尽调参考基线（示意）",
+  "benchmark": {
+    "debt_to_revenue_watch": 4.0,
+    "debt_to_revenue_warning": 6.0,
+    "debt_service_coverage_safe": 1.2,
+    "cash_to_short_debt_safe": 1.0,
+    "self_sufficiency_ratio_safe": 0.6,
+    "revenue_growth_safe": 0.03
+  },
+  "notes": [
+    "本基线仅用于自动评分参考，不构成监管或审计标准。",
+    "地区差异、政策时点及项目结构应由人工复核校正。"
+  ]
+}

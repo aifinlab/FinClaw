@@ -1,0 +1,48 @@
+{
+  "company_name": "XX 股份有限公司",
+  "check_date": "2026-03-15",
+  "files": [
+    {
+      "name": "招股说明书（申报稿）",
+      "status": "已提供",
+      "version": "20260315 版",
+      "date": "2026-03-15",
+      "remarks": ""
+    },
+    {
+      "name": "发行保荐书",
+      "status": "已提供",
+      "version": "",
+      "date": "2026-03-15",
+      "remarks": ""
+    },
+    {
+      "name": "审计报告（最近三年及一期）",
+      "status": "已提供",
+      "version": "",
+      "date": "2026-03-10",
+      "remarks": "审计机构：XX 会计师事务所"
+    },
+    {
+      "name": "法律意见书",
+      "status": "已提供",
+      "version": "",
+      "date": "2026-03-15",
+      "remarks": "律师事务所：XX 律师事务所"
+    },
+    {
+      "name": "发行人营业执照",
+      "status": "已提供",
+      "version": "",
+      "date": "2025-12-01",
+      "remarks": "统一社会信用代码：91XXXXXXXXXX"
+    },
+    {
+      "name": "公司章程",
+      "status": "已提供",
+      "version": "2025 年修订版",
+      "date": "2025-12-15",
+      "remarks": "股东大会审议通过"
+    }
+  ]
+}

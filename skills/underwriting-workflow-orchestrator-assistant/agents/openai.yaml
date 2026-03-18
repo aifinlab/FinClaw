@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保工作流编排助手"
+  short_description: "串联核保摘要、问题、补件、规则和复核环节"
+  default_prompt: "Use $underwriting-workflow-orchestrator-assistant to orchestrate the underwriting workflow by reusing prior skill outputs, routing the case through the right analysis steps, and producing one integrated result."

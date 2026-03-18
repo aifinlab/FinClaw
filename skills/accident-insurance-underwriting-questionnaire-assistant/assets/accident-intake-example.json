@@ -1,0 +1,16 @@
+{
+  "insurance_type": "意外险",
+  "product_name": "示例意外险产品",
+  "insured": {
+    "name": "孙八",
+    "age": 33,
+    "gender": "男",
+    "occupation": "工程项目现场管理"
+  },
+  "questionnaire_type": "意外险职业与活动告知问卷",
+  "source_type": "OCR文本",
+  "questionnaire_text": "被保人日常在施工现场管理，偶尔登高检查，存在外勤和短期出差；平时自驾频率较高，偶尔长途驾驶；业余参加攀岩和滑雪活动，但频率未说明；接触施工设备环境，是否直接操作机械未明确。",
+  "notes": [
+    "希望重点关注职业风险和危险活动"
+  ]
+}

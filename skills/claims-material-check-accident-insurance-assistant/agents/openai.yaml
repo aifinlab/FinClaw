@@ -1,0 +1,5 @@
+interface:
+  display_name: "理赔材料检查助手 - 意外险版"
+  short_description: "检查意外险理赔材料完整性、一致性与补件需求。"
+  default_prompt: "Use $claims-material-check-accident-insurance-assistant to review an accident insurance claim package for completeness, clarity, consistency, key missing materials, and pre-acceptance supplement needs."
+

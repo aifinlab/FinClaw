@@ -1,0 +1,20 @@
+{
+  "company": {
+    "name": "深圳华科精密有限公司"
+  },
+  "operations": {
+    "identification_target": "下游重点客户识别",
+    "time_window": "近12个月",
+    "transaction_samples": "已导入近12个月交易样本",
+    "sample_coverage": "不足",
+    "customer_concentration": "高"
+  },
+  "materials": [
+    {"name": "客户交易样本", "provided": true, "note": "已提供", "source": "中台"},
+    {"name": "发票样本", "provided": true, "note": "已提供", "source": "中台"},
+    {"name": "客户名单映射表", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "related_party_overlap": true
+  }
+}

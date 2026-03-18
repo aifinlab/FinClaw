@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保规则问答助手"
+  short_description: "回答核保规则、承保边界与资料流程相关问题"
+  default_prompt: "Use $underwriting-rules-qa-assistant to answer an underwriting rules question with core rule points, boundaries, required materials, uncertainty notes, and next-step suggestions."

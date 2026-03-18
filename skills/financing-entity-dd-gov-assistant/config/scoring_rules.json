@@ -1,0 +1,68 @@
+{
+  "score_base": 60,
+  "level_cutoffs": {
+    "stable": 80,
+    "controlled": 65,
+    "watch": 50
+  },
+  "positive_keywords": [
+    "财政支持",
+    "专项债",
+    "预算安排",
+    "再融资保障",
+    "政府协调",
+    "增信措施"
+  ],
+  "negative_keywords": [
+    "非标逾期",
+    "被执行",
+    "处罚",
+    "问责",
+    "债务展期失败",
+    "土地出让下滑",
+    "财政紧平衡",
+    "流动性压力"
+  ],
+  "numeric_rules": {
+    "debt_to_revenue": [
+      {"gte": 8.0, "delta": -25, "flag": "债务收入比极高"},
+      {"gte": 6.0, "delta": -15, "flag": "债务收入比偏高"},
+      {"gte": 4.0, "delta": -8, "flag": "债务收入比处于关注区间"},
+      {"lt": 2.5, "delta": 4, "flag": "债务收入比相对稳健"}
+    ],
+    "debt_to_fiscal_expenditure": [
+      {"gte": 5.0, "delta": -12, "flag": "债务/财政支出比偏高"},
+      {"gte": 3.5, "delta": -6, "flag": "债务/财政支出比需关注"}
+    ],
+    "debt_service_coverage": [
+      {"lt": 1.0, "delta": -12, "flag": "偿债覆盖不足"},
+      {"lt": 1.2, "delta": -6, "flag": "偿债覆盖偏弱"},
+      {"gte": 1.6, "delta": 4, "flag": "偿债覆盖较好"}
+    ],
+    "cash_to_short_debt": [
+      {"lt": 0.4, "delta": -10, "flag": "现金短债覆盖不足"},
+      {"lt": 0.8, "delta": -5, "flag": "现金短债覆盖偏弱"},
+      {"gte": 1.2, "delta": 3, "flag": "现金短债覆盖较好"}
+    ],
+    "revenue_growth": [
+      {"lt": 0.0, "delta": -8, "flag": "收入增速为负"},
+      {"lt": 0.03, "delta": -4, "flag": "收入增速偏低"},
+      {"gte": 0.08, "delta": 4, "flag": "收入增速较好"}
+    ],
+    "self_sufficiency_ratio": [
+      {"lt": 0.5, "delta": -8, "flag": "财政自给率偏低"},
+      {"gte": 0.8, "delta": 4, "flag": "财政自给率较好"}
+    ],
+    "data_completeness": [
+      {"lt": 0.6, "delta": -8, "flag": "关键字段缺失较多"},
+      {"lt": 0.8, "delta": -4, "flag": "存在字段缺失"},
+      {"gte": 0.95, "delta": 2, "flag": "数据完整度较高"}
+    ]
+  },
+  "keyword_scoring": {
+    "positive_per_hit": 2,
+    "positive_cap": 10,
+    "negative_per_hit": -4,
+    "negative_cap": -20
+  }
+}

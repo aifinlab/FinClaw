@@ -1,0 +1,16 @@
+{
+  "name": "multi-search-engine",
+  "version": "1.0.0",
+  "description": "Multi-search engine aggregation for comprehensive web search results",
+  "author": "openclaw",
+  "category": "Search",
+  "source": "skillhub",
+  "installed_at": "2026-03-13",
+  "path": "$SKILLS_ROOT/multi-search-engine",
+  "api_required": false,
+  "features": [
+    "Multi-engine search",
+    "Result aggregation",
+    "Cross-validation"
+  ]
+}

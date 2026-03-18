@@ -1,0 +1,15 @@
+{
+  "company": { "name": "杭州星辰新材料有限公司" },
+  "verification": {
+    "time_window": "近90天",
+    "transactions": [
+      { "date": "2026-01-05", "amount": 120000.0, "direction": "in", "counterparty": "上海某某贸易有限公司", "summary": "货款回款" },
+      { "date": "2026-01-05", "amount": 20000.0, "direction": "in", "counterparty": "上海某某贸易有限公司", "summary": "尾款" },
+      { "date": "2026-01-18", "amount": 100000.0, "direction": "out", "counterparty": "宁波某某供应有限公司", "summary": "材料采购" },
+      { "date": "2026-02-02", "amount": 500000.0, "direction": "out", "counterparty": "个人张三", "summary": "往来款（需核验）" },
+      { "date": "2026-02-15", "amount": 300000.0, "direction": "in", "counterparty": "上海某某贸易有限公司", "summary": "回款" },
+      { "date": "2026-03-01", "amount": 1000000.0, "direction": "in", "counterparty": "上海某某贸易有限公司", "summary": "回款（大额）" }
+    ]
+  }
+}
+

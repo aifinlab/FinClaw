@@ -1,0 +1,69 @@
+{
+  "client_profile": {
+    "name": "张三",
+    "risk_level": "稳健",
+    "investment_horizon_months": 24,
+    "liquidity_need": "中",
+    "goals": ["稳健增值", "子女教育"],
+    "constraints": ["不投高波动品类"],
+    "preferred_currency": "CNY"
+  },
+  "diagnosis_scope": {
+    "as_of_date": "2026-03-10",
+    "performance_window": "近12个月",
+    "currency": "CNY"
+  },
+  "holdings": [
+    {
+      "asset_name": "稳健固收+产品A",
+      "asset_class": "固收",
+      "product_type": "理财",
+      "issuer": "XX理财子",
+      "market_value": 520000,
+      "cost_value": 500000,
+      "return_3m": 0.012,
+      "return_12m": 0.035,
+      "risk_level": "稳健",
+      "liquidity": "中",
+      "min_holding_months": 6
+    },
+    {
+      "asset_name": "权益精选基金B",
+      "asset_class": "权益",
+      "product_type": "基金",
+      "issuer": "YY基金",
+      "market_value": 200000,
+      "cost_value": 210000,
+      "return_3m": -0.02,
+      "return_12m": 0.04,
+      "risk_level": "进取",
+      "liquidity": "高",
+      "min_holding_months": 0
+    },
+    {
+      "asset_name": "现金管理产品C",
+      "asset_class": "现金",
+      "product_type": "现金管理",
+      "issuer": "ZZ理财子",
+      "market_value": 150000,
+      "cost_value": 150000,
+      "return_3m": 0.004,
+      "return_12m": 0.02,
+      "risk_level": "低",
+      "liquidity": "高",
+      "min_holding_months": 0
+    }
+  ],
+  "market_context": {
+    "rates_trend": "利率下行",
+    "equity_volatility": "偏高",
+    "sector_events": ["房地产信用分化"],
+    "policy_notes": ["存量房贷利率调整"],
+    "advisor_view": "今年债券票息仍有支撑"
+  },
+  "constraints": {
+    "max_single_product_pct": 25,
+    "max_single_issuer_pct": 35,
+    "max_equity_pct": 60
+  }
+}

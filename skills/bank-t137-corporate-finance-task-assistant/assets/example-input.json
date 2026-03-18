@@ -1,0 +1,29 @@
+{
+  "company": {
+    "name": "华北某商贸集团有限公司",
+    "industry": "商贸流通",
+    "region": "河北"
+  },
+  "operations": {
+    "time_window": "2025-10-01~2026-03-01",
+    "guarantee_out_mn": 620.0,
+    "guarantee_chain_summary": "集团本部为子公司B、供应商C提供连带责任保证；B与D存在互保关系；部分担保为最高额保证且额度循环。",
+    "guarantee_out_top_counterparties": [
+      { "name": "子公司B", "balance_mn": 240.0, "type": "连带责任保证" },
+      { "name": "供应商C", "balance_mn": 180.0, "type": "最高额保证" }
+    ],
+    "compensation_events": "过去12个月未发生代偿，但被担保方D出现展期诉求。"
+  },
+  "external_risks": {
+    "major_negative_news": "窗口期内出现负面新闻3条（涉诉/欠薪/停工传闻各1条）",
+    "litigation_cases": "新增2起诉讼，涉案金额约0.3亿元",
+    "asset_freeze": "无公开冻结信息"
+  },
+  "materials": [
+    { "name": "对外担保清单（对象/余额/期限/担保方式）", "provided": true },
+    { "name": "担保合同要素与授权材料", "provided": false },
+    { "name": "反担保清单与权属证明", "provided": false },
+    { "name": "被担保方近12个月重大事件与到期表（如有）", "provided": false }
+  ]
+}
+

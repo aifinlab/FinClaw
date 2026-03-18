@@ -1,0 +1,25 @@
+{
+  "time_window": "2026-02-01~2026-03-01",
+  "work_orders": [
+    {
+      "work_order_id": "WO001",
+      "type": "交易异常",
+      "channel": "APP",
+      "product": "手机银行",
+      "severity": "high",
+      "sla_hours": 24,
+      "tags": ["扣款失败", "转账"],
+      "description": "转账失败，资金未到账"
+    },
+    {
+      "work_order_id": "WO002",
+      "type": "费用争议",
+      "channel": "电话",
+      "product": "信用卡",
+      "severity": "medium",
+      "sla_hours": 72,
+      "tags": ["账单", "费用"],
+      "description": "账单费用解释不清"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "company": {
+    "name": "某市建设发展集团有限公司"
+  },
+  "application": {
+    "amount_mn": 80,
+    "product_type": "流动资金贷款",
+    "purpose": "补充项目周转"
+  },
+  "financials": {
+    "revenue_mn": 210,
+    "net_profit_mn": 4.8,
+    "operating_cash_flow_mn": -6.5,
+    "interest_bearing_debt_mn": 320
+  },
+  "operations": {
+    "fiscal_dependency_ratio": 0.72,
+    "public_welfare_vs_market_revenue": "公益性收入占比高于市场化收入"
+  },
+  "materials": [
+    {"name": "政府购买服务合同", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "财政资金到位记录", "provided": false, "note": "待补", "source": "待提供"},
+    {"name": "债务到期结构表", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "implicit_debt_pressure": true
+  }
+}

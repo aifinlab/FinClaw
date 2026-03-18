@@ -1,0 +1,17 @@
+{
+  "name": "agent-browser",
+  "version": "1.0.0",
+  "description": "Browser automation and web scraping capabilities for agents",
+  "author": "openclaw",
+  "category": "Web/Browser",
+  "source": "skillhub",
+  "installed_at": "2026-03-13",
+  "path": "$SKILLS_ROOT/agent-browser",
+  "api_required": false,
+  "features": [
+    "Browser automation",
+    "Web scraping",
+    "Page interaction",
+    "Screenshot capture"
+  ]
+}

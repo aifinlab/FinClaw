@@ -1,0 +1,21 @@
+{
+  "score_base": 60,
+  "level_cutoffs": {
+    "low_risk": 75,
+    "medium_risk": 55
+  },
+  "positive_keywords": [
+    "支持",
+    "完成",
+    "稳定",
+    "提升",
+    "改善"
+  ],
+  "negative_keywords": [
+    "风险",
+    "异常",
+    "处罚",
+    "违约",
+    "逾期"
+  ]
+}

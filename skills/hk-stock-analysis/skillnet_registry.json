@@ -1,0 +1,11 @@
+{
+  "name": "hk-stock-analysis",
+  "version": "1.0.0",
+  "description": "Hong Kong stock market analysis and research",
+  "author": "nicepkg",
+  "category": "Finance/Equity",
+  "source": "skillhub",
+  "installed_at": "2026-03-13",
+  "path": "$SKILLS_ROOT/hk-stock-analysis",
+  "api_required": false
+}

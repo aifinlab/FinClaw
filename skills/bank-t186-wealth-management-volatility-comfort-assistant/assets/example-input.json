@@ -1,0 +1,49 @@
+{
+  "client_profile": {
+    "name": "客户A",
+    "segment": "高净值",
+    "risk_level": "R3",
+    "horizon": "中长期",
+    "liquidity_need": "中",
+    "communication_style": "数据型"
+  },
+  "holdings_summary": {
+    "products": [
+      {
+        "name": "稳健收益混合1号",
+        "type": "混合",
+        "risk_level": "R3",
+        "allocation_pct": 45,
+        "unrealized_return_pct": -6.2
+      },
+      {
+        "name": "短久期固收增强",
+        "type": "固收",
+        "risk_level": "R2",
+        "allocation_pct": 35,
+        "unrealized_return_pct": -1.1
+      },
+      {
+        "name": "现金管理",
+        "type": "现金管理",
+        "risk_level": "R1",
+        "allocation_pct": 20,
+        "unrealized_return_pct": 0.3
+      }
+    ],
+    "total_drawdown_pct": -4.2,
+    "concentration_notes": "权益暴露主要集中在A产品"
+  },
+  "market_context": {
+    "event": "市场风险偏好回落",
+    "drivers": ["海外利率预期上行", "权益板块普遍回撤"],
+    "volatility_level": "高",
+    "data_points": ["近一周权益指数回撤约3%-5%", "波动率显著上升"]
+  },
+  "touchpoint": {
+    "channel": "电话",
+    "objective": "安抚+解释",
+    "emotion_state": "焦虑",
+    "constraints": ["不得承诺收益", "不得暗示抄底时点"]
+  }
+}

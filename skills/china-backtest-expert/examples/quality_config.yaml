@@ -1,0 +1,36 @@
+# 中国回测专家配置示例
+# 用于A股多因子策略质量检查
+
+market:
+  type: ashare
+  ashare_config:
+    board: [main, gem, kcb]  # 主板、创业板、科创板
+    t1_constraint: true       # 启用T+1约束检查
+    price_limit: true         # 启用涨跌停检查
+    st_filter: true           # 过滤ST股票
+
+trading:
+  commission: 0.00025         # 佣金万2.5
+  stamp_duty: 0.001           # 印花税千1（仅卖出）
+  transfer_fee: 0.00001       # 过户费
+  slippage_model: volume_impact  # 滑点模型
+  halt_handling: skip         # 停牌处理方式
+
+data:
+  adjust: post                # 后复权
+  survivors_bias: correct     # 纠正幸存者偏差
+
+cost_model:
+  realistic: true             # 使用真实成本模型
+
+quality_checks:
+  strict_level: institution   # 机构级严格程度
+  oos_ratio: 0.3              # 30%样本外
+  walk_forward: true          # 启用滚动窗口测试
+  cscv_trials: 16             # CSCV试验次数
+  min_sharpe: 1.2             # 最小夏普比率
+  max_drawdown: 0.20          # 最大回撤限制
+
+output:
+  format: both                # 输出结构化数据+报告
+  language: zh                # 中文输出

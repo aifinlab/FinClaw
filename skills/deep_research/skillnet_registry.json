@@ -1,0 +1,42 @@
+{
+  "name": "deep_research",
+  "version": "1.2.0",
+  "description": "深度研究能力，支持多源搜索、信息聚合、引用回溯、文档上传分析。适用于市场调研、竞品分析、学术研究、技术选型、金融投研等场景。",
+  "display_name": "深度研究",
+  "author": "TokenDance (hxk622)",
+  "category": "Research/Analysis",
+  "source": "github",
+  "source_url": "https://github.com/hxk622/TokenDance/tree/master/backend/app/skills/builtin/deep_research",
+  "installed_at": "2026-03-13",
+  "path": "$SKILLS_ROOT/deep_research",
+  "api_required": false,
+  "features": [
+    "多源搜索 (Web/微信/文档)",
+    "信息聚合与交叉验证",
+    "引用回溯与来源标注",
+    "文档上传分析 (PDF/Excel/Word)",
+    "浏览器自动化",
+    "结构化研究报告生成"
+  ],
+  "allowed_tools": [
+    "web_search", "read_url", "wechat_article", "create_document",
+    "browser_open", "browser_snapshot", "browser_click", "browser_fill",
+    "browser_screenshot", "browser_close", "file_converter",
+    "mem_retain", "mem_delete", "mem_summarize", "mem_pin", "mem_list_blocks"
+  ],
+  "max_iterations": 30,
+  "timeout": 600,
+  "tags": [
+    "research", "search", "analysis", "investigation", "report",
+    "survey", "调研", "研究", "分析", "browser", "automation",
+    "sentiment", "finance", "investment", "document", "pdf", "excel"
+  ],
+  "evaluation": {
+    "safety": 8,
+    "completeness": 10,
+    "executability": 9,
+    "maintainability": 8,
+    "innovation": 10,
+    "overall": 9.0
+  }
+}

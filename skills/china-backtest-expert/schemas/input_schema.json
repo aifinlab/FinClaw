@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ChinaBacktestExpertInput",
+  "description": "中国回测专家输入参数规范",
+  "type": "object",
+  "required": ["market"],
+  "properties": {
+    "strategy": {
+      "type": "object",
+      "description": "策略定义",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["file", "code", "backtest_result"]
+        },
+        "file_path": { "type": "string" },
+        "code": { "type": "string" },
+        "signal_logic": { "type": "string" },
+        "holding_period": {
+          "type": "string",
+          "enum": ["intraday", "short_term", "medium_term", "long_term"]
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["tushare", "akshare", "joinquant", "ricequant", "csv", "parquet", "pickle"]
+        },
+        "connection": {
+          "type": "object",
+          "properties": {
+            "token": { "type": "string" },
+            "file_path": { "type": "string" }
+          }
+        },
+        "date_range": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string", "pattern": "^\\d{8}$" },
+            "end": { "type": "string", "pattern": "^\\d{8}$" },
+            "oos_start": { "type": "string", "pattern": "^\\d{8}$" }
+          }
+        },
+        "adjust": {
+          "type": "string",
+          "enum": ["post", "pre", "none"],
+          "default": "post"
+        }
+      }
+    },
+    "market": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["ashare", "futures", "fund", "hk_stock"]
+        },
+        "ashare_config": {
+          "type": "object",
+          "properties": {
+            "board": {
+              "type": "array",
+              "items": { "enum": ["main", "gem", "kcb", "bj"] }
+            },
+            "t1_constraint": { "type": "boolean", "default": true },
+            "price_limit": { "type": "boolean", "default": true },
+            "st_filter": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    },
+    "cost_model": {
+      "type": "object",
+      "properties": {
+        "commission": { "type": "number", "default": 0.00025 },
+        "stamp_duty": { "type": "number", "default": 0.001 },
+        "transfer_fee": { "type": "number", "default": 0.00001 },
+        "slippage_model": {
+          "type": "string",
+          "enum": ["fixed", "volume_impact", "none"],
+          "default": "volume_impact"
+        }
+      }
+    },
+    "quality_checks": {
+      "type": "object",
+      "properties": {
+        "strict_level": {
+          "type": "string",
+          "enum": ["institution", "professional", "standard"],
+          "default": "professional"
+        },
+        "oos_ratio": { "type": "number", "default": 0.3 },
+        "walk_forward": { "type": "boolean", "default": true },
+        "min_sharpe": { "type": "number", "default": 1.0 },
+        "max_drawdown": { "type": "number", "default": 0.25 }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["structured", "report", "both"],
+          "default": "both"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["zh", "en"],
+          "default": "zh"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "company": {
+    "name": "华东某制造企业（示例）",
+    "uscc": "91310000XXXXXXXXXX",
+    "industry": "制造业"
+  },
+  "monitoring": {
+    "time_window": "2026-01-01~2026-03-15",
+    "sources": [
+      {
+        "name": "第三方司法聚合",
+        "update_freq": "T+1",
+        "notes": "示例数据，仅用于演示"
+      }
+    ],
+    "baseline": {
+      "window": "过去12个月",
+      "new_cases_count": 2
+    }
+  },
+  "events": [
+    {
+      "date": "2026-03-01",
+      "event_type": "行政处罚",
+      "role": "被处罚人",
+      "status": "处罚决定",
+      "authority": "某地监管机构",
+      "counterparty": "监管机构",
+      "amount_mn": 2.5,
+      "summary": "因环保合规问题被罚"
+    },
+    {
+      "date": "2026-02-18",
+      "event_type": "民事诉讼",
+      "role": "被告",
+      "status": "立案",
+      "authority": "某地人民法院",
+      "counterparty": "供应商A",
+      "amount_mn": 18,
+      "summary": "货款纠纷"
+    },
+    {
+      "date": "2026-02-10",
+      "event_type": "被执行",
+      "role": "被执行人",
+      "status": "执行中",
+      "authority": "某地人民法院",
+      "counterparty": "申请执行人B",
+      "amount_mn": 55,
+      "summary": "执行标的较大"
+    }
+  ],
+  "exposures": {
+    "credit_exposure_mn": 80,
+    "guarantee_exposure_mn": 20
+  }
+}
+

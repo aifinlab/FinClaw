@@ -1,0 +1,35 @@
+{
+  "case_id": "CLM-EXC-2026-001",
+  "product_name": "某医疗保险",
+  "insurance_type": "医疗险",
+  "case_type": "住院医疗",
+  "event_date": "2026-01-15",
+  "current_status": "审核中",
+  "insured_role": "被保险人",
+  "materials": [
+    "住院病历",
+    "出院小结",
+    "费用清单",
+    "调查记录",
+    "系统备注"
+  ],
+  "facts": {
+    "event_summary": "因腹痛住院治疗",
+    "diagnosis": "胆囊结石伴胆囊炎",
+    "history_hint": "既往体检提示胆囊结石",
+    "treatment": [
+      "住院治疗",
+      "腹腔镜手术"
+    ]
+  },
+  "policy_terms": {
+    "waiting_period": "30天",
+    "pre_existing_condition": "投保前已存在疾病或症状不承担保险责任",
+    "exclusion_focus": "既往症、非医学必要治疗等除外责任"
+  },
+  "user_focus": [
+    "既往症免责风险",
+    "当前材料是否足以支持免责识别",
+    "是否需要进一步调查"
+  ]
+}

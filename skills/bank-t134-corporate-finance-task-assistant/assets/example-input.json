@@ -1,0 +1,24 @@
+{
+  "company": {
+    "name": "上海科卓新材料有限公司"
+  },
+  "financials": {
+    "revenue_mn": 142,
+    "net_profit_mn": 5.1,
+    "operating_cash_flow_mn": 0.9,
+    "gross_margin_pct": 18,
+    "historical_gross_margin_pct": 24,
+    "expense_ratio_pct": 11,
+    "historical_expense_ratio_pct": 8.5,
+    "accounts_receivable_mn": 31,
+    "inventory_mn": 22,
+    "interest_bearing_debt_mn": 44
+  },
+  "materials": [
+    {"name": "近两年财报", "provided": true, "note": "已提供", "source": "客户经理"},
+    {"name": "管理报表", "provided": false, "note": "待补", "source": "待提供"}
+  ],
+  "external_risks": {
+    "audit_qualification": true
+  }
+}

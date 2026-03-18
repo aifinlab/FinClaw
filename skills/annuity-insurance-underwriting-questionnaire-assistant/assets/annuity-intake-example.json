@@ -1,0 +1,16 @@
+{
+  "insurance_type": "年金险",
+  "product_name": "示例年金险产品",
+  "insured": {
+    "name": "吴十",
+    "age": 45,
+    "gender": "女",
+    "occupation": "企业主"
+  },
+  "questionnaire_type": "年金险综合告知问卷",
+  "source_type": "OCR文本",
+  "questionnaire_text": "被保人有甲状腺结节病史，长期复查；本次保费安排较高，拟采用趸交方式；收入情况描述较笼统，资金来源写为家庭资产；既有多份长期储蓄型保单；投保目的写为资产配置，但具体规划未说明。",
+  "notes": [
+    "希望重点关注缴费能力和资金来源合理性"
+  ]
+}
