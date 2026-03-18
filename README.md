@@ -641,6 +641,21 @@ git push origin feature/your-feature
 
 ---
 
+## ⭐ Star 历史
+
+[![Star History Chart](https://www.star-history.com/?repos=aifinlab%2Faifinlab&type=date&legend=top-left)].
+
+---
+
+<div align="center">
+
+**⭐ 如果 AiFinlab 对你有帮助，请给我们一个 Star！**
+
+由 AiFinlab 团队用 ❤️ 打造
+
+
+</div>
+
 ---
 
 ## 📄 许可证
