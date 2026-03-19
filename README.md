@@ -2,15 +2,15 @@
   <div style="font-size: 120px;">🦞</div>
 </div>
 
-# FinClaw 🦞 | 开源免费开箱即用的金融版大龙虾，960个自研Skills免费用
+# FinClaw 🦞 | 开源免费开箱即用的金融版大龙虾，1020个自研Skills免费用
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-3.0.0-orange.svg)](package.json)
-[![Skills](https://img.shields.io/badge/Skills-960个-blueviolet.svg)](#-skills-全景目录960个)
+[![Skills](https://img.shields.io/badge/Skills-1020个-blueviolet.svg)](#-skills-全景目录1020个)
 [![Free](https://img.shields.io/badge/免费-0元-brightgreen.svg)]()
 
-> **开箱即用的金融数据投研神器** —— **960 个 Skills**，覆盖 A股投研/量化策略/数据源/保险/银行/投研助手/通用工具全品类，**无需 API Key，一键上手！**
+> **开箱即用的金融数据投研神器** —— **1020 个 Skills**，覆盖 A股投研/量化策略/数据源/保险/银行/投研助手/通用工具全品类，**无需 API Key，一键上手！**
 
 [English](README_EN.md) | [中文](README.md)
 
@@ -81,7 +81,7 @@ ls -1 skills/ | grep "^fund-"        # 基金相关
 
 ## 🚀 四大核心亮点
 
-### 1️⃣ 960 个 Skills 全品类覆盖
+### 1️⃣ 1020 个 Skills 全品类覆盖
 
 | 类别 | 数量 | 覆盖内容 |
 |:---|:---:|:---|
@@ -143,9 +143,9 @@ ls -1 skills/ | grep "^fund-"        # 基金相关
 | **风控** | VaR分析、回撤分析、止损策略、尾部风险、仓位管理 |
 
 
-## 🧠 Skills 全景目录（960个）
+## 🧠 Skills 全景目录（1020个）
 
-> **说明**：FinClaw 现已包含 **960 个 Skills**，分布如下：
+> **说明**：FinClaw 现已包含 **1020 个 Skills**，分布如下：
 > - 🏦 银行业务 134个 | 💼 投研与财富管理 122个 | 🗄️ 数据源 60个 | 📑 尽调与项目 57个 | 🛡️ 保险业务 55个
 > - 📊 A股投研 54个 | 🔢 A股量化 50个 | 🔧 数据处理 47个 | 🎯 产品营销 43个 | 📋 合规审计 37个
 > - 📈 基金业务 35个 | ⚠️ 风险管理 25个 | 🧰 通用工具 24个 | 🏛️ 信托业务 20个 | 📞 运营服务 17个
@@ -612,7 +612,7 @@ python -c "import akshare; print(akshare.__version__)"
 
 ## 📅 路线图
 
-- ✅ **已完成**：960 个 Skills（数据源/投研/量化/保险/银行/助手/工具）、统一数据抽象层、环境变量驱动路径、Docker 部署
+- ✅ **已完成**：1020 个 Skills（数据源/投研/量化/保险/银行/助手/工具）、统一数据抽象层、环境变量驱动路径、Docker 部署
 - 🚧 **进行中**：Web 可视化界面、FinSkillsHub
 
 
