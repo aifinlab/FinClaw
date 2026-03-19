@@ -629,6 +629,33 @@ git commit -m "feat: add new feature"
 git push origin feature/your-feature
 ```
 
+## 🌐 关于 AIFin Lab
+
+- AIFin Lab 由上财张立文教授发起，深耕 **AI + 金融 / 统计 / 数据科学** 交叉领域，团队汇聚上财、复旦、东大、CMU、港中文等校前沿学者，打造数据、模型、评测、智能提示全链路体系。
+
+📢 我们诚挚欢迎全球优秀的本科、硕士、博士生以及前沿学者加入 **AIFin Lab**，共同探索金融人工智能的边界！
+
+📧 **邮箱**：[aifinlab.sufe@gmail.com](mailto:aifinlab.sufe@gmail.com)（主收件），同时抄送 (CC) 至 [zhang.liwen@shufe.edu.cn](mailto:zhang.liwen@shufe.edu.cn)
+
+期待你的加入！
+
+---
+
+## ⭐ Star 历史
+
+[![Star History Chart](https://api.star-history.com/svg?repos=aifinlab/aifinlab&type=Date)](https://www.star-history.com/#aifinlab/aifinlab&Date)
+
+---
+
+<div align="center">
+
+**⭐ 如果 AiFinlab 对你有帮助，请给我们一个 Star！**
+
+由 AiFinlab 团队用 ❤️ 打造
+
+
+</div>
+
 ---
 
 ## 📄 许可证
