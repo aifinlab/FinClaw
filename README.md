@@ -233,7 +233,7 @@ FinClaw/
 
 ## 📅 路线图
 
-- ✅ **已完成**：1023+ Skills、统一数据抽象层、Docker部署、精选60Skills
+- ✅ **已完成**：1000+ Skills、统一数据抽象层、Docker部署、精选60Skills
 - 🚧 **进行中**：Web可视化界面、FinSkillsHub
 
 ---
