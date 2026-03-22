@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinClaw 信托Skills - 智能信托分析平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1e3a5f;
+            --secondary: #2c5282;
+            --accent: #3182ce;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --danger: #e53e3e;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .meta {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .badge {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Skills Grid */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+        
+        .skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .skill-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .skill-title {
+            flex: 1;
+        }
+        
+        .skill-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .skill-code {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.05);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .skill-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-features {
+            list-style: none;
+        }
+        
+        .skill-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .skill-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        .status-badge {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Data Source Section */
+        .datasource-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .datasource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .datasource-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .datasource-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .datasource-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        .datasource-status.warning {
+            background: var(--warning);
+        }
+        
+        .datasource-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Demo Section */
+        .demo-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .code-block {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e6edf3;
+        }
+        
+        .code-comment { color: #8b949e; }
+        .code-keyword { color: #ff7b72; }
+        .code-string { color: #a5d6ff; }
+        .code-function { color: #d2a8ff; }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 1.75rem;
+            }
+            
+            .meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .skill-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .skill-card:nth-child(1) { animation-delay: 0.1s; }
+        .skill-card:nth-child(2) { animation-delay: 0.2s; }
+        .skill-card:nth-child(3) { animation-delay: 0.3s; }
+        .skill-card:nth-child(4) { animation-delay: 0.4s; }
+        .skill-card:nth-child(5) { animation-delay: 0.5s; }
+        .skill-card:nth-child(6) { animation-delay: 0.6s; }
+        .skill-card:nth-child(7) { animation-delay: 0.7s; }
+        .skill-card:nth-child(8) { animation-delay: 0.8s; }
+        .skill-card:nth-child(9) { animation-delay: 0.9s; }
+        .skill-card:nth-child(10) { animation-delay: 1s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">🏦 FinClaw 信托Skills</div>
+        <div class="subtitle">智能信托分析平台 · 专业级金融工具套件</div>
+        <div class="meta">
+            <div class="meta-item">
+                <span class="badge">v1.0.0</span>
+            </div>
+            <div class="meta-item">
+                <span>📅 2026-03-20</span>
+            </div>
+            <div class="meta-item">
+                <span>🏫 上海财经大学</span>
+            </div>
+            <div class="meta-item">
+                <span>📊 10个高阶Skills</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">高阶Skills</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">数据源</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">~7K</div>
+                <div class="stat-label">代码行数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">信托公司</div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <h2 class="section-title">核心功能模块</h2>
+        <div class="skills-grid">
+            <!-- Skill 1 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">🔍</div>
+                    <div class="skill-title">
+                        <div class="skill-name">信托产品综合分析器</div>
+                        <div class="skill-code">trust-product-analyzer</div>
+                    </div>
+                </div>
+                <div class="skill-desc">信托产品的"体检报告"，提供全面的产品筛选、风险评估与竞品对比功能。</div>
+                <ul class="skill-features">
+                    <li>产品筛选（收益/期限/风险）</li>
+                    <li>多维度风险评估</li>
+                    <li>竞品横向对比</li>
+                    <li>合规自动检查</li>
+                </ul>
+            </div>
+
+            <!-- Skill 2 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">📊</div>
+                    <div class="skill-title">
+                        <div class="skill-name">信托资产配置优化</div>
+                        <div class="skill-code">trust-asset-allocation</div>
+                    </div>
+                </div>
+                <div class="skill-desc">基于现代投资组合理论的智能资产配置，支持多种优化算法。</div>
+                <ul class="skill-features">
+                    <li>Markowitz均值方差优化</li>
+                    <li>风险平价策略</li>
+                    <li>Black-Litterman模型</li>
+                    <li>目标日期策略</li>
+                </ul>
+            </div>
+
+            <!-- Skill 3 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">⚠️</div>
+                    <div class="skill-title">
+                        <div class="skill-name">信托风险管理</div>
+                        <div class="skill-code">trust-risk-manager</div>
+                    </div>
+                </div>
+                <div class="skill-desc">全面的风险识别、计量与监控，支持VaR、CVaR等主流风险指标。</div>
+                <ul class="skill-features">
+                    <li>VaR/CVaR风险价值</li>
+                    <li>久期分析</li>
+                    <li>信用风险敞口</li>
+                    <li>压力测试场景</li>
+                </ul>
+            </div>
+
+            <!-- Skill 4 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">✅</div>
+                    <div class="skill-title">
+                        <div class="skill-name">信托合规审查</div>
+                        <div class="skill-code">trust-compliance-checker</div>
+                    </div>
+                </div>
+                <div class="skill-desc">自动化合规检查，覆盖合格投资者、嵌套层数、关联交易等关键合规点。</div>
+                <ul class="skill-features">
+                    <li>合格投资者检查</li>
+                    <li>嵌套层数穿透</li>
+                    <li>关联交易识别</li>
+                    <li>投资者适当性</li>
+                </ul>
+            </div>
+
+            <!-- Skill 5 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">💰</div>
+                    <div class="skill-title">
+                        <div class="skill-name">信托收益计算器</div>
+                        <div class="skill-code">trust-income-calculator</div>
+                    </div>
+                </div>
+                <div class="skill-desc">专业的收益测算工具，支持IRR、XIRR计算及税务影响分析。</div>
+                <ul class="skill-features">
+                    <li>IRR/XIRR计算</li>
+                    <li>预期收益测算</li>
+                    <li>多种付息方式</li>
+                    <li>税务影响分析</li>
+                </ul>
+            </div>
+
+            <!-- Skill 6 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">👨‍👩‍👧‍👦</div>
+                    <div class="skill-title">
+                        <div class="skill-name">家族信托架构设计</div>
+                        <div class="skill-code">family-trust-designer</div>
+                    </div>
+                </div>
+                <div class="skill-desc">智能家族信托方案设计，支持多代传承规划与治理架构搭建。</div>
+                <ul class="skill-features">
+                    <li>多代传承规划</li>
+                    <li>分配方案设计</li>
+                    <li>治理架构搭建</li>
+                    <li>税务优化策略</li>
+                </ul>
+            </div>
+
+            <!-- Skill 7 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">❤️</div>
+                    <div class="skill-title">
+                        <div class="skill-name">慈善信托管理器</div>
+                        <div class="skill-code">charity-trust-manager</div>
+                    </div>
+                </div>
+                <div class="skill-desc">慈善信托全流程管理，从项目筛选到资金监管的一站式解决方案。</div>
+                <ul class="skill-features">
+                    <li>公益项目筛选</li>
+                    <li>资金透明监管</li>
+                    <li>税收优惠规划</li>
+                    <li>影响力评估</li>
+                </ul>
+            </div>
+
+            <!-- Skill 8 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">🧮</div>
+                    <div class="skill-title">
+                        <div class="skill-name">信托估值引擎</div>
+                        <div class="skill-code">trust-valuation-engine</div>
+                    </div>
+                </div>
+                <div class="skill-desc">专业级信托资产估值，支持非标债权、股权、NAV等多种估值方法。</div>
+                <ul class="skill-features">
+                    <li>非标债权估值</li>
+                    <li>股权估值模型</li>
+                    <li>NAV计算</li>
+                    <li>DCF/市场法</li>
+                </ul>
+            </div>
+
+            <!-- Skill 9 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">📈</div>
+                    <div class="skill-title">
+                        <div class="skill-name">投后监控</div>
+                        <div class="skill-code">trust-post-investment-monitor</div>
+                    </div>
+                </div>
+                <div class="skill-desc">全周期投后管理，智能预警与风险事件跟踪，提供处置建议。</div>
+                <ul class="skill-features">
+                    <li>预警指标监控</li>
+                    <li>风险事件跟踪</li>
+                    <li>处置建议生成</li>
+                    <li>定期报告生成</li>
+                </ul>
+            </div>
+
+            <!-- Skill 10 -->
+            <div class="skill-card">
+                <div class="skill-status">
+                    <span class="status-badge">已就绪</span>
+                </div>
+                <div class="skill-header">
+                    <div class="skill-icon">📰</div>
+                    <div class="skill-title">
+                        <div class="skill-name">市场研究</div>
+                        <div class="skill-code">trust-market-research</div>
+                    </div>
+                </div>
+                <div class="skill-desc">信托行业深度研究，涵盖行业统计、收益率走势、竞品分析等。</div>
+                <ul class="skill-features">
+                    <li>行业统计数据</li>
+                    <li>收益率走势</li>
+                    <li>竞品对比分析</li>
+                    <li>市场趋势洞察</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Data Source Section -->
+        <div class="datasource-section">
+            <h2 class="section-title">数据对接层</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                四层数据源架构，自动Fallback保证服务可用性
+            </p>
+            <div class="datasource-grid">
+                <div class="datasource-card">
+                    <div class="datasource-name">
+                        <span class="datasource-status"></span>
+                        同花顺iFinD API
+                    </div>
+                    <div class="datasource-desc">
+                        实时行情、财务数据、深度数据<br>
+                        <span style="color: var(--success);">✓ 已对接 · 10家信托公司</span>
+                    </div>
+                </div>
+                <div class="datasource-card">
+                    <div class="datasource-name">
+                        <span class="datasource-status"></span>
+                        AkShare
+                    </div>
+                    <div class="datasource-desc">
+                        开源金融数据、宏观指标、行业统计<br>
+                        <span style="color: var(--success);">✓ 已就绪</span>
+                    </div>
+                </div>
+                <div class="datasource-card">
+                    <div class="datasource-name">
+                        <span class="datasource-status"></span>
+                        用益信托网
+                    </div>
+                    <div class="datasource-desc">
+                        产品数据、市场统计、行业资讯<br>
+                        <span style="color: var(--success);">✓ 已就绪</span>
+                    </div>
+                </div>
+                <div class="datasource-card">
+                    <div class="datasource-name">
+                        <span class="datasource-status warning"></span>
+                        模拟数据
+                    </div>
+                    <div class="datasource-desc">
+                        演示数据、测试数据、Fallback<br>
+                        <span style="color: var(--warning);">⚠ 备用模式</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Section -->
+        <div class="demo-section">
+            <h2 class="section-title">快速开始</h2>
+            <div class="code-block">
+                <pre><span class="code-comment"># 1. 导入数据对接层</span>
+<span class="code-keyword">from</span> trust_data_adapter <span class="code-keyword">import</span> get_data_provider
+
+<span class="code-comment"># 2. 获取数据提供者</span>
+provider = get_data_provider()
+
+<span class="code-comment"># 3. 获取信托产品数据</span>
+products = provider.get_products(
+    min_yield=<span class="code-string">7.0</span>,      <span class="code-comment"># 最低7%收益</span>
+    max_duration=<span class="code-string">24</span>     <span class="code-comment"># 最长24个月</span>
+)
+
+<span class="code-comment"># 4. 获取头部信托公司行情</span>
+companies = provider.get_top_trust_companies()
+<span class="code-keyword">for</span> c <span class="code-keyword">in</span> companies[:<span class="code-string">5</span>]:
+    <span class="code-function">print</span>(<span class="code-string">f"{c['company']}: ¥{c['price']} ({c['change']:+.2f})"</span>)
+
+<span class="code-comment"># 输出:</span>
+<span class="code-comment"># 中粮信托: ¥56.02 (+3.24)</span>
+<span class="code-comment"># 江苏信托: ¥8.83 (+0.04)</span>
+<span class="code-comment"># 安信信托: ¥2.64 (-0.06)</span></pre>
+            </div>
+        </div>
+
+        <!-- Architecture Section -->
+        <div class="demo-section">
+            <h2 class="section-title">技术架构</h2>
+            <div class="code-block">
+                <pre>finclaw/skills/trust-suite/
+├── <span class="code-keyword">data/</span>                          <span class="code-comment"># 数据对接层</span>
+│   ├── trust_data_adapter.py     <span class="code-comment"># 统一数据接口</span>
+│   ├── ths_adapter.py            <span class="code-comment"># 同花顺API适配器</span>
+│   └── init_data.py              <span class="code-comment"># 数据初始化</span>
+│
+├── <span class="code-keyword">trust-product-analyzer/</span>        <span class="code-comment"># 产品分析器</span>
+├── <span class="code-keyword">trust-asset-allocation/</span>        <span class="code-comment"># 资产配置</span>
+├── <span class="code-keyword">trust-risk-manager/</span>            <span class="code-comment"># 风险管理</span>
+├── <span class="code-keyword">trust-compliance-checker/</span>      <span class="code-comment"># 合规审查</span>
+├── <span class="code-keyword">trust-income-calculator/</span>       <span class="code-comment"># 收益计算</span>
+├── <span class="code-keyword">family-trust-designer/</span>         <span class="code-comment"># 家族信托</span>
+├── <span class="code-keyword">charity-trust-manager/</span>         <span class="code-comment"># 慈善信托</span>
+├── <span class="code-keyword">trust-valuation-engine/</span>        <span class="code-comment"># 估值引擎</span>
+├── <span class="code-keyword">trust-post-investment-monitor/</span> <span class="code-comment"># 投后监控</span>
+└── <span class="code-keyword">trust-market-research/</span>         <span class="code-comment"># 市场研究</span></pre>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🏫 <strong>FinClaw</strong> · 上海财经大学金融研究CLI工具</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">
+            开源项目 · 持续更新 · 2026
+        </p>
+    </footer>
+</body>
+</html>
