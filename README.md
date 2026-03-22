@@ -193,6 +193,21 @@
 
 ---
 
+## 🎬 案例演示
+
+FinClaw 六大金融龙虾实战演示：
+
+| 案例 | 视频 | 说明 |
+|:---|:---|:---|
+| 银行龙虾 | [📹 案例1](assets/videos/167f3da356308eab9919748a2df2deeb.mp4) | 对公授信与自营投资分析 |
+| 基金龙虾 | [📹 案例2](assets/videos/3facf08fe4da0ae8116bac62cd88ac86.mp4) | 净值归因与业绩诊断 |
+| 证券龙虾 | [📹 案例3](assets/videos/5dedb881982c1371726e9d6b08c72df7.mp4) | 投研研判与业务拓展 |
+| 保险龙虾 | [📹 案例4](assets/videos/648e0476f35298fc873337e10e48e5f3.mp4) | 负债匹配与资产配置 |
+| 信托龙虾 | [📹 案例5](assets/videos/900ac91bfd5577aa7c4c328f8e4a81c3.mp4) | 非标业务与财富传承 |
+| 期货龙虾 | [📹 案例6](assets/videos/dfa2d5f2749abcd0674e9b6f116f5d3c.mp4) | 行情复盘与交易研判 |
+
+---
+
 ## 🚀 快速开始
 
 ```bash
