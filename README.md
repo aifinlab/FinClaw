@@ -396,9 +396,129 @@ ls -1 skills/ | grep "^fund-"        # 基金相关
 
 ---
 
+## 📊 完整1023个Skills分类
+
+| 分类 | 数量 | 说明 |
+|:---|:---:|:---|
+| **01-数据源层** | 60个 | AkShare/eFinance/同花顺/东方财富等数据接口 |
+| **02-A股投研** | 174个 | 估值分析、财务研究、技术行情、宏观研报 |
+| **03-银行业务** | 155个 | 对公业务、零售业务、信贷管理、风险管理 |
+| **04-证券业务** | 20个 | 经纪业务、投行业务、资管业务、融资融券 |
+| **05-保险业务** | 87个 | 核保风控、理赔服务、产品保障、保单服务 |
+| **06-基金业务** | 42个 | 基金筛选、资产配置、定投计划、归因分析 |
+| **07-信托业务** | 20个 | 产品分析、风险管理、家族信托、投后监控 |
+| **08-投研助手** | 357个 | 公司研究、行业研究、公告分析、尽职调查 |
+| **09-风控合规** | 33个 | 合规检查、风险预警、监管报送、内控审计 |
+| **10-客户营销** | 18个 | 客户管理、营销获客、客户留存、产品渗透 |
+| **11-量化工具** | 8个 | 量化回测、组合优化、因子分析、技术指标 |
+| **12-舆情新闻** | 8个 | 财经新闻、情感分析、舆情监控 |
+| **13-通用工具** | 54个 | 文档处理、前端设计、技能创建、AI开发 |
+| **14-企业业务** | 8个 | 企业财务诊断、经营分析、法务合规 |
+| **15-其他** | 3个 | AI选股、商品数据、原子化任务 |
+
+**总计: 1023个Skills**
+
+---
+
+## 🎯 精选60个金融Skills
+
+覆盖银行、证券、期货、保险、基金、信托六大金融板块，全部使用真实数据源。
+
+### 🏦 银行套件 (10个)
+
+| Skill | 功能描述 | 数据源 |
+|:---|:---|:---|
+| `bank-industry-analyzer` | 银行业整体分析（总资产、净利润、ROE） | 央行/金融监管总局统计 |
+| `bank-financial-analyzer` | 单家银行财务分析 | 年报数据+腾讯行情 |
+| `bank-valuation-analyzer` | 银行估值分析（PB/PE/股息率） | 实时行情+财务数据 |
+| `bank-nim-analyzer` | 净息差(NIM)分析对比 | 银行年报 |
+| `bank-risk-analyzer` | 风险指标分析（不良率/拨备覆盖率） | 银行年报 |
+| `bank-liquidity-analyzer` | 流动性指标分析（LCR/NSFR） | 银行年报 |
+| `bank-deposit-rates` | 存款利率查询对比 | 银行官网+LPR |
+| `bank-interbank-market` | 银行间市场分析（Shibor/回购） | 交易中心 |
+| `bank-credit-analyzer` | 信贷收支分析 | 央行统计 |
+| `bank-wealth-products` | 理财产品分析 | 中国理财网 |
+
+### 📈 证券套件 (10个)
+
+| Skill | 功能描述 | 数据源 |
+|:---|:---|:---|
+| `securities-industry-analyzer` | 证券业整体分析 | 证券业协会 |
+| `securities-financial-analyzer` | 券商财务分析（ROE/杠杆率） | 年报数据 |
+| `securities-valuation-analyzer` | 券商估值分析 | 实时行情+财务 |
+| `securities-brokerage-analyzer` | 经纪业务分析（成交/市占率） | 交易所 |
+| `securities-ib-analyzer` | 投行业务分析（IPO/承销） | 证券业协会 |
+| `securities-margin-analyzer` | 两融业务分析 | 沪深交易所 |
+| `securities-proprietary-analyzer` | 自营业务分析 | 券商年报 |
+| `securities-am-analyzer` | 资管业务分析 | 中基协 |
+| `securities-rating-analyzer` | 券商评级分析 | 证监会分类评价 |
+| `securities-policy-analyzer` | 行业政策分析 | 监管公告 |
+
+### 📊 期货套件 (10个)
+
+| Skill | 功能描述 | 数据源 |
+|:---|:---|:---|
+| `futures-market-overview` | 期货市场概览 | 五大交易所 |
+| `commodity-futures-analyzer` | 商品期货分析（季节性/基差） | 交易所数据 |
+| `financial-futures-analyzer` | 金融期货分析（股指期货基差） | 中金所 |
+| `futures-volume-analyzer` | 成交持仓分析 | 交易所 |
+| `futures-position-tracker` | 持仓追踪（龙虎榜） | 交易所 |
+| `futures-arbitrage-analyzer` | 套利分析（跨品种/跨期） | 历史价差统计 |
+| `futures-risk-analyzer` | 风险分析（VaR/波动率） | 历史数据 |
+| `futures-margin-calculator` | 保证金计算器 | 交易所标准 |
+| `futures-macro-correlation` | 宏观相关性分析 | 历史统计 |
+| `futures-delivery-analyzer` | 交割分析 | 合约信息 |
+
+### 🛡️ 保险套件 (10个)
+
+| Skill | 功能描述 | 数据源 |
+|:---|:---|:---|
+| `insurance-market-overview` | 保险市场概览 | 金融监管总局 |
+| `insurance-company-analyzer` | 保险公司分析 | 公司年报 |
+| `insurance-life-analyzer` | 寿险业务分析（NBV/代理人） | 公司年报 |
+| `insurance-pc-analyzer` | 财险业务分析（综合成本率） | 公司年报 |
+| `insurance-investment-analyzer` | 投资资产配置分析 | 公司年报 |
+| `insurance-valuation-analyzer` | 保险估值（PEV/内含价值） | 实时行情+精算 |
+| `insurance-solvency-analyzer` | 偿付能力分析 | 偿付能力报告 |
+| `insurance-policy-tracker` | 保单追踪分析 | 公司公告 |
+| `insurance-sector-comparison` | 行业对比分析 | 行业统计 |
+| `insurance-hot-events` | 热点事件分析 | 新闻舆情 |
+
+### 💰 基金套件 (10个)
+
+| Skill | 功能描述 | 数据源 |
+|:---|:---|:---|
+| `fund-market-research` | 基金市场研究 | 中基协/三方 |
+| `fund-screener` | 基金筛选器 | 多源数据 |
+| `fund-risk-analyzer` | 基金风险分析（VaR/最大回撤） | 历史净值 |
+| `fund-portfolio-allocation` | 资产配置（SAA/TAA/Markowitz） | 多源数据 |
+| `fund-sip-planner` | 定投计划/智能定投 | 历史数据 |
+| `fund-rebalance-advisor` | 再平衡顾问 | 持仓数据 |
+| `fund-attribution-analysis` | 归因分析（Brinson/因子） | 持仓+收益 |
+| `fund-holding-analyzer` | 持仓穿透分析 | 持仓数据 |
+| `fund-tax-optimizer` | 税务优化（赎回/税损收割） | 交易记录 |
+| `fund-monitor` | 基金监控预警 | 实时数据 |
+
+### 🏛️ 信托套件 (10个)
+
+| Skill | 功能描述 | 数据源 |
+|:---|:---|:---|
+| `trust-market-research` | 信托市场研究 | 用益信托/协会 |
+| `trust-product-analyzer` | 信托产品分析 | 产品公告 |
+| `trust-risk-manager` | 信托风险管理 | 多维度评估 |
+| `trust-compliance-checker` | 合规审查 | 监管规则 |
+| `trust-income-calculator` | 收益计算（IRR/XIRR） | 现金流 |
+| `family-trust-designer` | 家族信托设计 | 规则引擎 |
+| `charity-trust-manager` | 慈善信托管理 | 公益数据 |
+| `trust-valuation-engine` | 估值引擎 | 多方法估值 |
+| `trust-post-investment-monitor` | 投后监控 | 项目数据 |
+| `trust-asset-allocation` | 资产配置优化 | 优化算法 |
+
+---
+
 ## 🧠 Skills 全景目录
 
-> **说明**：FinClaw 现已包含 **1000+ 个 Skills**，分布如下：
+> **说明**：FinClaw 现已包含 **1023个Skills**，分布如下：
 > - 🏦 银行业务 134个 | 💼 投研与财富管理 122个 | 🗄️ 数据源 60个 | 📑 尽调与项目 57个 | 🛡️ 保险业务 55个
 > - 📊 A股投研 54个 | 🔢 A股量化 50个 | 🔧 数据处理 47个 | 🎯 产品营销 43个 | 📋 合规审计 37个
 > - 📈 基金业务 35个 | ⚠️ 风险管理 25个 | 🧰 通用工具 24个 | 🏛️ 信托业务 20个 | 📞 运营服务 17个
