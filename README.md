@@ -2,7 +2,7 @@
   <div style="font-size: 120px;">🦞</div>
 </div>
 
-# FinClaw 🦞 | 首个开源金融龙虾，1023+ 金融专属Skills全量免费
+# FinClaw 🦞 | 首个开源金融龙虾，1000+ 金融专属Skills全量免费
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -207,7 +207,7 @@ openclaw start
 
 ```
 FinClaw/
-├── skills/              # 1023+ 完整Skills目录
+├── skills/              # 1000+ 完整Skills目录
 ├── skillschoice/        # 精选60个金融Skills（6大套件）
 │   ├── bank-suite/      # 银行套件 (10个)
 │   ├── securities-suite/# 证券套件 (10个)
