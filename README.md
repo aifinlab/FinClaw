@@ -47,6 +47,7 @@
   - [🤝 贡献指南](#贡献指南)
   - [💡 未来展望](#todo) 
   - [📫 联系我们](#联系我们)
+  - [⭐ Star历史趋势](#star)
 
 
 ## 💡 场景应用  <a name="summary"></a>  
@@ -351,7 +352,7 @@ git push origin feature/your-feature
 </div>
 
 ---
-## ⭐ Star 历史趋势
+## ⭐ Star历史趋势  <a name="star"></a>  
 
 <p align="center">
   <a href="https://www.star-history.com/#aifinlab/aifinlab&Date">
