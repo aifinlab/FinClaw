@@ -21,7 +21,7 @@
   </p>
 
   <p>
-    <a href="README_EN.md">English</a> |
+    📄<a href="README_EN.md">English</a> |
     <a href="README.md">中文</a>
   </p>
 </div>
