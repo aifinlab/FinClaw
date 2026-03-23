@@ -1,20 +1,4 @@
-<div align="center">
-  <img src="images/finclaw-logo.png" alt="finclaw-logo" width="300">
-</div>
 
-# FinClaw 🦞 | 首个开源金融专属龙虾，1000+ 金融专属Skills全量免费
-<div align="center">  
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.0-orange.svg)](package.json)
-[![Skills](https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg)](#-skills-分类概览)
-[![Free](https://img.shields.io/badge/免费-0元-brightgreen.svg)]()
-
-  <!-- 语言切换链接 -->
-  [English](README_EN.md) | [中文](README.md)
-</div>
-
----
 <div align="center">
   <img src="images/finclaw-logo.png" alt="finclaw-logo" width="300">
 
