@@ -351,5 +351,21 @@ git push origin feature/your-feature
 </div>
 
 ---
+## ⭐ Star 历史趋势
 
+<p align="center">
+  <a href="https://www.star-history.com/#aifinlab/aifinlab&Date">
+    <img src="https://api.star-history.com/svg?repos=aifinlab/aifinlab&type=Date" />
+  </a>
+</p>
+
+---
+
+<div align="center">
+
+⭐ **如果 FinClaw 对你有帮助，欢迎点一个 Star 支持我们！**
+
+FinClaw 由 ❤️ AIFinLab 团队打造
+
+</div>
 
