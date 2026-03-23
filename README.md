@@ -47,7 +47,6 @@
   - [🤝 贡献指南](#贡献指南)
   - [💡 未来展望](#todo) 
   - [📫 联系我们](#联系我们)
-  - [📄 许可证](#许可证)
 
 
 ## 💡 场景应用  <a name="summary"></a>  
@@ -352,7 +351,4 @@ git push origin feature/your-feature
 
 ---
 
-## 📄 许可证  <a name="许可证"></a>
-
-[Apache 2.0](LICENSE) © 2026 FinClaw Contributors
 
