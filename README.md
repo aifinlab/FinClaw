@@ -332,7 +332,7 @@ git push origin feature/your-feature
 
 ---
 
-## 📄 许可证
+## 📄 许可证  <a name="许可证"></a>
 
 [Apache 2.0](LICENSE) © 2026 FinClaw Contributors
 
