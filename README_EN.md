@@ -23,75 +23,51 @@
 ### 🦞 **Banking Lobster | Dedicated Think Tank for Corporate Credit + Proprietary Investment**
 FinClaw’s Banking Lobster can rapidly generate professional outputs for core scenarios such as credit approval, industry research, and asset allocation, including industry credit risk monitoring lists and strategic asset allocation ideas for proprietary accounts. It helps front-load a large amount of repetitive preliminary analysis work.
 
-<div align="center">
-  <img src="images/case1.gif" alt="case 1" width="600">
-</div>
+
+https://github.com/user-attachments/assets/1db084f2-1cd4-417d-989a-636ea281cd1e
+
 
 ### 🦞 **Securities Lobster | Precision Radar for Investment Research + Business Expansion**
 FinClaw’s Securities Lobster can accurately capture policy signals and market themes across workflows ranging from investment banking due diligence materials and industry research coverage prioritization to key institutional roadshow topics and margin financing/securities lending analysis, helping both research and brokerage businesses stay in sync with the market rhythm.
 
-<div align="center">
-  <img src="images/case2.gif" alt="case 2" width="600">
-</div>
+
+https://github.com/user-attachments/assets/bf20305f-1bb4-4ced-b63b-c9f7f3710d0d
+
 
 ### 🦞 **Insurance Lobster | Customized Expert for Liability Matching + Asset Allocation**
 FinClaw’s Insurance Lobster can generate asset allocation strategies better aligned with real insurance business scenarios by incorporating insurers’ liability structures, interest-rate environments, and risk preferences. It also covers common tasks such as product comparison, protection analysis, underwriting and claims, compliance, and risk control.
 
-<div align="center">
-  <img src="images/case3.gif" alt="case 3" width="600">
-</div>
+
+
+https://github.com/user-attachments/assets/0ef1dba7-11f4-4bc0-938e-cd0b998e91d0
+
+
 
 ### 🦞 **Fund Lobster | Precision Scalpel for NAV Attribution + Performance Diagnosis**
 FinClaw’s Fund Lobster can identify the core reasons why an ETF underperformed its benchmark with one click, locate heavyweight holdings dragging down NAV, distinguish between fundamental, trading, and event-driven impacts, and cover the full workflow from investment research backtesting and performance attribution to holding compliance and FOF portfolio construction.
 
-<div align="center">
-  <img src="images/case4.gif" alt="case 4" width="600">
-</div>
+
+https://github.com/user-attachments/assets/b0c9f07b-355d-48b5-9809-4700c92bb79c
+
 
 ### 🦞 **Futures Lobster | Around-the-Clock Trader for Market Replay + Trading Analysis**
 FinClaw’s Futures Lobster can complete main contract reviews in minutes, break down intraday turning points, volume/open-interest changes, calendar spreads, and industrial drivers, and accurately assess whether late-session volatility reflects trend continuation, emotional release, or short-term overselling. Both quantitative and discretionary traders can use it out of the box.
 
-<div align="center">
-  <img src="images/case5.gif" alt="case 5" width="600">
-</div>
+
+
+https://github.com/user-attachments/assets/b71a3f66-3faa-482b-8098-313fd34dc3b9
+
+
 
 ### 🦞 **Trust Lobster | Dedicated Architect for Non-Standard Business + Wealth Inheritance**
 FinClaw’s Trust Lobster can generate asset suitability diagnostics, risk identification, beneficiary distribution frameworks, and control-right arrangement suggestions for scenarios such as family trusts, HNW client services, non-standard asset valuation, ABS analysis, and government-financing risk control, supporting more complete solution design.
 
-<div align="center">
-  <img src="images/case6.gif" alt="case 6" width="600">
-</div>
 
-## 🏗️ Technical Architecture
 
-Built on the native OpenClaw AI Agent framework, FinClaw adopts a five-layer technical architecture to form a closed loop across the full financial workflow:
-- User Interaction Layer: multi-end access via Feishu / WeChat / CLI, etc.
-- OpenClaw Core Layer: message routing, session management, skill registration, and permission control
-- FinClaw Business Layer: SOUL persona engine + intent recognition + skill orchestration + memory management
-- Data Layer: unified interfaces + multi-source adapters (AkShare / Tonghuashun, etc.) + failover
-- Infrastructure Layer: LLM services, file storage, and log monitoring
+https://github.com/user-attachments/assets/773affad-4b35-4ded-a39d-7ada54071719
 
-**This five-layer architecture enables an efficient data flow from “user input → intent recognition → skill orchestration → data retrieval → formatted output.”**
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│  ① User Interaction Layer │  Feishu / Discord / WeChat / CLI   │
-├─────────────────────────────────────────────────────────────────┤
-│  ② OpenClaw Core         │  Message Routing / Session Mgmt /   │
-│                           │  Skill Registration / Security      │
-├─────────────────────────────────────────────────────────────────┤
-│  ③ FinClaw               │  SOUL Persona / Intent Recognition /│
-│                           │  Skill Orchestration / Memory Mgmt  │
-├─────────────────────────────────────────────────────────────────┤
-│  ④ Data Layer            │  Unified Interface / Multi-source   │
-│                           │  Adapters (AkShare/Tonghuashun/     │
-│                           │  Tencent, etc.) / Failover          │
-├─────────────────────────────────────────────────────────────────┤
-│  ⑤ Infrastructure        │  LLM Services / File Storage /      │
-│                           │  Log Monitoring                     │
-└─────────────────────────────────────────────────────────────────┘
 
-```
 
 ---
 
