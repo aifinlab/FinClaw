@@ -10,9 +10,9 @@
 [![Skills](https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg)](#-skills-分类概览)
 [![Free](https://img.shields.io/badge/免费-0元-brightgreen.svg)]()
 
-> **开箱即用的金融AI神器 —— 精选 60个 核心金融 Skills，开源 1000+ Skills，6 只金融龙虾，覆盖 银行、券商、保险、基金、期货、信托全品类，赋能全赛道金融人！无需 API Key，一键上手！**
-
-[English](README_EN.md) | [中文](README.md)
+  <!-- 语言切换链接 -->
+  [English](README_EN.md) | [中文](README.md)
+</div>
 
 ---
 
