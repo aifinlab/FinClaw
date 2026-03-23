@@ -341,6 +341,7 @@ git push origin feature/your-feature
 ## 📫 联系我们  <a name="联系我们"></a>  
 
 诚邀业界同仁共同探索AI与金融深度融合的创新范式，共建智慧金融新生态。欢迎通过邮件联系：
+
 📧 [zhang.liwen@shufe.edu.cn](mailto:zhang.liwen@shufe.edu.cn)
 📧 [chengdongpo@mail.sufe.edu.cn](mailto:chengdongpo@mail.sufe.edu.cn)
 
