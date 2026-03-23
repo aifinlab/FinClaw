@@ -3,7 +3,7 @@
 </div>
 
 # FinClaw 🦞 | 首个开源金融专属龙虾，1000+ 金融专属Skills全量免费
-
+<div align="center">  
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-3.0.0-orange.svg)](package.json)
@@ -15,6 +15,32 @@
 </div>
 
 ---
+<div align="center">
+  <img src="images/finclaw-logo.png" alt="finclaw-logo" width="300">
+
+  <h1>FinClaw 🦞 | 首个开源金融专属龙虾，1000+ 金融专属Skills全量免费</h1>
+
+  <p>
+    <a href="https://nodejs.org/">
+      <img src="https://img.shields.io/badge/Node.js-18%2B-green.svg">
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
+    </a>
+    <a href="package.json">
+      <img src="https://img.shields.io/badge/Version-3.0.0-orange.svg">
+    </a>
+    <a href="#-skills-分类概览">
+      <img src="https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg">
+    </a>
+    <img src="https://img.shields.io/badge/免费-0元-brightgreen.svg">
+  </p>
+
+  <p>
+    <a href="README_EN.md">English</a> |
+    <a href="README.md">中文</a>
+  </p>
+</div>
 
 **FinClaw**是首个面向金融行业的开源自主 AI 智能体执行框架，由**上海财经大学统计与数据科学学院、上海金融智能工程技术研究中心主任张立文教授领衔**的人工智能金融实验室（AIFinLab）联合研发。本框架不是一个泛泛而谈的通用 Agent，而是**按金融行业垂直拆分出的六只专属龙虾，让 AI Agent 像资深金融人一样思考与行动**。FinClaw 聚焦金融领域的深度垂直需求，围绕银行、证券、保险、基金、期货、信托六大核心赛道，适配各赛道特有的应用场景、业务流程与监管要求。
 
