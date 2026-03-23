@@ -24,34 +24,46 @@
 ### 🦞**银行龙虾 | 对公授信+自营投资专属智囊**
 FinClaw银行龙虾能够围绕授信审批、行业研究、资产配置等核心场景，快速生成行业信用风险监测清单、自营账户大类资产配置思路等专业结果，把大量重复性的前期分析工作先做起来。
 
-https://github.com/user-attachments/assets/ab34d9f8-03d4-4f6c-b306-fc9093595448
+<div align="center">
+  <img src="images/case1.gif" alt="case 1" width="600">
+</div>
 
 ### 🦞**证券龙虾 | 投研研判+业务拓展精准雷达**
 FinClaw证券龙虾能够从投行尽调底稿、行业投研覆盖排序，到机构路演核心议题、两融业务测算，精准捕捉政策与市场主线，让投研与经纪业务直接踩中节奏。
 
-https://github.com/user-attachments/assets/a1aed73b-7c8f-4c4f-8bbb-3cd41273c109
+<div align="center">
+  <img src="images/case2.gif" alt="case 2" width="600"case
+</div>
 
 ### 🦞**保险龙虾 | 负债匹配+资产配置定制专家**
 FinClaw保险龙虾能够结合险企负债结构、利率环境与风险偏好，生成更贴近实际业务场景的大类资产配置思路，同时覆盖产品对比、保障分析、核保理赔、合规风控等常见任务。
 
-https://github.com/user-attachments/assets/8b257662-ba41-4599-b343-984e9d3e0af9
+<div align="center">
+  <img src="images/case3.gif" alt="case 3" width="600">
+</div>
 
 ### 🦞**基金龙虾 | 净值归因+业绩诊断精准手术刀**
 FinClaw基金龙虾能够一键拆解ETF跑输基准的核心原因，定位拖累净值的重仓股，区分基本面/交易面/事件面影响，覆盖投研回测、绩效归因、持仓合规、FOF组合构建全链路。
 
-https://github.com/user-attachments/assets/df331043-d43e-4046-a88f-2a34e306fd58
+<div align="center">
+  <img src="images/case4.gif" alt="case 4" width="600">
+</div>
 
 ### 🦞**期货龙虾 | 行情复盘+交易研判全天候操盘手**
 
 FinClaw期货龙虾能够分钟级完成主力合约复盘，拆解日内拐点、量仓变化、跨期价差、产业驱动，精准定性尾盘波动是趋势延续、情绪宣泄还是短线错杀，量化与主观交易者均能开箱即用。
 
-https://github.com/user-attachments/assets/22b3fee0-7e70-445d-8007-f624c193f0b4
+<div align="center">
+  <img src="images/case5.gif" alt="case 5" width="600">
+</div>
 
 ### 🦞**信托龙虾 | 非标业务+财富传承专属架构师**
 
 FinClaw信托龙虾能够针对家族信托、高净值客户服务、非标估值、ABS测算、政信风控等场景，生成资产适配诊断、风险识别、受益分配框架与控制权安排建议，辅助完成更完整的方案设计。
 
-https://github.com/user-attachments/assets/327c53c8-9c6d-4283-89d0-5b47c7197918
+<div align="center">
+  <img src="images/case6.gif" alt="case 6" width="600">
+</div>
 
 ---
 
@@ -268,7 +280,7 @@ python -c "import akshare; print(akshare.__version__)"
 ## 📅 路线图
 
 - ✅ **已完成**：1000+ Skills、统一数据抽象层、Docker部署、精选60个Skills
-- 🚧 **进行中**：Web可视化界面、FinSkillsHub
+- 🚧 **进行中**：Web可视化界面、FinSkillHub
 
 ---
 
