@@ -381,7 +381,9 @@ git push origin feature/your-feature
 ---
 
 ## 💡 Future Outlook <a name="todo"></a>
-
+This project is **jointly developed by the Artificial Intelligence Finance Lab (AIFinLab), led by Professor Liwen Zhang, Director of the Shanghai Financial Intelligence Engineering Technology Research Center and faculty of the School of Statistics and Data Science at Shanghai University of Finance and Economics.**
+As an open-source autonomous AI agent execution framework for the financial domain, FinClaw is capable of performing a wide range of financial tasks and providing professional-level services. However, at its current stage, it still faces technical limitations and application constraints. The insights and analytical outputs it generates are for reference only and should not be regarded as equivalent to the precise judgment of professional financial analysts or experts.
+We sincerely encourage users to approach the outputs of the agent with critical thinking, and to make decisions in combination with their own domain knowledge and experience. Looking ahead, we will continue to refine and enhance FinClaw, further exploring its potential in cutting-edge financial scenarios, and supporting the financial industry in advancing toward greater intelligence and regulatory compliance, while injecting strong momentum into its future development.
 
 ## 📫 Contact Us
 
