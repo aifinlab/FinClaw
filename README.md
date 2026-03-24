@@ -358,7 +358,7 @@ git push origin feature/your-feature
 ## ⭐ Star历史趋势  <a name="star"></a>  
 
 <p align="center">
-  <a href="https://www.star-history.com/#aifinlab/aifinlab&Date">
+  <a href="https://www.star-history.com/#aifinlab/FinClaw&Date">
     <img src="https://api.star-history.com/svg?repos=aifinlab/aifinlab&type=Date" alt="Star History Chart" />
   </a>
 </p>
