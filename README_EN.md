@@ -402,7 +402,7 @@ We sincerely invite industry peers to explore innovative paradigms for the deep 
 ## 📄 If you would like to engage in deeper discussions on project co-construction, scientific research, talent cultivation, or industrial applications, please scan the QR code and fill out the form.
 
 ## ⭐ Star History <a name="star"></a>
-<p align="center"> <a href="https://www.star-history.com/#aifinlab/aifinlab&Date"> <img src="https://api.star-history.com/svg?repos=aifinlab/aifinlab&type=Date" /> </a> </p>
+<p align="center"> <a href="https://www.star-history.com/#aifinlab/FinClaw&Date"> <img src="https://api.star-history.com/svg?repos=aifinlab/FinClaw&type=Date" /> </a> </p>
 <div align="center">
 
 ⭐ If FinClaw helps you, please give us a star!
