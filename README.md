@@ -359,7 +359,7 @@ git push origin feature/your-feature
 
 <p align="center">
   <a href="https://www.star-history.com/#aifinlab/FinClaw&Date">
-    <img src="https://api.star-history.com/svg?repos=aifinlab/aifinlab&type=Date" alt="Star History Chart" />
+    <img src="https://api.star-history.com/svg?repos=aifinlab/FinClaw&type=Date" alt="Star History Chart" />
   </a>
 </p>
 
