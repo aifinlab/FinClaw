@@ -1,52 +1,51 @@
 #!/usr/bin/env python3
-"""券商股估值分析器 - 使用真实数据源"""
+"""券商股估值分析器 - 使用AkShare开源数据接口"""
 
-import os
-import sys
 import akshare as ak
 import pandas as pd
 import json
 from datetime import datetime
 import argparse
 
-# 添加common目录到路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', 'common'))
-from finance_api import FinanceDataAPI
-
 
 class SecuritiesValuationAnalyzer:
-    """券商股估值分析器"""
+    """券商股估值分析器 - 使用AkShare获取实时行情"""
     
     SECURITIES_CODES = {
         "中信证券": "600030", "华泰证券": "601688", "海通证券": "600837",
         "国泰君安": "601211", "招商证券": "600999", "广发证券": "000776",
         "中国银河": "601881", "中信建投": "601066", "东方证券": "600958",
-        "兴业证券": "601377", "东方财富": "300059"
+        "兴业证券": "601377", "东方财富": "300059", "申万宏源": "000166",
+        "中金公司": "601995", "光大证券": "601788", "国信证券": "002736"
     }
     
-    # 基于2024年报的真实估值数据
-    VALUATION_DATA = {
-        "中信证券": {"pb": 1.35, "pe": 18.5, "price": 28.50, "market_cap": "3200亿"},
-        "华泰证券": {"pb": 0.95, "pe": 14.2, "price": 17.80, "market_cap": "1450亿"},
-        "海通证券": {"pb": 0.85, "pe": 16.8, "price": 10.50, "market_cap": "1280亿"},
-        "国泰君安": {"pb": 0.92, "pe": 15.5, "price": 17.20, "market_cap": "1380亿"},
-        "招商证券": {"pb": 1.05, "pe": 16.2, "price": 18.50, "market_cap": "1250亿"},
-        "广发证券": {"pb": 0.88, "pe": 14.8, "price": 16.20, "market_cap": "1150亿"},
-        "中国银河": {"pb": 1.15, "pe": 17.5, "price": 14.80, "market_cap": "1380亿"},
-        "中信建投": {"pb": 1.85, "pe": 22.5, "price": 28.80, "market_cap": "1850亿"},
-        "东方证券": {"pb": 1.05, "pe": 18.2, "price": 10.80, "market_cap": "850亿"},
-        "兴业证券": {"pb": 0.95, "pe": 15.8, "price": 7.20, "market_cap": "680亿"},
-        "东方财富": {"pb": 4.25, "pe": 35.5, "price": 24.50, "market_cap": "3850亿"}
-    }
-    
-    def __init__(self):
-        self.api = FinanceDataAPI()
+    def _get_realtime_data(self, code: str) -> dict:
+        """从AkShare获取实时行情"""
+        try:
+            df = ak.stock_zh_a_spot_em()
+            stock_row = df[df['代码'] == code]
+            
+            if stock_row.empty:
+                return None
+            
+            return {
+                "price": float(stock_row['最新价'].values[0]) if '最新价' in stock_row.columns else None,
+                "pb": float(stock_row['市净率'].values[0]) if '市净率' in stock_row.columns else None,
+                "pe": float(stock_row['市盈率-动态'].values[0]) if '市盈率-动态' in stock_row.columns else None,
+                "total_mv": float(stock_row['总市值'].values[0]) if '总市值' in stock_row.columns else None,
+                "change_pct": float(stock_row['涨跌幅'].values[0]) if '涨跌幅' in stock_row.columns else None
+            }
+        except Exception:
+            return None
     
     def analyze_valuation(self, name: str) -> dict:
-        """分析券商估值"""
+        """分析券商估值 - 使用AkShare实时数据"""
         code = self.SECURITIES_CODES.get(name)
         if not code:
-            return {"error": f"未找到券商: {name}"}
+            return {
+                "error": f"未找到券商: {name}",
+                "available_securities": list(self.SECURITIES_CODES.keys())
+            }
         
         result = {
             "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -54,67 +53,58 @@ class SecuritiesValuationAnalyzer:
             "stock_code": code
         }
         
-        # 首先尝试获取实时数据
-        try:
-            api_result = self.api.get_realtime_quote([code])
-            if api_result and 'data' in api_result:
-                data = api_result['data'].get(code, {})
-                if data and data.get('price'):
-                    result["valuation"] = {
-                        "PB": data.get('pb'),
-                        "PE_TTM": data.get('pe'),
-                        "price": data.get('price'),
-                        "market_cap": None,
-                        "data_source": data.get('data_source')
-                    }
-                    result["data_quality"] = "实时数据"
-        except Exception as e:
-            result["realtime_error"] = str(e)
+        # 获取实时行情
+        realtime = self._get_realtime_data(code)
         
-        # 如果没有实时数据，使用静态真实数据
-        if "valuation" not in result:
-            val_data = self.VALUATION_DATA.get(name, {})
-            if val_data:
-                result["valuation"] = {
-                    "PB": val_data.get("pb"),
-                    "PE_TTM": val_data.get("pe"),
-                    "price": val_data.get("price"),
-                    "market_cap": val_data.get("market_cap")
-                }
-                result["data_quality"] = "真实数据(基于年报)"
-        
-        # 估值评估
-        if "valuation" in result:
-            pb = result["valuation"].get("PB")
+        if realtime:
+            result["valuation"] = {
+                "股价": realtime.get("price"),
+                "涨跌幅": f"{realtime.get('change_pct')}%" if realtime.get('change_pct') else None,
+                "PB": realtime.get("pb"),
+                "PE_TTM": realtime.get("pe"),
+                "总市值_亿元": round(realtime.get("total_mv") / 1e8, 2) if realtime.get("total_mv") else None
+            }
+            
+            # 估值评估
+            pb = realtime.get("pb")
             result["assessment"] = self._assess_valuation(pb)
+            
+            result["data_source"] = "AkShare - 东方财富"
+            result["data_quality"] = "实时行情"
+        else:
+            result["error"] = "无法获取实时行情数据"
         
         return result
     
     def compare_valuation(self) -> dict:
-        """对比券商估值"""
+        """对比券商估值 - 使用AkShare实时数据"""
         results = []
         
         for name, code in self.SECURITIES_CODES.items():
-            val_data = self.VALUATION_DATA.get(name, {})
-            pb = val_data.get("pb", 999)
-            results.append({
-                "name": name,
-                "code": code,
-                "pb": pb,
-                "pe": val_data.get("pe"),
-                "market_cap": val_data.get("market_cap"),
-                "assessment": self._assess_valuation(pb)
-            })
+            realtime = self._get_realtime_data(code)
+            if realtime:
+                results.append({
+                    "name": name,
+                    "code": code,
+                    "price": realtime.get("price"),
+                    "pb": realtime.get("pb"),
+                    "pe": realtime.get("pe"),
+                    "total_mv_yi": round(realtime.get("total_mv") / 1e8, 2) if realtime.get("total_mv") else None,
+                    "change_pct": realtime.get("change_pct"),
+                    "assessment": self._assess_valuation(realtime.get("pb"))
+                })
         
-        results.sort(key=lambda x: x["pb"])
+        # 按PB排序
+        results.sort(key=lambda x: x.get("pb") or 999)
         
         return {
             "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "valuation_ranking": results,
             "cheapest": results[0] if results else None,
             "most_expensive": results[-1] if results else None,
-            "data_source": "券商年报/市场数据",
-            "data_quality": "真实数据"
+            "total_securities": len(results),
+            "data_source": "AkShare - 东方财富",
+            "data_quality": "实时行情"
         }
     
     def _assess_valuation(self, pb) -> str:
@@ -146,7 +136,11 @@ def main():
     elif args.securities:
         result = analyzer.analyze_valuation(args.securities)
     else:
-        result = {"error": "请指定参数"}
+        result = {
+            "error": "请指定参数",
+            "usage": "--securities 中信证券 或 --compare",
+            "available_securities": list(analyzer.SECURITIES_CODES.keys())
+        }
     
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

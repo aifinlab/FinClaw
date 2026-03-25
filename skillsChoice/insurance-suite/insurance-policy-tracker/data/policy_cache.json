@@ -1,0 +1,72 @@
+{
+  "query_time": "2026-03-25 09:07:17",
+  "policies": [
+    {
+      "date": "2026-03",
+      "title": "保险资金长期投资改革试点扩围",
+      "issuer": "金融监管总局",
+      "impact": "鼓励保险资金长期价值投资",
+      "affected_areas": [
+        "资金运用",
+        "股票投资"
+      ],
+      "source_url": "https://www.nfra.gov.cn",
+      "data_source": "金融监管总局公开信息"
+    },
+    {
+      "date": "2026-02",
+      "title": "人身险公司监管评级办法",
+      "issuer": "金融监管总局",
+      "impact": "强化分类监管，差异化监管措施",
+      "affected_areas": [
+        "公司治理",
+        "偿付能力",
+        "业务发展"
+      ],
+      "source_url": "https://www.nfra.gov.cn",
+      "data_source": "金融监管总局公开信息"
+    },
+    {
+      "date": "2026-01",
+      "title": "车险综合改革深化",
+      "issuer": "金融监管总局",
+      "impact": "优化车险定价，保护消费者权益",
+      "affected_areas": [
+        "车险",
+        "财险业务"
+      ],
+      "source_url": "https://www.nfra.gov.cn",
+      "data_source": "金融监管总局公开信息"
+    },
+    {
+      "date": "2025-12",
+      "title": "个人养老金保险产品扩容",
+      "issuer": "金融监管总局",
+      "impact": "增加养老险产品供给",
+      "affected_areas": [
+        "养老保险",
+        "年金产品"
+      ],
+      "source_url": "https://www.nfra.gov.cn",
+      "data_source": "金融监管总局公开信息"
+    },
+    {
+      "date": "2025-11",
+      "title": "保险销售行为管理办法",
+      "issuer": "金融监管总局",
+      "impact": "规范销售行为，保护消费者权益",
+      "affected_areas": [
+        "销售管理",
+        "合规经营"
+      ],
+      "source_url": "https://www.nfra.gov.cn",
+      "data_source": "金融监管总局公开信息"
+    }
+  ],
+  "data_source": "国家金融监督管理总局",
+  "data_source_note": "数据来自默认配置（网络连接失败）",
+  "total_count": 5,
+  "update_mechanism": "自动更新机制：每日自动抓取最新政策",
+  "next_update": "2026-03-26 09:07:17",
+  "cache_time": "2026-03-25T09:07:17.987267"
+}

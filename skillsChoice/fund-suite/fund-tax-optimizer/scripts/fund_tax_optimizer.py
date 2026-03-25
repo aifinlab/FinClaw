@@ -1,19 +1,29 @@
 #!/usr/bin/env python3
 """
-基金税务优化核心模块
-Fund Tax Optimizer Core Module
+基金税务优化核心模块 - AkShare版
+Fund Tax Optimizer Core Module - AkShare Edition
 
 功能：赎回费优化、税收损失收割、分红方式对比
+数据：通过AkShare接入实时基金净值和收益数据
 """
 
 import sys
-sys.path.insert(0, '/root/.openclaw/workspace/finclaw/skills/fund-suite/fund-tax-optimizer/scripts')
+import os
+sys.path.insert(0, '/root/.openclaw/workspace/skillsChoice/fund-suite/fund-tax-optimizer/scripts')
 
 import json
 import argparse
 from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
+
+# 导入AkShare
+try:
+    import akshare as ak
+    AKSHARE_AVAILABLE = True
+except ImportError:
+    AKSHARE_AVAILABLE = False
+    print("警告：AkShare未安装，将使用模拟数据")
 
 
 @dataclass
@@ -46,7 +56,7 @@ class HoldingLot:
 
 
 class TaxOptimizer:
-    """税务优化器"""
+    """税务优化器 - AkShare数据源"""
     
     # 赎回费率表 (A类份额)
     REDEMPTION_FEE_SCHEDULE = [
@@ -61,7 +71,136 @@ class TaxOptimizer:
     C_CLASS_FEE = [((0, 7), 0.015), ((7, float('inf')), 0.0)]
     
     def __init__(self):
-        pass
+        self._data_source = ""
+        self._data_quality = ""
+        self._sample_holdings = []
+        self._akshare_available = AKSHARE_AVAILABLE
+        
+        # 检查数据源可用性
+        if not self._akshare_available:
+            self._load_default_data()
+    
+    def _fetch_fund_info_from_akshare(self, fund_code: str) -> Tuple[float, str, str]:
+        """
+        从AkShare获取基金最新净值和名称
+        
+        Args:
+            fund_code: 基金代码
+            
+        Returns:
+            (当前净值, 基金名称, 净值日期)
+        """
+        try:
+            # 获取基金实时行情
+            df = ak.fund_open_fund_daily_em()
+            fund_row = df[df['基金代码'] == fund_code]
+            
+            if fund_row.empty:
+                return 0.0, fund_code, ""
+            
+            row = fund_row.iloc[0]
+            nav = row.get('单位净值', 0) or row.get('最新净值', 0)
+            fund_name = row.get('基金名称', '') or row.get('基金简称', '')
+            nav_date = row.get('日期', datetime.now().strftime('%Y-%m-%d'))
+            
+            return float(nav) if nav else 0.0, fund_name, nav_date
+            
+        except Exception as e:
+            print(f"⚠️ 从AkShare获取基金{fund_code}信息失败: {e}")
+            return 0.0, fund_code, ""
+    
+    def _fetch_fund_nav_history(self, fund_code: str, days: int = 365) -> List[Dict]:
+        """
+        从AkShare获取基金历史净值
+        
+        Args:
+            fund_code: 基金代码
+            days: 获取的历史天数
+            
+        Returns:
+            净值历史列表 [{date, nav, acc_nav, daily_return}]
+        """
+        try:
+            df = ak.fund_open_fund_info_em(symbol=fund_code)
+            
+            if df.empty:
+                return []
+            
+            # 只取最近N天
+            df = df.head(days)
+            
+            nav_history = []
+            for _, row in df.iterrows():
+                nav = row.get('单位净值', 0)
+                acc_nav = row.get('累计净值', 0)
+                date = row.get('净值日期', '')
+                daily_return_pct = row.get('日增长率', 0)
+                
+                if isinstance(daily_return_pct, str):
+                    daily_return_pct = daily_return_pct.replace('%', '')
+                
+                nav_history.append({
+                    'date': date,
+                    'nav': float(nav) if nav else 0.0,
+                    'acc_nav': float(acc_nav) if acc_nav else 0.0,
+                    'daily_return': float(daily_return_pct) / 100 if daily_return_pct else 0.0
+                })
+            
+            return nav_history
+            
+        except Exception as e:
+            print(f"⚠️ 从AkShare获取基金{fund_code}净值历史失败: {e}")
+            return []
+    
+    def _load_default_data(self):
+        """加载默认模拟数据（降级方案）"""
+        self._sample_holdings = [
+            HoldingLot('LOT_20230115', '000001', '华夏成长', 8000, 1.20, '2023-01-15', 1.50),
+            HoldingLot('LOT_20230601', '000002', '易方达蓝筹', 15000, 1.10, '2023-06-01', 1.20),
+            HoldingLot('LOT_20240201', '000003', '中欧时代先锋', 14000, 1.45, '2024-02-01', 1.50),
+            HoldingLot('LOT_20240310', '000004', '广发科技创新', 10000, 1.60, '2024-03-10', 1.45),
+        ]
+        self._data_source = "内置默认模拟数据(AkShare不可用)"
+        self._data_quality = "sample"
+    
+    def _build_holdings_from_fund(self, fund_code: str, shares: float, 
+                                   cost_basis: float, purchase_date: str) -> Optional[HoldingLot]:
+        """
+        从基金代码构建持仓批次（使用AkShare获取最新净值）
+        
+        Args:
+            fund_code: 基金代码
+            shares: 持有份额
+            cost_basis: 成本单价
+            purchase_date: 购买日期
+            
+        Returns:
+            HoldingLot对象
+        """
+        current_nav, fund_name, nav_date = self._fetch_fund_info_from_akshare(fund_code)
+        
+        if current_nav <= 0:
+            # 获取失败，使用默认值
+            current_nav = cost_basis * 1.1  # 假设10%涨幅
+            fund_name = fund_code
+        
+        lot_id = f"LOT_{purchase_date.replace('-', '')}_{fund_code}"
+        
+        return HoldingLot(
+            lot_id=lot_id,
+            fund_code=fund_code,
+            fund_name=fund_name,
+            shares=shares,
+            cost_basis=cost_basis,
+            purchase_date=purchase_date,
+            current_nav=current_nav
+        )
+    
+    def get_sample_holdings(self) -> List[HoldingLot]:
+        """获取示例持仓数据"""
+        if not self._sample_holdings:
+            self._load_default_data()
+        return self._sample_holdings.copy()
     
     def optimize_redemption(self, holdings: List[HoldingLot],
                            target_amount: float,
@@ -78,6 +217,19 @@ class TaxOptimizer:
             优化建议
         """
         as_of_date = as_of_date or datetime.now().strftime('%Y-%m-%d')
+        
+        # 检查是否使用真实数据
+        is_real_data = self._akshare_available and any(
+            h.current_nav > 0 and h.fund_name != h.fund_code for h in holdings
+        )
+        
+        if is_real_data:
+            self._data_source = "AkShare实时数据"
+            self._data_quality = "real-time"
+        else:
+            if not self._data_source:
+                self._data_source = "内置默认模拟数据"
+                self._data_quality = "sample"
         
         # 计算每批次的赎回费率
         lot_analysis = []
@@ -160,6 +312,9 @@ class TaxOptimizer:
         return {
             'optimization_id': f'TAX_{datetime.now().strftime("%Y%m%d")}_001',
             'analysis_date': as_of_date,
+            'data_source': self._data_source,
+            'data_quality': self._data_quality,
+            'is_real_data': is_real_data,
             'target_amount': target_amount,
             'recommendations': selected_lots,
             'summary': {
@@ -189,6 +344,19 @@ class TaxOptimizer:
             收割建议
         """
         as_of_date = as_of_date or datetime.now().strftime('%Y-%m-%d')
+        
+        # 检查是否使用真实数据
+        is_real_data = self._akshare_available and any(
+            h.current_nav > 0 and h.fund_name != h.fund_code for h in holdings
+        )
+        
+        if is_real_data:
+            self._data_source = "AkShare实时数据"
+            self._data_quality = "real-time"
+        else:
+            if not self._data_source:
+                self._data_source = "内置默认模拟数据"
+                self._data_quality = "sample"
         
         # 识别亏损仓位
         loss_positions = []
@@ -246,6 +414,9 @@ class TaxOptimizer:
         return {
             'harvest_id': f'HARVEST_{datetime.now().strftime("%Y%m%d")}_001',
             'analysis_date': as_of_date,
+            'data_source': self._data_source,
+            'data_quality': self._data_quality,
+            'is_real_data': is_real_data,
             'current_position': {
                 'realized_gains': realized_gains,
                 'loss_positions_count': len(loss_positions),
@@ -305,6 +476,9 @@ class TaxOptimizer:
         return {
             'comparison_id': f'DIV_{datetime.now().strftime("%Y%m%d")}_001',
             'analysis_date': datetime.now().strftime('%Y-%m-%d'),
+            'data_source': '计算模型(非实时数据)',
+            'data_quality': 'calculated',
+            'is_real_data': False,
             'parameters': {
                 'initial_amount': initial_amount,
                 'annual_return': annual_return * 100,
@@ -402,6 +576,9 @@ def print_redemption_report(report: Dict):
     
     print(f"\n优化ID: {report['optimization_id']}")
     print(f"分析日期: {report['analysis_date']}")
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
+    print(f"真实数据: {'✅ 是' if report.get('is_real_data') else '⚠️ 否(模拟数据)'}")
     print(f"目标金额: ¥{report['target_amount']:,.0f}")
     
     print(f"\n建议赎回批次:")
@@ -439,6 +616,9 @@ def print_harvest_report(report: Dict):
     print("=" * 70)
     
     print(f"\n收割ID: {report['harvest_id']}")
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
+    print(f"真实数据: {'✅ 是' if report.get('is_real_data') else '⚠️ 否(模拟数据)'}")
     
     pos = report['current_position']
     print(f"\n当前持仓:")
@@ -479,6 +659,9 @@ def print_dividend_report(report: Dict):
     print("📊 分红方式对比报告")
     print("=" * 70)
     
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
+    
     params = report['parameters']
     print(f"\n投资参数:")
     print(f"  初始金额: ¥{params['initial_amount']:,.0f}")
@@ -510,24 +693,30 @@ def print_dividend_report(report: Dict):
 
 def main():
     """主函数 - CLI入口"""
-    parser = argparse.ArgumentParser(description='基金税务优化')
+    parser = argparse.ArgumentParser(description='基金税务优化 - AkShare版')
     parser.add_argument('--optimize', action='store_true', help='赎回优化')
     parser.add_argument('--harvest', action='store_true', help='税收损失收割')
     parser.add_argument('--dividend', action='store_true', help='分红方式对比')
     parser.add_argument('--target', type=float, default=50000, help='目标金额')
+    parser.add_argument('--fund', help='基金代码（如使用AkShare获取实时数据）')
+    parser.add_argument('--shares', type=float, help='持有份额')
+    parser.add_argument('--cost', type=float, help='成本单价')
+    parser.add_argument('--date', help='购买日期(YYYY-MM-DD)')
     parser.add_argument('--json', action='store_true', help='输出JSON格式')
     
     args = parser.parse_args()
     
     optimizer = TaxOptimizer()
     
-    # 示例持仓数据
-    sample_holdings = [
-        HoldingLot('LOT_20230115', '000001', '华夏成长', 8000, 1.20, '2023-01-15', 1.50),
-        HoldingLot('LOT_20230601', '000002', '易方达蓝筹', 15000, 1.10, '2023-06-01', 1.20),
-        HoldingLot('LOT_20240201', '000003', '中欧时代先锋', 14000, 1.45, '2024-02-01', 1.50),
-        HoldingLot('LOT_20240310', '000004', '广发科技创新', 10000, 1.60, '2024-03-10', 1.45),
-    ]
+    # 如果提供了基金代码和持仓信息，构建实时持仓
+    if args.fund and args.shares and args.cost and args.date:
+        holding = optimizer._build_holdings_from_fund(
+            args.fund, args.shares, args.cost, args.date
+        )
+        sample_holdings = [holding] if holding else []
+    else:
+        # 使用示例持仓
+        sample_holdings = optimizer.get_sample_holdings()
     
     if args.optimize or (not args.harvest and not args.dividend):
         report = optimizer.optimize_redemption(sample_holdings, args.target)

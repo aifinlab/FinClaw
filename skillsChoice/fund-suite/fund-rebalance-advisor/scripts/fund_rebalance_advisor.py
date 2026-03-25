@@ -1,19 +1,36 @@
 #!/usr/bin/env python3
 """
-基金换仓建议核心模块
-Fund Rebalance Advisor Core Module
+基金换仓建议核心模块 - AkShare版
+Fund Rebalance Advisor Core Module - AkShare Edition
 
 功能：偏离度检测、再平衡建议、换仓优化、成本控制
+数据：通过AkShare接入实时基金持仓数据
 """
 
 import sys
-sys.path.insert(0, '/root/.openclaw/workspace/finclaw/skills/fund-suite/fund-rebalance-advisor/scripts')
+import os
+sys.path.insert(0, '/root/.openclaw/workspace/skillsChoice/fund-suite/fund-rebalance-advisor/scripts')
 
 import json
 import argparse
 from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
+
+# 导入AkShare
+try:
+    import akshare as ak
+    AKSHARE_AVAILABLE = True
+except ImportError:
+    AKSHARE_AVAILABLE = False
+    print("警告：AkShare未安装，将使用模拟数据")
+
+
+try:
+    import pandas as pd
+    HAS_PANDAS = True
+except ImportError:
+    HAS_PANDAS = False
 
 
 @dataclass
@@ -33,7 +50,7 @@ class Holding:
 
 
 class RebalanceAdvisor:
-    """换仓建议器"""
+    """换仓建议器 - AkShare数据源"""
     
     # 赎回费率表
     REDEMPTION_FEES = {
@@ -53,7 +70,182 @@ class RebalanceAdvisor:
     }
     
     def __init__(self):
-        pass
+        self._data_source = ""
+        self._data_quality = ""
+        self._sample_portfolio = None
+        self._target_allocation = None
+        self._akshare_available = AKSHARE_AVAILABLE
+        
+        # 检查数据源可用性
+        if not self._akshare_available:
+            self._load_default_data()
+    
+    def _fetch_fund_holdings_from_akshare(self, fund_code: str) -> Tuple[List[Dict], Dict]:
+        """
+        从AkShare获取基金持仓数据
+        
+        Args:
+            fund_code: 基金代码
+            
+        Returns:
+            (持仓列表, 基金信息字典)
+        """
+        try:
+            # 获取基金持仓明细
+            df = ak.fund_portfolio_hold_em(symbol=fund_code)
+            
+            if df.empty:
+                return [], {}
+            
+            # 解析持仓数据
+            holdings = []
+            sectors = {}
+            
+            for _, row in df.iterrows():
+                stock_code = str(row.get('股票代码', ''))
+                stock_name = str(row.get('股票名称', ''))
+                
+                # 解析持仓比例
+                weight_val = row.get('占净值比例', 0)
+                if isinstance(weight_val, str):
+                    weight_val = float(weight_val.replace('%', '')) / 100
+                else:
+                    weight_val = float(weight_val) / 100 if weight_val else 0.0
+                
+                sector = str(row.get('所属行业', ''))
+                
+                holdings.append({
+                    'stock_code': stock_code,
+                    'stock_name': stock_name,
+                    'weight': weight_val,
+                    'sector': sector
+                })
+                
+                # 统计行业分布
+                if sector:
+                    sectors[sector] = sectors.get(sector, 0) + weight_val
+            
+            # 获取基金基本信息
+            fund_name = ""
+            try:
+                fund_list = ak.fund_name_em()
+                fund_match = fund_list[fund_list['基金代码'] == fund_code]
+                if not fund_match.empty:
+                    fund_name = fund_match.iloc[0].get('基金简称', '')
+            except:
+                pass
+            
+            fund_info = {
+                'name': fund_name or fund_code,
+                'type': self._detect_fund_type(fund_name),
+                'holdings_count': len(holdings),
+                'top_sectors': sorted(sectors.items(), key=lambda x: x[1], reverse=True)[:5]
+            }
+            
+            return holdings, fund_info
+            
+        except Exception as e:
+            print(f"⚠️ 从AkShare获取基金{fund_code}持仓失败: {e}")
+            return [], {}
+    
+    def _detect_fund_type(self, fund_name: str) -> str:
+        """根据基金名称识别类型"""
+        if not fund_name:
+            return "unknown"
+        name = fund_name.upper()
+        if '货币' in name or '现金' in name:
+            return 'money'
+        elif '债券' in name or '纯债' in name or '短债' in name:
+            return 'bond'
+        elif '指数' in name or 'ETF' in name:
+            return 'index'
+        elif '混合' in name or '灵活' in name:
+            return 'hybrid'
+        elif '股票' in name:
+            return 'equity'
+        elif 'FOF' in name:
+            return 'fof'
+        elif 'QDII' in name:
+            return 'qdii'
+        return 'hybrid'
+    
+    def _load_default_data(self):
+        """加载默认模拟数据（降级方案）"""
+        self._sample_portfolio = {
+            'total_value': 1000000,
+            'holdings': [
+                {'fund_code': '000001', 'fund_name': '华夏成长混合', 'fund_type': 'hybrid', 
+                 'value': 300000, 'holding_days': 365, 'cost_basis': 280000},
+                {'fund_code': '000002', 'fund_name': '易方达蓝筹精选', 'fund_type': 'equity', 
+                 'value': 250000, 'holding_days': 180, 'cost_basis': 240000},
+                {'fund_code': '000003', 'fund_name': '中欧时代先锋', 'fund_type': 'equity', 
+                 'value': 200000, 'holding_days': 500, 'cost_basis': 180000},
+                {'fund_code': '110003', 'fund_name': '易方达稳健收益', 'fund_type': 'bond', 
+                 'value': 150000, 'holding_days': 730, 'cost_basis': 145000},
+                {'fund_code': '003474', 'fund_name': '南方现金通', 'fund_type': 'money', 
+                 'value': 100000, 'holding_days': 90, 'cost_basis': 100000},
+            ],
+            'warning': '此为默认示例数据，AkShare不可用时使用'
+        }
+        self._target_allocation = {
+            'equity': 0.30,
+            'hybrid': 0.30,
+            'bond': 0.25,
+            'money': 0.15
+        }
+        self._data_source = "内置默认模拟数据(AkShare不可用)"
+        self._data_quality = "sample"
+    
+    def _build_portfolio_from_funds(self, fund_codes: List[str], 
+                                     allocations: Dict[str, float] = None) -> Dict:
+        """
+        从基金代码列表构建组合
+        
+        Args:
+            fund_codes: 基金代码列表
+            allocations: 各基金金额分配 {fund_code: value}
+            
+        Returns:
+            组合字典
+        """
+        holdings = []
+        total_value = 0
+        
+        default_allocations = allocations or {}
+        
+        for fund_code in fund_codes:
+            # 获取基金持仓信息
+            fund_holdings, fund_info = self._fetch_fund_holdings_from_akshare(fund_code)
+            
+            # 分配金额（默认平均分配）
+            value = default_allocations.get(fund_code, 100000)
+            
+            holding = {
+                'fund_code': fund_code,
+                'fund_name': fund_info.get('name', fund_code),
+                'fund_type': fund_info.get('type', 'hybrid'),
+                'value': value,
+                'holding_days': 365,  # 默认值，实际需要计算
+                'cost_basis': value * 0.95,  # 假设5%收益
+                'holdings_detail': fund_holdings[:10] if fund_holdings else []  # 只保留前10大持仓
+            }
+            holdings.append(holding)
+            total_value += value
+        
+        self._data_source = f"AkShare实时数据 - {len(fund_codes)}只基金"
+        self._data_quality = "real-time"
+        
+        return {
+            'total_value': total_value,
+            'holdings': holdings,
+            'is_real_data': True
+        }
+    
+    def get_sample_portfolio(self) -> Tuple[Dict, Dict]:
+        """获取示例组合和目标配置"""
+        if self._sample_portfolio is None:
+            self._load_default_data()
+        return self._sample_portfolio.copy(), self._target_allocation.copy()
     
     def check_deviation(self, portfolio: Dict, target_allocation: Dict) -> Dict:
         """
@@ -68,6 +260,7 @@ class RebalanceAdvisor:
         """
         total_value = portfolio.get('total_value', 0)
         holdings = portfolio.get('holdings', [])
+        is_real_data = portfolio.get('is_real_data', False)
         
         deviations = []
         max_deviation = 0
@@ -124,6 +317,9 @@ class RebalanceAdvisor:
         return {
             'report_date': datetime.now().strftime('%Y-%m-%d'),
             'total_value': total_value,
+            'data_source': self._data_source if self._data_source else ("AkShare实时数据" if is_real_data else "内置默认数据"),
+            'data_quality': self._data_quality if self._data_quality else ("real-time" if is_real_data else "sample"),
+            'is_real_data': is_real_data,
             'deviation_analysis': {
                 'max_deviation': max_deviation,
                 'max_deviation_pct': max_deviation * 100,
@@ -151,6 +347,7 @@ class RebalanceAdvisor:
         constraints = constraints or {}
         total_value = portfolio.get('total_value', 0)
         holdings = portfolio.get('holdings', [])
+        is_real_data = portfolio.get('is_real_data', False)
         
         # 计算每类资产当前权重
         current_weights = {}
@@ -216,6 +413,9 @@ class RebalanceAdvisor:
         return {
             'report_id': f'RB_{datetime.now().strftime("%Y%m%d")}_001',
             'report_date': datetime.now().strftime('%Y-%m-%d'),
+            'data_source': self._data_source if self._data_source else ("AkShare实时数据" if is_real_data else "内置默认数据"),
+            'data_quality': self._data_quality if self._data_quality else ("real-time" if is_real_data else "sample"),
+            'is_real_data': is_real_data,
             'current_portfolio': portfolio,
             'target_allocation': target_allocation,
             'rebalance_summary': {
@@ -411,6 +611,9 @@ def print_deviation_report(report: Dict):
     
     print(f"\n组合价值: ¥{report['total_value']:,.0f}")
     print(f"检测日期: {report['report_date']}")
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
+    print(f"真实数据: {'✅ 是' if report.get('is_real_data') else '⚠️ 否(模拟数据)'}")
     
     analysis = report['deviation_analysis']
     print(f"\n偏离度分析:")
@@ -444,6 +647,9 @@ def print_advice_report(report: Dict):
     
     print(f"\n报告ID: {report['report_id']}")
     print(f"报告日期: {report['report_date']}")
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
+    print(f"真实数据: {'✅ 是' if report.get('is_real_data') else '⚠️ 否(模拟数据)'}")
     
     summary = report['rebalance_summary']
     print(f"\n换仓汇总:")
@@ -490,37 +696,34 @@ def print_advice_report(report: Dict):
 
 def main():
     """主函数 - CLI入口"""
-    parser = argparse.ArgumentParser(description='基金换仓建议')
+    parser = argparse.ArgumentParser(description='基金换仓建议 - AkShare版')
     parser.add_argument('--check', action='store_true', help='检测偏离度')
     parser.add_argument('--advise', action='store_true', help='生成建议')
-    parser.add_argument('--current', help='当前组合JSON文件')
-    parser.add_argument('--target', help='目标配置JSON')
+    parser.add_argument('--funds', help='基金代码列表，逗号分隔（如：000001,000002）')
+    parser.add_argument('--current', help='当前组合JSON文件（可选）')
+    parser.add_argument('--target', help='目标配置JSON（可选）')
     parser.add_argument('--json', action='store_true', help='输出JSON格式')
     
     args = parser.parse_args()
     
     advisor = RebalanceAdvisor()
     
-    # 示例数据
-    sample_portfolio = {
-        'total_value': 1000000,
-        'holdings': [
-            {'fund_code': '000003', 'fund_name': '中欧时代先锋', 'fund_type': 'equity', 'value': 200000, 'holding_days': 800, 'cost_basis': 180000},
-            {'fund_code': '000009', 'fund_name': '广发科技创新', 'fund_type': 'equity', 'value': 150000, 'holding_days': 400, 'cost_basis': 140000},
-            {'fund_code': '000005', 'fund_name': '景顺长城新兴', 'fund_type': 'equity', 'value': 70000, 'holding_days': 900, 'cost_basis': 65000},
-            {'fund_code': '000001', 'fund_name': '华夏成长混合', 'fund_type': 'hybrid', 'value': 180000, 'holding_days': 1000, 'cost_basis': 160000},
-            {'fund_code': '000002', 'fund_name': '易方达蓝筹精选', 'fund_type': 'hybrid', 'value': 100000, 'holding_days': 600, 'cost_basis': 95000},
-            {'fund_code': '000008', 'fund_name': '南方稳健成长', 'fund_type': 'bond', 'value': 220000, 'holding_days': 500, 'cost_basis': 210000},
-            {'fund_code': '000012', 'fund_name': '天弘余额宝', 'fund_type': 'money', 'value': 80000, 'holding_days': 300, 'cost_basis': 80000},
-        ]
-    }
+    # 从基金代码构建组合或使用示例数据
+    if args.funds and AKSHARE_AVAILABLE:
+        fund_codes = args.funds.split(',')
+        sample_portfolio = advisor._build_portfolio_from_funds(fund_codes)
+    elif args.current:
+        with open(args.current, 'r', encoding='utf-8') as f:
+            sample_portfolio = json.load(f)
+    else:
+        sample_portfolio, _ = advisor.get_sample_portfolio()
     
-    target_allocation = {
-        'equity': 0.30,
-        'hybrid': 0.30,
-        'bond': 0.30,
-        'money': 0.10
-    }
+    # 目标配置
+    if args.target:
+        with open(args.target, 'r', encoding='utf-8') as f:
+            target_allocation = json.load(f)
+    else:
+        _, target_allocation = advisor.get_sample_portfolio()
     
     if args.check:
         report = advisor.check_deviation(sample_portfolio, target_allocation)

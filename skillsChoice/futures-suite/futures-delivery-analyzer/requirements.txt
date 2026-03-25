@@ -1,1 +1,2 @@
-akshare>=1.10.0
+akshare>=1.18.0
+pandas

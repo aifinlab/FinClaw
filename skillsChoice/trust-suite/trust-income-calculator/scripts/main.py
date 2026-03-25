@@ -1,28 +1,112 @@
 #!/usr/bin/env python3
 """
-信托收益计算器
-Trust Income Calculator
-
-功能：预期收益、IRR、税务计算
+信托收益计算器 - 接入数据适配器 v2.0
+功能：预期收益、IRR、税务计算，支持从数据源获取产品自动计算
 """
 
 import argparse
 import json
+import sys
 from datetime import datetime
-from decimal import Decimal
-from typing import Dict, List, Optional
-import numpy_financial as npf
+from pathlib import Path
+
+# 添加数据适配器路径
+sys.path.insert(0, str(Path(__file__).parent.parent / 'data'))
+from trust_data_adapter import get_data_provider, TrustDataProvider
+
+
+def calculate_irr(cash_flows, guess=0.1, max_iter=100, tol=1e-6):
+    """计算IRR（内部收益率）- 简化版牛顿迭代法"""
+    if not cash_flows or len(cash_flows) < 2:
+        return 0.0
+    
+    rate = guess
+    for _ in range(max_iter):
+        npv = sum(cf / ((1 + rate) ** i) for i, cf in enumerate(cash_flows))
+        
+        d_npv = sum(-i * cf / ((1 + rate) ** (i + 1)) for i, cf in enumerate(cash_flows) if i > 0)
+        
+        if abs(d_npv) < 1e-10:
+            break
+        
+        new_rate = rate - npv / d_npv
+        if abs(new_rate - rate) < tol:
+            return new_rate
+        rate = new_rate
+    
+    return rate
 
 
 class TrustIncomeCalculator:
-    """信托收益计算主类"""
+    """信托收益计算主类 - 接入数据适配器"""
     
     def __init__(self):
-        pass
+        self.data_provider = get_data_provider()
+    
+    def calculate_from_data_source(self, product_code: str = None, 
+                                    principal: float = None,
+                                    **filters) -> dict:
+        """
+        从数据源获取产品并计算收益
+        
+        Args:
+            product_code: 产品代码（可选）
+            principal: 投资本金（可选，默认100万）
+            **filters: 筛选条件
+        
+        Returns:
+            收益计算结果，包含数据质量标注
+        """
+        # 获取产品数据
+        products = self.data_provider.get_products(**filters)
+        
+        if not products:
+            return {
+                'status': 'error',
+                'message': '未找到符合条件的产品',
+                'data_source': self.data_provider.get_data_source_info()
+            }
+        
+        # 如果指定了产品代码，查找对应产品
+        target_product = None
+        if product_code:
+            for p in products:
+                if p.product_code == product_code:
+                    target_product = p
+                    break
+        
+        # 如果没找到指定产品，使用第一个
+        if not target_product:
+            target_product = products[0]
+        
+        # 使用默认本金或指定本金
+        investment_principal = principal if principal else target_product.min_investment * 10000
+        
+        # 计算收益
+        result = self.calculate_expected_return(
+            principal=investment_principal,
+            annual_yield=target_product.expected_yield,
+            duration_months=target_product.duration,
+            distribution_way='quarterly',  # 默认按季分配
+            tax_rate=20
+        )
+        
+        # 添加产品信息和数据质量标注
+        result['product_info'] = {
+            'product_code': target_product.product_code,
+            'product_name': target_product.product_name,
+            'trust_company': target_product.trust_company,
+            'risk_level': target_product.risk_level
+        }
+        
+        if target_product.quality_label:
+            result['data_quality'] = target_product.quality_label.to_dict()
+        
+        return result
     
     def calculate_expected_return(self, principal: float, annual_yield: float,
                                    duration_months: int, distribution_way: str,
-                                   fee_structure: Dict = None, tax_rate: float = 20) -> Dict:
+                                   fee_structure: dict = None, tax_rate: float = 20) -> dict:
         """计算预期收益"""
         fee_structure = fee_structure or {}
         
@@ -34,7 +118,6 @@ class TrustIncomeCalculator:
         custody_fee = principal * (fee_structure.get('custody_fee', 0) / 100)
         total_fees_annual = management_fee + custody_fee
         
-        # 业绩报酬（简化处理，假设未达到门槛）
         performance_fee = 0
         
         net_annual = gross_annual - total_fees_annual - performance_fee
@@ -77,16 +160,16 @@ class TrustIncomeCalculator:
                 'tax_due': round(tax, 2),
                 'after_tax_return': round(after_tax, 2)
             },
-            'distribution_schedule': schedule
+            'distribution_schedule': schedule,
+            'effective_yield': round((after_tax / principal / years) * 100, 2)
         }
     
     def _generate_distribution_schedule(self, principal: float, annual_net: float,
-                                         months: int, distribution_way: str) -> List[Dict]:
+                                         months: int, distribution_way: str) -> list:
         """生成分配计划"""
         schedule = []
         
         if distribution_way == 'maturity':
-            # 到期一次分配
             schedule.append({
                 'date': self._add_months(datetime.now(), months).strftime('%Y-%m-%d'),
                 'type': '本金+收益',
@@ -95,7 +178,6 @@ class TrustIncomeCalculator:
                 'total': round(principal + annual_net * (months / 12), 2)
             })
         elif distribution_way == 'annually':
-            # 年度分配
             for year in range(1, int(months / 12) + 1):
                 schedule.append({
                     'date': self._add_months(datetime.now(), year * 12).strftime('%Y-%m-%d'),
@@ -104,7 +186,6 @@ class TrustIncomeCalculator:
                     'income': round(annual_net, 2),
                     'total': round(annual_net, 2)
                 })
-            # 到期还本
             schedule.append({
                 'date': self._add_months(datetime.now(), months).strftime('%Y-%m-%d'),
                 'type': '本金归还',
@@ -113,7 +194,6 @@ class TrustIncomeCalculator:
                 'total': principal
             })
         elif distribution_way == 'quarterly':
-            # 季度分配
             quarter_income = annual_net / 4
             for q in range(1, int(months / 3) + 1):
                 schedule.append({
@@ -139,43 +219,27 @@ class TrustIncomeCalculator:
         month = (date.month + months - 1) % 12 + 1
         return datetime(year, month, date.day)
     
-    def calculate_irr(self, cashflows: List[Dict]) -> Dict:
+    def calculate_irr_detailed(self, cashflows: list) -> dict:
         """计算IRR"""
         amounts = [cf['amount'] for cf in cashflows]
-        dates = [datetime.strptime(cf['date'], '%Y-%m-%d') for cf in cashflows]
         
-        # 简单IRR（假设等间隔）
-        irr = npf.irr(amounts)
-        
-        # XIRR（考虑实际日期）
-        try:
-            xirr = self._calculate_xirr(amounts, dates)
-        except:
-            xirr = irr
+        irr = calculate_irr(amounts)
         
         return {
             'status': 'success',
             'irr': round(irr * 100, 2) if irr else None,
-            'xirr': round(xirr * 100, 2) if xirr else None,
             'cashflows': cashflows,
             'total_invested': abs(sum(a for a in amounts if a < 0)),
             'total_returned': sum(a for a in amounts if a > 0)
         }
     
-    def _calculate_xirr(self, amounts: List[float], dates: List[datetime]) -> float:
-        """计算XIRR"""
-        # 简化的XIRR实现
-        days = [(d - dates[0]).days for d in dates]
-        return npf.irr(amounts)  # 简化处理
-    
     def calculate_tax(self, income: float, income_type: str = 'interest',
-                      tax_rate: float = 20) -> Dict:
+                      tax_rate: float = 20) -> dict:
         """计算税务"""
-        # 信托收益税务（简化）
         if income_type == 'interest':
             tax = income * (tax_rate / 100)
         elif income_type == 'dividend':
-            tax = income * 0.20  # 股息20%
+            tax = income * 0.20
         else:
             tax = income * (tax_rate / 100)
         
@@ -187,18 +251,63 @@ class TrustIncomeCalculator:
             'tax_due': round(tax, 2),
             'after_tax': round(income - tax, 2)
         }
+    
+    def compare_products(self, **filters) -> dict:
+        """对比多个产品的收益"""
+        products = self.data_provider.get_products(**filters)
+        
+        if not products:
+            return {
+                'status': 'error',
+                'message': '未找到符合条件的产品'
+            }
+        
+        comparisons = []
+        for p in products[:5]:  # 最多对比5个产品
+            principal = p.min_investment * 10000
+            result = self.calculate_expected_return(
+                principal=principal,
+                annual_yield=p.expected_yield,
+                duration_months=p.duration,
+                distribution_way='quarterly'
+            )
+            
+            comparisons.append({
+                'product_code': p.product_code,
+                'product_name': p.product_name,
+                'trust_company': p.trust_company,
+                'expected_yield': p.expected_yield,
+                'duration': p.duration,
+                'risk_level': p.risk_level,
+                'net_return': result['expected_return']['total_net'],
+                'after_tax_return': result['tax']['after_tax_return'],
+                'effective_yield': result['effective_yield'],
+                'data_quality': p.quality_label.to_dict() if p.quality_label else None
+            })
+        
+        # 按税后收益排序
+        comparisons.sort(key=lambda x: x['after_tax_return'], reverse=True)
+        
+        return {
+            'status': 'success',
+            'comparison_count': len(comparisons),
+            'comparisons': comparisons,
+            'best_choice': comparisons[0] if comparisons else None
+        }
 
 
 def main():
-    parser = argparse.ArgumentParser(description='信托收益计算器')
+    parser = argparse.ArgumentParser(description='信托收益计算器 v2.0')
     parser.add_argument('--calc-type', default='expected',
-                       choices=['expected', 'irr', 'tax'])
+                       choices=['expected', 'from_data_source', 'compare', 'tax'],
+                       help='计算类型')
     parser.add_argument('--principal', type=float, default=1000000)
     parser.add_argument('--yield', type=float, dest='annual_yield', default=7.5)
     parser.add_argument('--duration', type=int, default=24)
     parser.add_argument('--distribution', default='quarterly',
                        choices=['quarterly', 'annually', 'maturity'])
-    parser.add_argument('--cashflows', help='现金流文件（IRR计算）')
+    parser.add_argument('--trust-company', help='信托公司筛选')
+    parser.add_argument('--min-yield', type=float, help='最低收益率筛选')
     parser.add_argument('--tax-rate', type=float, default=20)
     
     args = parser.parse_args()
@@ -213,13 +322,23 @@ def main():
             distribution_way=args.distribution,
             tax_rate=args.tax_rate
         )
-    elif args.calc_type == 'irr':
-        if not args.cashflows:
-            print("错误：IRR计算需要提供 --cashflows 参数")
-            return
-        with open(args.cashflows, 'r') as f:
-            cashflows = json.load(f)
-        result = calculator.calculate_irr(cashflows)
+    elif args.calc_type == 'from_data_source':
+        filters = {}
+        if args.trust_company:
+            filters['trust_company'] = args.trust_company
+        if args.min_yield:
+            filters['min_yield'] = args.min_yield
+        result = calculator.calculate_from_data_source(
+            principal=args.principal,
+            **filters
+        )
+    elif args.calc_type == 'compare':
+        filters = {}
+        if args.trust_company:
+            filters['trust_company'] = args.trust_company
+        if args.min_yield:
+            filters['min_yield'] = args.min_yield
+        result = calculator.compare_products(**filters)
     elif args.calc_type == 'tax':
         result = calculator.calculate_tax(
             income=args.principal * (args.annual_yield / 100),

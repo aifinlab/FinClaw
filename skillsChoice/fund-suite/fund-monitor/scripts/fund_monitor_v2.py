@@ -207,14 +207,15 @@ def main():
     use_real = args.use_real_data and not args.use_mock_data
     monitor = FundMonitor(use_real_data=use_real)
     
-    # 示例组合
+    # 示例组合（⚠️ 示例数据-需替换为真实持仓）
     portfolio = {
         'total_value': 100000,
         'holdings': [
-            {'code': '000001', 'name': '华夏成长', 'daily_return': -0.02, 'max_drawdown': -0.12},
-            {'code': '000002', 'name': '易方达蓝筹', 'daily_return': -0.035, 'max_drawdown': -0.18},
+            {'code': 'EXAMPLE001', 'name': '示例基金A（需替换）', 'daily_return': -0.02, 'max_drawdown': -0.12, '_note': '示例数据'},
+            {'code': 'EXAMPLE002', 'name': '示例基金B（需替换）', 'daily_return': -0.035, 'max_drawdown': -0.18, '_note': '示例数据'},
         ],
-        'concentration': {'top_holding_weight': 0.35}
+        'concentration': {'top_holding_weight': 0.35},
+        '_warning': '此为示例数据，请传入真实的portfolio参数'
     }
     
     result = monitor.monitor_portfolio(portfolio)

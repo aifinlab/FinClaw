@@ -15,6 +15,7 @@ import math
 from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass, asdict
 from datetime import datetime
+import warnings
 
 # 尝试导入科学计算库
 try:
@@ -22,6 +23,18 @@ try:
     HAS_NUMPY = True
 except ImportError:
     HAS_NUMPY = False
+
+# 示例数据文件路径
+SAMPLE_DATA_PATH = '/root/.openclaw/workspace/skillsChoice/fund-suite/sample_data.json'
+
+def _load_sample_fund_data() -> Dict:
+    """从外部JSON文件加载示例基金数据"""
+    try:
+        with open(SAMPLE_DATA_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        warnings.warn(f"无法加载示例数据文件: {e}。将使用最小化默认数据。")
+        return {}
 
 
 @dataclass
@@ -122,26 +135,26 @@ class PortfolioAllocator:
         }
     }
     
-    # 基金池（示例数据）
+    # 基金池（⚠️ 示例数据-需替换为真实数据）
+    # 优先从外部JSON文件加载
+    _sample_data = _load_sample_fund_data()
+    _funds = _sample_data.get('funds', {})
+    
     FUND_POOL = {
-        'equity': [
-            {'code': '000003', 'name': '中欧时代先锋', 'return': 0.22, 'volatility': 0.22},
-            {'code': '000005', 'name': '景顺长城新兴', 'return': 0.20, 'volatility': 0.25},
-            {'code': '000009', 'name': '广发科技创新', 'return': 0.25, 'volatility': 0.30},
-        ],
-        'hybrid': [
-            {'code': '000001', 'name': '华夏成长混合', 'return': 0.18, 'volatility': 0.18},
-            {'code': '000002', 'name': '易方达蓝筹精选', 'return': 0.16, 'volatility': 0.16},
-            {'code': '000004', 'name': '富国天惠成长', 'return': 0.19, 'volatility': 0.17},
-            {'code': '000010', 'name': '工银瑞信战略', 'return': 0.15, 'volatility': 0.15},
-        ],
-        'bond': [
-            {'code': '000008', 'name': '南方稳健成长', 'return': 0.045, 'volatility': 0.025},
-            {'code': '000011', 'name': '招商产业债', 'return': 0.05, 'volatility': 0.03},
-        ],
-        'money': [
-            {'code': '000012', 'name': '天弘余额宝', 'return': 0.025, 'volatility': 0.001},
-        ]
+        'equity': _funds.get('equity', [
+            {'code': 'EXAMPLE_E001', 'name': '示例股票基金A（需替换）', 'return': 0.12, 'volatility': 0.22, '_note': '示例数据'},
+            {'code': 'EXAMPLE_E002', 'name': '示例股票基金B（需替换）', 'return': 0.10, 'volatility': 0.25, '_note': '示例数据'},
+        ]),
+        'hybrid': _funds.get('hybrid', [
+            {'code': 'EXAMPLE_H001', 'name': '示例混合基金A（需替换）', 'return': 0.08, 'volatility': 0.16, '_note': '示例数据'},
+            {'code': 'EXAMPLE_H002', 'name': '示例混合基金B（需替换）', 'return': 0.07, 'volatility': 0.15, '_note': '示例数据'},
+        ]),
+        'bond': _funds.get('bond', [
+            {'code': 'EXAMPLE_B001', 'name': '示例债券基金A（需替换）', 'return': 0.04, 'volatility': 0.025, '_note': '示例数据'},
+        ]),
+        'money': _funds.get('money', [
+            {'code': 'EXAMPLE_M001', 'name': '示例货币基金A（需替换）', 'return': 0.025, 'volatility': 0.001, '_note': '示例数据'},
+        ])
     }
     
     # 资产类别预期收益和波动率

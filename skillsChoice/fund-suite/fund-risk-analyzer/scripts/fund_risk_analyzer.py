@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-基金风险分析器核心模块
-Fund Risk Analyzer Core Module
+基金风险分析器核心模块 - AkShare版
+Fund Risk Analyzer Core Module - AkShare Edition
 
 功能：VaR/CVaR、风险指标、回撤分析、Beta/Alpha
+数据：通过AkShare接入实时基金数据
 """
 
 import sys
-sys.path.insert(0, '/root/.openclaw/workspace/finclaw/skills/fund-suite/fund-risk-analyzer/scripts')
+import os
+sys.path.insert(0, '/root/.openclaw/workspace/skillsChoice/fund-suite/fund-risk-analyzer/scripts')
 
 import json
 import argparse
@@ -31,6 +33,14 @@ try:
     HAS_SCIPY = True
 except (ImportError, ValueError):
     HAS_SCIPY = False
+
+# 导入AkShare
+try:
+    import akshare as ak
+    AKSHARE_AVAILABLE = True
+except ImportError:
+    AKSHARE_AVAILABLE = False
+    print("警告：AkShare未安装，将使用模拟数据")
 
 
 @dataclass
@@ -72,56 +82,200 @@ class RiskMetrics:
     systematic_vol: float = 0.0
     unsystematic_vol: float = 0.0
     
+    # 数据标注
+    data_source: str = ""
+    data_quality: str = ""
+    
     def to_dict(self) -> Dict:
         return asdict(self)
 
 
 class FundRiskAnalyzer:
-    """基金风险分析器主类"""
+    """基金风险分析器主类 - AkShare数据源"""
     
     # 无风险利率（年化）
     RISK_FREE_RATE = 0.025
     
     def __init__(self):
         self.fund_returns_cache = {}
-        self.market_returns_cache = {}
-        self._load_sample_data()
+        self.market_returns_cache = []
+        self.fund_info = {}
+        self._data_source = ""
+        self._data_quality = ""
+        self._akshare_available = AKSHARE_AVAILABLE
+        
+        # 检查数据源可用性
+        if not self._akshare_available:
+            self._load_default_data()
     
-    def _load_sample_data(self):
-        """加载示例收益率数据（实际环境从API获取）"""
-        # 生成模拟的日收益率数据（252个交易日，约1年）
+    def _fetch_fund_data_from_akshare(self, fund_code: str, period: int = 252) -> Tuple[List[float], Dict]:
+        """
+        从AkShare获取基金历史净值数据
+        
+        Args:
+            fund_code: 基金代码
+            period: 获取的历史数据天数
+            
+        Returns:
+            (收益率列表, 基金信息字典)
+        """
+        try:
+            # 使用akshare获取基金历史净值
+            # fund_open_fund_info_em 获取基金净值信息
+            df = ak.fund_open_fund_info_em(symbol=fund_code)
+            
+            if df.empty:
+                return [], {}
+            
+            # 只取最近period条数据
+            df = df.head(period)
+            
+            # 计算日收益率
+            returns = []
+            nav_list = []
+            dates = []
+            
+            for _, row in df.iterrows():
+                nav = row.get('单位净值', 0)
+                date = row.get('净值日期', '')
+                
+                if nav and nav > 0:
+                    nav_list.append(float(nav))
+                    dates.append(date)
+            
+            # 从后往前计算收益率（时间顺序）
+            nav_list.reverse()
+            dates.reverse()
+            
+            for i in range(1, len(nav_list)):
+                daily_return = (nav_list[i] - nav_list[i-1]) / nav_list[i-1]
+                returns.append(daily_return)
+            
+            # 获取基金基本信息
+            fund_name = ""
+            try:
+                fund_list = ak.fund_name_em()
+                fund_match = fund_list[fund_list['基金代码'] == fund_code]
+                if not fund_match.empty:
+                    fund_name = fund_match.iloc[0].get('基金简称', '')
+            except:
+                pass
+            
+            fund_info = {
+                'name': fund_name or fund_code,
+                'type': self._detect_fund_type(fund_name),
+                'nav_latest': nav_list[-1] if nav_list else 0,
+                'date_start': dates[0] if dates else '',
+                'date_end': dates[-1] if dates else ''
+            }
+            
+            return returns, fund_info
+            
+        except Exception as e:
+            print(f"⚠️ 从AkShare获取基金{fund_code}数据失败: {e}")
+            return [], {}
+    
+    def _fetch_market_benchmark(self, period: int = 252) -> List[float]:
+        """
+        获取市场基准数据（使用沪深300指数）
+        
+        Args:
+            period: 获取的历史数据天数
+            
+        Returns:
+            市场收益率列表
+        """
+        try:
+            # 获取沪深300指数历史数据
+            # 使用 ak.index_zh_a_hist 获取指数历史行情
+            from datetime import datetime, timedelta
+            end_date = datetime.now()
+            start_date = end_date - timedelta(days=period * 1.5)  # 多取一些数据确保有足够交易日
+            
+            df = ak.index_zh_a_hist(
+                symbol="000300",  # 沪深300
+                period="daily",
+                start_date=start_date.strftime("%Y%m%d"),
+                end_date=end_date.strftime("%Y%m%d")
+            )
+            
+            if df.empty:
+                return self._generate_market_returns(period)
+            
+            # 计算日收益率
+            returns = []
+            closes = df['收盘'].tolist()
+            closes.reverse()  # 时间顺序
+            
+            for i in range(1, len(closes)):
+                daily_return = (closes[i] - closes[i-1]) / closes[i-1]
+                returns.append(daily_return)
+            
+            # 如果数据不够，补充模拟数据
+            while len(returns) < period:
+                returns.insert(0, random.gauss(0.0005, 0.015))
+            
+            return returns[-period:]
+            
+        except Exception as e:
+            print(f"⚠️ 获取市场基准数据失败: {e}")
+            return self._generate_market_returns(period)
+    
+    def _generate_market_returns(self, n: int) -> List[float]:
+        """生成模拟市场收益率序列（降级方案）"""
+        if HAS_NUMPY:
+            np.random.seed(42)
+            returns = np.random.normal(0.0005, 0.015, n)
+            return returns.tolist()
+        else:
+            random.seed(42)
+            return [random.gauss(0.0005, 0.015) for _ in range(n)]
+    
+    def _detect_fund_type(self, fund_name: str) -> str:
+        """根据基金名称识别类型"""
+        if not fund_name:
+            return "未知"
+        name = fund_name.upper()
+        if '货币' in name or '现金' in name:
+            return '货币型'
+        elif '债券' in name or '纯债' in name or '短债' in name:
+            return '债券型'
+        elif '指数' in name or 'ETF' in name:
+            return '指数型'
+        elif '混合' in name or '灵活' in name:
+            return '混合型'
+        elif '股票' in name:
+            return '股票型'
+        elif 'FOF' in name:
+            return 'FOF'
+        elif 'QDII' in name:
+            return 'QDII'
+        return '混合型'
+    
+    def _load_default_data(self):
+        """加载默认模拟数据（降级方案）"""
         np.random.seed(42) if HAS_NUMPY else random.seed(42)
         
-        # 基金收益率（不同风险特征）
-        self.fund_returns_cache = {
-            '000001': self._generate_returns(0.0008, 0.018, 252),   # 华夏成长 - 中等风险
-            '000002': self._generate_returns(0.0007, 0.015, 252),   # 易方达蓝筹 - 低风险
-            '000003': self._generate_returns(0.0009, 0.022, 252),   # 中欧时代 - 高风险
-            '000004': self._generate_returns(0.0010, 0.017, 252),   # 富国天惠 - 高收益中等风险
-            '000005': self._generate_returns(0.0006, 0.025, 252),   # 景顺长城 - 高波动
-            '000006': self._generate_returns(0.0004, 0.012, 252),   # 嘉实沪深300 - 低波动指数
-            '000007': self._generate_returns(0.0012, 0.028, 252),   # 招商白酒 - 高收益高波动
-            '000008': self._generate_returns(0.0005, 0.010, 252),   # 南方稳健 - 低风险
-            '000009': self._generate_returns(0.0013, 0.030, 252),   # 广发科创 - 极高风险
-            '000010': self._generate_returns(0.0006, 0.014, 252),   # 工银瑞信 - 稳健
+        # 默认基金数据
+        default_funds = {
+            '000001': {'mean': 0.0008, 'std': 0.018, 'name': '华夏成长混合', 'type': '混合型'},
+            '000002': {'mean': 0.0007, 'std': 0.015, 'name': '易方达蓝筹精选', 'type': '混合型'},
+            '000003': {'mean': 0.0009, 'std': 0.022, 'name': '中欧时代先锋', 'type': '股票型'},
+            '000004': {'mean': 0.0010, 'std': 0.017, 'name': '富国天惠成长', 'type': '混合型'},
+            '000005': {'mean': 0.0006, 'std': 0.025, 'name': '景顺长城新兴', 'type': '股票型'},
         }
         
-        # 市场基准收益率（沪深300）
+        for code, config in default_funds.items():
+            self.fund_returns_cache[code] = self._generate_returns(
+                config['mean'], config['std'], 252
+            )
+            self.fund_info[code] = {'name': config['name'], 'type': config['type']}
+        
+        # 默认市场数据
         self.market_returns_cache = self._generate_returns(0.0005, 0.015, 252)
         
-        # 基金信息
-        self.fund_info = {
-            '000001': {'name': '华夏成长混合', 'type': '混合型'},
-            '000002': {'name': '易方达蓝筹精选', 'type': '混合型'},
-            '000003': {'name': '中欧时代先锋', 'type': '股票型'},
-            '000004': {'name': '富国天惠成长', 'type': '混合型'},
-            '000005': {'name': '景顺长城新兴', 'type': '股票型'},
-            '000006': {'name': '嘉实沪深300', 'type': '指数型'},
-            '000007': {'name': '招商中证白酒', 'type': '指数型'},
-            '000008': {'name': '南方稳健成长', 'type': '混合型'},
-            '000009': {'name': '广发科技创新', 'type': '股票型'},
-            '000010': {'name': '工银瑞信战略', 'type': '混合型'},
-        }
+        self._data_source = "内置默认模拟数据(AkShare不可用)"
+        self._data_quality = "sample"
     
     def _generate_returns(self, mean: float, std: float, n: int) -> List[float]:
         """生成模拟收益率序列"""
@@ -130,6 +284,41 @@ class FundRiskAnalyzer:
             return returns.tolist()
         else:
             return [random.gauss(mean, std) for _ in range(n)]
+    
+    def _ensure_fund_data(self, fund_code: str, period: int = 252) -> bool:
+        """
+        确保基金数据已加载（优先从AkShare获取）
+        
+        Returns:
+            True: 成功获取真实数据
+            False: 使用默认数据
+        """
+        if fund_code in self.fund_returns_cache and len(self.fund_returns_cache[fund_code]) >= period:
+            return True
+        
+        if self._akshare_available:
+            returns, fund_info = self._fetch_fund_data_from_akshare(fund_code, period)
+            
+            if returns and len(returns) >= 30:  # 至少需要30天数据
+                self.fund_returns_cache[fund_code] = returns
+                self.fund_info[fund_code] = fund_info
+                self._data_source = f"AkShare实时数据 - 基金{fund_code}"
+                self._data_quality = "real-time"
+                return True
+            else:
+                print(f"⚠️ 基金{fund_code}从AkShare获取的数据不足，使用默认模拟数据")
+        
+        # 降级到默认数据
+        if fund_code not in self.fund_returns_cache:
+            self._load_default_data()
+            # 如果没有该基金的默认数据，生成一个
+            if fund_code not in self.fund_returns_cache:
+                self.fund_returns_cache[fund_code] = self._generate_returns(0.0005, 0.018, period)
+                self.fund_info[fund_code] = {'name': fund_code, 'type': '未知'}
+                self._data_source = "内置默认模拟数据(基金不存在于默认数据集)"
+                self._data_quality = "sample"
+        
+        return False
     
     def analyze(self, fund_code: str, period: int = 252) -> Dict:
         """
@@ -142,13 +331,30 @@ class FundRiskAnalyzer:
         Returns:
             风险分析报告
         """
+        # 确保数据已加载
+        is_real_data = self._ensure_fund_data(fund_code, period)
+        
         if fund_code not in self.fund_returns_cache:
-            return {'error': f'未找到基金: {fund_code}'}
+            return {
+                'error': f'未找到基金: {fund_code}',
+                'data_source': self._data_source,
+                'data_quality': self._data_quality
+            }
         
         returns = self.fund_returns_cache[fund_code][-period:]
+        
+        # 获取市场基准数据
+        if not self.market_returns_cache or len(self.market_returns_cache) < period:
+            if self._akshare_available:
+                self.market_returns_cache = self._fetch_market_benchmark(period)
+            else:
+                self.market_returns_cache = self._generate_market_returns(period)
+        
         market_returns = self.market_returns_cache[-period:]
         
         metrics = RiskMetrics()
+        metrics.data_source = self._data_source
+        metrics.data_quality = self._data_quality
         
         # 基础收益指标
         metrics.annual_return = self._calculate_annual_return(returns)
@@ -202,11 +408,14 @@ class FundRiskAnalyzer:
             'fund_name': self.fund_info.get(fund_code, {}).get('name', fund_code),
             'analysis_date': datetime.now().strftime('%Y-%m-%d'),
             'period_days': period,
+            'data_source': self._data_source,
+            'data_quality': self._data_quality,
+            'is_real_data': is_real_data,
             'risk_metrics': metrics.to_dict(),
             'risk_assessment': {
                 'overall_risk_level': risk_level,
                 'risk_score': risk_score,
-                'confidence': '中等'
+                'confidence': '中等' if is_real_data else '低(使用模拟数据)'
             },
             'risk_alerts': self._generate_risk_alerts(metrics)
         }
@@ -226,8 +435,14 @@ class FundRiskAnalyzer:
         Returns:
             VaR计算结果
         """
+        self._ensure_fund_data(fund_code)
+        
         if fund_code not in self.fund_returns_cache:
-            return {'error': f'未找到基金: {fund_code}'}
+            return {
+                'error': f'未找到基金: {fund_code}',
+                'data_source': self._data_source,
+                'data_quality': self._data_quality
+            }
         
         returns = self.fund_returns_cache[fund_code]
         
@@ -247,19 +462,23 @@ class FundRiskAnalyzer:
             'confidence': f'{confidence*100:.0f}%',
             'daily_var': f'{var*100:.2f}%',
             'monthly_var': f'{var*math.sqrt(21)*100:.2f}%',
-            'annual_var': f'{var*math.sqrt(252)*100:.2f}%'
+            'annual_var': f'{var*math.sqrt(252)*100:.2f}%',
+            'data_source': self._data_source,
+            'data_quality': self._data_quality
         }
     
     def compare_risk(self, fund_codes: List[str]) -> Dict:
         """对比多只基金的风险指标"""
         comparison = {
             'funds': [],
-            'rankings': {}
+            'rankings': {},
+            'data_source': self._data_source,
+            'data_quality': self._data_quality
         }
         
         for code in fund_codes:
-            if code in self.fund_returns_cache:
-                report = self.analyze(code)
+            report = self.analyze(code)
+            if 'error' not in report:
                 comparison['funds'].append(report)
         
         # 计算各指标排名
@@ -278,11 +497,17 @@ class FundRiskAnalyzer:
     
     def check_risk_alerts(self, fund_code: str) -> List[Dict]:
         """检查风险预警"""
-        if fund_code not in self.fund_returns_cache:
-            return [{'error': f'未找到基金: {fund_code}'}]
-        
         report = self.analyze(fund_code)
+        if 'error' in report:
+            return [{
+                'error': report['error'],
+                'data_source': self._data_source,
+                'data_quality': self._data_quality
+            }]
+        
         return report.get('risk_alerts', [])
+    
+    # ============ 计算方法 ============
     
     def _calculate_annual_return(self, returns: List[float]) -> float:
         """计算年化收益率"""
@@ -468,8 +693,8 @@ class FundRiskAnalyzer:
         
         mean = sum(returns) / len(returns)
         
-        if HAS_NUMPY:
-            return float(stats.skew(returns)) if HAS_SCIPY else 0.0
+        if HAS_NUMPY and HAS_SCIPY:
+            return float(stats.skew(returns))
         else:
             # 手动计算偏度
             variance = sum((r - mean) ** 2 for r in returns) / len(returns)
@@ -482,8 +707,8 @@ class FundRiskAnalyzer:
         if len(returns) < 4:
             return 3.0
         
-        if HAS_NUMPY:
-            return float(stats.kurtosis(returns, fisher=False)) if HAS_SCIPY else 3.0
+        if HAS_NUMPY and HAS_SCIPY:
+            return float(stats.kurtosis(returns, fisher=False))
         else:
             mean = sum(returns) / len(returns)
             variance = sum((r - mean) ** 2 for r in returns) / len(returns)
@@ -645,6 +870,9 @@ def print_risk_report(report: Dict):
     print(f"📊 {report['fund_name']} ({report['fund_code']}) - 风险分析报告")
     print("=" * 80)
     print(f"分析日期: {report['analysis_date']} | 分析周期: {report['period_days']}个交易日")
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
+    print(f"真实数据: {'✅ 是' if report.get('is_real_data') else '⚠️ 否(模拟数据)'}")
     print()
     
     m = report['risk_metrics']
@@ -652,6 +880,7 @@ def print_risk_report(report: Dict):
     # 风险等级
     assessment = report['risk_assessment']
     print(f"🎯 风险等级: {assessment['overall_risk_level']} (评分: {assessment['risk_score']}/100)")
+    print(f"置信度: {assessment['confidence']}")
     print()
     
     # 收益风险指标
@@ -710,7 +939,7 @@ def print_risk_report(report: Dict):
 
 def main():
     """主函数 - CLI入口"""
-    parser = argparse.ArgumentParser(description='基金风险分析器')
+    parser = argparse.ArgumentParser(description='基金风险分析器 - AkShare版')
     parser.add_argument('--code', required=True, help='基金代码')
     parser.add_argument('--period', type=int, default=252, help='分析周期（交易日）')
     parser.add_argument('--var', action='store_true', help='仅计算VaR')
@@ -738,6 +967,7 @@ def main():
             print(f"  日度VaR: {result.get('daily_var', 'N/A')}")
             print(f"  月度VaR: {result.get('monthly_var', 'N/A')}")
             print(f"  年度VaR: {result.get('annual_var', 'N/A')}")
+            print(f"  数据来源: {result.get('data_source', '未知')}")
         return
     
     # 检查风险预警

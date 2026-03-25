@@ -53,25 +53,34 @@ class MarketResearcher:
         Returns:
             市场趋势报告
         """
-        # 尝试获取真实排行数据
+# 尝试获取真实排行数据，如果没有真实数据则返回简化示例并发出警告
         if self.data_adapter:
             real_data = self._get_real_market_data(fund_type)
             if real_data:
                 return real_data
         
-        # 模拟数据
+        # 简化的模拟数据，带有明确警告
+        import warnings
+        warnings.warn(
+            "⚠️ 正在使用示例数据！请传入真实数据或使用 --use-real-data 标志。\n"
+            "   示例基金数据（000001, 000002）仅供演示，请勿用于生产环境。",
+            UserWarning,
+            stacklevel=2
+        )
+        
         return {
             'analysis_date': datetime.now().strftime('%Y-%m-%d'),
-            'data_source': '模拟数据',
+            'data_source': '示例数据（需替换）',
             'fund_type': fund_type,
-            'market_sentiment': '中性',
-            'trend': '震荡',
+            'market_sentiment': '中性（示例）',
+            'trend': '震荡（示例）',
             'average_return_1y': 0.05,
             'top_performers': [
-                {'code': '000001', 'name': '示例基金A', 'return_1y': 0.25},
-                {'code': '000002', 'name': '示例基金B', 'return_1y': 0.22}
+                {'code': 'EXAMPLE001', 'name': '示例基金A（需替换）', 'return_1y': 0.15, '_note': '示例数据'},
+                {'code': 'EXAMPLE002', 'name': '示例基金B（需替换）', 'return_1y': 0.12, '_note': '示例数据'}
             ],
-            'market_summary': '模拟市场数据，请接入真实数据源'
+            'market_summary': '⚠️ 示例市场数据，请接入真实数据源（AkShare/同花顺iFinD）',
+            '_warning': '此为示例数据，生产环境请使用真实数据源'
         }
     
     def _get_real_market_data(self, fund_type: str) -> Optional[Dict]:

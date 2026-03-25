@@ -1,0 +1,57 @@
+{
+  "_metadata": {
+    "description": "基金换仓建议 - 组合配置示例数据",
+    "data_source": "模拟数据 - 仅供演示使用",
+    "data_quality": "sample",
+    "created_at": "2026-03-25",
+    "note": "请替换为真实持仓数据后使用"
+  },
+  "sample_portfolio": {
+    "total_value": 1000000,
+    "holdings": [
+      {
+        "fund_code": "EXAMPLE001",
+        "fund_name": "示例混合基金A（需替换）",
+        "fund_type": "hybrid",
+        "value": 300000,
+        "holding_days": 365,
+        "cost_basis": 280000,
+        "note": "示例数据"
+      },
+      {
+        "fund_code": "EXAMPLE002",
+        "fund_name": "示例股票基金A（需替换）",
+        "fund_type": "equity",
+        "value": 250000,
+        "holding_days": 180,
+        "cost_basis": 240000,
+        "note": "示例数据"
+      },
+      {
+        "fund_code": "EXAMPLE003",
+        "fund_name": "示例债券基金A（需替换）",
+        "fund_type": "bond",
+        "value": 350000,
+        "holding_days": 500,
+        "cost_basis": 340000,
+        "note": "示例数据"
+      },
+      {
+        "fund_code": "EXAMPLE004",
+        "fund_name": "示例货币基金A（需替换）",
+        "fund_type": "money",
+        "value": 100000,
+        "holding_days": 90,
+        "cost_basis": 100000,
+        "note": "示例数据"
+      }
+    ],
+    "warning": "此为示例数据，请传入真实的portfolio参数"
+  },
+  "target_allocation": {
+    "equity": 0.30,
+    "hybrid": 0.30,
+    "bond": 0.30,
+    "money": 0.10
+  }
+}

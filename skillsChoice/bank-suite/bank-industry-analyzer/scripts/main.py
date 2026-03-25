@@ -1,233 +1,211 @@
 #!/usr/bin/env python3
-"""
-银行业宏观分析器
-获取银行业整体数据，包括资产规模、存贷款、利润、资产质量等指标
+"""银行业宏观分析器 - 使用AkShare开源数据接口
+
+功能：获取银行业货币政策、利率走势、市场流动性
+数据源：AkShare开源金融数据接口
+说明：银行业总资产/存贷款等宏观数据需参考央行统计公报
 """
 
 import akshare as ak
-import pandas as pd
-import requests
-from datetime import datetime, timedelta
 import json
+from datetime import datetime
 import argparse
 
 
 class BankIndustryAnalyzer:
-    """银行业宏观分析器"""
+    """银行业宏观分析器 - 基于利率和货币政策数据"""
     
     def __init__(self):
-        self.data_cache = {}
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def _get_lpr_data(self) -> dict:
+        """获取LPR数据 - 使用AkShare"""
+        try:
+            df = ak.macro_china_lpr()
+            if df is not None and not df.empty:
+                latest = df.iloc[0]
+                return {
+                    "LPR_1Y": latest.get('1年期', 'N/A'),
+                    "LPR_5Y": latest.get('5年期', 'N/A'),
+                    "data_source": "AkShare - 中国人民银行"
+                }
+        except Exception as e:
+            return {"error": f"获取LPR数据失败: {str(e)}", "data_source": "AkShare"}
+        return {"data_source": "AkShare", "note": "暂无LPR数据"}
+    
+    def _get_shibor(self) -> dict:
+        """获取Shibor数据 - 使用AkShare"""
+        try:
+            df = ak.macro_china_shibor_all()
+            if df is not None and not df.empty:
+                latest = df.iloc[-1]
+                return {
+                    "隔夜": latest.get('隔夜', 'N/A'),
+                    "1周": latest.get('1周', 'N/A'),
+                    "1个月": latest.get('1个月', 'N/A'),
+                    "3个月": latest.get('3个月', 'N/A'),
+                    "data_source": "AkShare - Shibor"
+                }
+        except Exception as e:
+            return {"error": f"获取Shibor失败: {str(e)}", "data_source": "AkShare"}
+        return {"data_source": "AkShare", "note": "暂无Shibor数据"}
+    
+    def _get_interbank_rate(self) -> dict:
+        """获取银行间利率 - 使用AkShare"""
+        try:
+            df = ak.macro_china_interbank_rate()
+            if df is not None and not df.empty:
+                latest = df.iloc[-1]
+                return {
+                    "隔夜利率": latest.get('隔夜', 'N/A'),
+                    "7天利率": latest.get('7天', 'N/A'),
+                    "1个月利率": latest.get('1个月', 'N/A'),
+                    "data_source": "AkShare - 银行间同业拆借"
+                }
+        except Exception as e:
+            return {"error": f"获取银行间利率失败: {str(e)}", "data_source": "AkShare"}
+        return {"data_source": "AkShare", "note": "暂无银行间利率数据"}
     
     def get_industry_overview(self) -> dict:
-        """获取银行业概览数据"""
-        try:
-            # 尝试获取央行统计数据
-            url = "http://www.pbc.gov.cn/zhengcehuobisi/11111/index.html"
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-            }
-            
-            # 使用真实数据（基于央行2024年最新统计）
-            result = {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "data_type": "银行业概览",
-                "indicators": {
-                    "total_assets": {
-                        "value": "433.1",
-                        "unit": "万亿元",
-                        "description": "银行业金融机构总资产",
-                        "yoy_growth": "+7.5%"
-                    },
-                    "total_liabilities": {
-                        "value": "397.2",
-                        "unit": "万亿元",
-                        "description": "银行业金融机构总负债",
-                        "yoy_growth": "+7.2%"
-                    },
-                    "deposit_balance": {
-                        "value": "295.0",
-                        "unit": "万亿元",
-                        "description": "各项存款余额",
-                        "yoy_growth": "+6.5%"
-                    },
-                    "loan_balance": {
-                        "value": "240.0",
-                        "unit": "万亿元",
-                        "description": "各项贷款余额",
-                        "yoy_growth": "+8.3%"
-                    },
-                    "net_profit": {
-                        "value": "2.3",
-                        "unit": "万亿元",
-                        "description": "商业银行净利润",
-                        "yoy_growth": "+3.2%"
-                    }
-                },
-                "institution_count": {
-                    "大型商业银行": 6,
-                    "股份制商业银行": 12,
-                    "城市商业银行": 125,
-                    "农村金融机构": 3800,
-                    "外资银行": 40
-                },
-                "data_source": "中国人民银行、国家金融监督管理总局",
-                "note": "数据截至2024年末，来源于官方统计公报",
-                "data_quality": "真实数据"
-            }
-            return result
-            
-        except Exception as e:
-            return self._get_fallback_overview(str(e))
+        """获取银行业概览 - 基于利率和货币政策"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "银行业宏观环境分析",
+            "note": "银行业总资产/存贷款等详细数据需参考央行金融统计公报"
+        }
+        
+        # 获取LPR数据
+        lpr_data = self._get_lpr_data()
+        result["monetary_policy"] = {
+            "lpr": lpr_data,
+            "policy_direction": "货币政策保持适度宽松，支持实体经济发展"
+        }
+        
+        # 获取Shibor数据
+        shibor_data = self._get_shibor()
+        result["interbank_market"] = shibor_data
+        
+        result["industry_highlights"] = {
+            "关注要点": [
+                "银行业总资产增速",
+                "不良贷款率变化",
+                "净息差走势",
+                "资本充足率水平"
+            ],
+            "数据来源说明": "详细经营数据参考中国人民银行金融统计数据、国家金融监督管理总局公告"
+        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时利率数据 + 定性分析"
+        
+        return result
     
     def get_asset_quality(self) -> dict:
-        """获取银行业资产质量数据"""
-        try:
-            # 使用金融监管总局发布的真实数据
-            result = {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "data_type": "银行业资产质量",
-                "indicators": {
-                    "npl_ratio": {
-                        "value": "1.56%",
-                        "description": "商业银行不良贷款率",
-                        "benchmark": "<5%",
-                        "trend": "较上年末下降0.03个百分点"
-                    },
-                    "provision_coverage": {
-                        "value": "211.0%",
-                        "description": "拨备覆盖率",
-                        "benchmark": ">150%",
-                        "trend": "较上年末提升1个百分点"
-                    },
-                    "capital_adequacy": {
-                        "value": "15.5%",
-                        "description": "资本充足率",
-                        "benchmark": ">10.5%",
-                        "trend": "保持稳定"
-                    },
-                    "core_capital_adequacy": {
-                        "value": "10.8%",
-                        "description": "核心一级资本充足率",
-                        "benchmark": ">7.5%",
-                        "trend": "保持稳定"
-                    }
-                },
-                "data_source": "国家金融监督管理总局",
-                "analysis": "资产质量总体稳定，不良率稳中有降，风险抵补能力充足",
-                "data_quality": "真实数据"
+        """获取银行业资产质量分析 - 基于监管要求"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "银行业资产质量分析",
+            "note": "详细资产质量数据需参考金融监管总局公告"
+        }
+        
+        result["regulatory_standards"] = {
+            "不良贷款率": {
+                "监管红线": "≤5%",
+                "当前水平": "约1.5-1.6%（行业平均）",
+                "说明": "行业整体不良率处于较低水平"
+            },
+            "拨备覆盖率": {
+                "监管要求": "≥150%",
+                "当前水平": "约200%+（行业平均）",
+                "说明": "风险抵补能力充足"
+            },
+            "资本充足率": {
+                "监管要求": "≥10.5%",
+                "当前水平": "约15%（行业平均）",
+                "说明": "资本水平充足"
             }
-            return result
-                
-        except Exception as e:
-            return self._get_fallback_asset_quality(str(e))
+        }
+        
+        result["data_source"] = "国家金融监督管理总局（监管标准）+ 行业分析"
+        result["data_quality"] = "监管规定 + 定性分析"
+        
+        return result
     
     def get_monetary_policy(self, year: int = None) -> dict:
-        """获取货币政策数据"""
-        try:
-            if year is None:
-                year = datetime.now().year
-            
-            # 使用最新真实数据（2024年数据）
-            result = {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "data_type": "货币政策",
-                "year": year,
-                "indicators": {
-                    "lpr_1y": {
-                        "value": "3.10%",
-                        "description": "1年期贷款市场报价利率",
-                        "trend": "较年初下调0.35个百分点",
-                        "last_update": "2024-10-21"
-                    },
-                    "lpr_5y": {
-                        "value": "3.60%",
-                        "description": "5年期以上贷款市场报价利率",
-                        "trend": "较年初下调0.60个百分点",
-                        "last_update": "2024-10-21"
-                    },
-                    "rrr_large": {
-                        "value": "8.0%",
-                        "description": "大型金融机构存款准备金率",
-                        "trend": "2024年两次降准共0.5个百分点"
-                    },
-                    "rrr_small": {
-                        "value": "6.5%",
-                        "description": "中小金融机构存款准备金率",
-                        "trend": "2024年两次降准共0.5个百分点"
-                    },
-                    "benchmark_deposit_rate": {
-                        "value": "1.50%",
-                        "description": "一年期存款基准利率（参考）"
-                    }
-                },
-                "data_source": "中国人民银行",
-                "analysis": "货币政策保持适度宽松，LPR和准备金率多次下调",
-                "data_quality": "真实数据"
-            }
-            
-            return result
-            
-        except Exception as e:
-            return self._get_fallback_monetary_policy(str(e))
+        """获取货币政策数据 - 使用AkShare"""
+        if year is None:
+            year = datetime.now().year
+        
+        result = {
+            "query_time": self.query_time,
+            "data_type": "货币政策",
+            "year": year
+        }
+        
+        # 获取LPR数据
+        lpr_data = self._get_lpr_data()
+        result["lpr"] = lpr_data
+        
+        # 获取Shibor数据
+        shibor_data = self._get_shibor()
+        result["shibor"] = shibor_data
+        
+        # 获取银行间利率
+        interbank_data = self._get_interbank_rate()
+        result["interbank_rate"] = interbank_data
+        
+        result["policy_analysis"] = {
+            "政策方向": "稳健的货币政策灵活适度、精准有效",
+            "主要工具": [
+                "LPR改革引导贷款利率下行",
+                "降准释放长期流动性",
+                "结构性货币政策工具精准滴灌"
+            ],
+            "关注要点": [
+                "LPR报价变化",
+                "公开市场操作",
+                "存款准备金率调整",
+                "再贷款再贴现政策"
+            ]
+        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时利率数据 + 定性分析"
+        
+        return result
     
     def get_deposit_loan_growth(self) -> dict:
-        """获取存贷款增长数据"""
-        try:
-            result = {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "data_type": "存贷款增长",
-                "indicators": {
-                    "deposit_yoy": {
-                        "value": "6.5%",
-                        "description": "各项存款同比增速",
-                        "balance": "295.0万亿元"
-                    },
-                    "loan_yoy": {
-                        "value": "8.3%",
-                        "description": "各项贷款同比增速",
-                        "balance": "240.0万亿元"
-                    },
-                    "monthly_new_loan": {
-                        "value": "约1.0万亿元",
-                        "description": "月度新增人民币贷款（平均）"
-                    },
-                    "social_financing": {
-                        "value": "32.3%",
-                        "description": "社融存量同比增速",
-                        "balance": "约410万亿元"
-                    }
-                },
-                "data_source": "中国人民银行",
-                "data_quality": "真实数据"
-            }
-            return result
-                
-        except Exception as e:
-            return {"error": f"获取存贷款增长数据失败: {str(e)}"}
-    
-    def _get_fallback_overview(self, error_msg: str) -> dict:
-        """获取备用概览数据"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "error": f"获取数据失败: {error_msg}",
-            "data_quality": "数据获取异常"
+        """获取存贷款增长分析"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "存贷款增长分析",
+            "note": "详细存贷款数据需参考央行金融统计数据"
         }
-    
-    def _get_fallback_asset_quality(self, error_msg: str) -> dict:
-        """获取备用资产质量数据"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "error": f"获取资产质量数据失败: {error_msg}",
-            "data_quality": "数据获取异常"
+        
+        # 获取LPR数据作为利率环境参考
+        lpr_data = self._get_lpr_data()
+        result["interest_rate_environment"] = lpr_data
+        
+        result["growth_analysis"] = {
+            "关注指标": [
+                "人民币各项存款余额增速",
+                "人民币各项贷款余额增速",
+                "社融存量增速",
+                "M2增速"
+            ],
+            "分析维度": [
+                "企业中长期贷款增长",
+                "居民住房贷款变化",
+                "普惠小微贷款增速",
+                "绿色贷款增长"
+            ],
+            "数据来源说明": "数据参考中国人民银行金融统计数据"
         }
-    
-    def _get_fallback_monetary_policy(self, error_msg: str) -> dict:
-        """获取备用货币政策数据"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "error": f"获取货币政策数据失败: {error_msg}",
-            "data_quality": "数据获取异常"
-        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时利率数据 + 定性分析"
+        
+        return result
 
 
 def main():
@@ -237,7 +215,6 @@ def main():
     parser.add_argument("--year", type=int, help="查询年份")
     
     args = parser.parse_args()
-    
     analyzer = BankIndustryAnalyzer()
     
     if args.action == "overview":

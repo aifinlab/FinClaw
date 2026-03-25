@@ -1,118 +1,164 @@
 #!/usr/bin/env python3
-"""券商投行业务分析器 - 使用真实数据源"""
+"""券商投行业务分析器 - 使用AkShare开源数据接口
+
+功能：分析券商投行业务、IPO承销、债券承销
+数据源：AkShare开源金融数据接口
+说明：详细承销数据需参考各券商年报
+"""
 
 import akshare as ak
-import pandas as pd
 import json
 from datetime import datetime
 import argparse
 
 
 class SecuritiesIBAnalyzer:
-    """券商投行业务分析器"""
+    """券商投行业务分析器 - 使用AkShare获取上市券商行情"""
     
-    # 2024年IPO真实数据
-    IPO_DATA_2024 = {
-        "total_ipos": 100,
-        "total_fundraising": "约650亿元",
-        "avg_fundraising": "6.5亿元",
-        "top_sectors": ["电子", "医药生物", "机械设备", "电力设备", "计算机"]
+    # 主要上市券商代码映射
+    SECURITIES_CODES = {
+        "中信证券": "600030", "中信建投": "601066", "海通证券": "600837",
+        "华泰证券": "601688", "国泰君安": "601211", "中金公司": "601995",
+        "招商证券": "600999", "国信证券": "002736", "广发证券": "000776",
+        "中国银河": "601881", "东方证券": "600958", "兴业证券": "601377"
     }
     
-    # 投行排名（基于2024年承销规模）
-    IB_RANKING = [
-        {"rank": 1, "securities": "中信证券", "ipo_count": 18, "fundraising": "约180亿", "strength": "全能型投行龙头"},
-        {"rank": 2, "securities": "中信建投", "ipo_count": 15, "fundraising": "约150亿", "strength": "IPO承销强项"},
-        {"rank": 3, "securities": "海通证券", "ipo_count": 12, "fundraising": "约120亿", "strength": "债券承销领先"},
-        {"rank": 4, "securities": "华泰证券", "ipo_count": 10, "fundraising": "约100亿", "strength": "并购重组优势"},
-        {"rank": 5, "securities": "国泰君安", "ipo_count": 8, "fundraising": "约80亿", "strength": "综合实力强"},
-        {"rank": 6, "securities": "中金公司", "ipo_count": 7, "fundraising": "约70亿", "strength": "大型项目优势"},
-        {"rank": 7, "securities": "招商证券", "ipo_count": 6, "fundraising": "约50亿", "strength": "珠三角区域优势"},
-        {"rank": 8, "securities": "国信证券", "ipo_count": 5, "fundraising": "约40亿", "strength": "中小企业服务"}
-    ]
+    def __init__(self):
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # 债券承销数据
-    BOND_DATA = {
-        "total_underwriting_2024": "12.5万亿元",
-        "corporate_bonds": "4.2万亿元",
-        "financial_bonds": "3.8万亿元",
-        "government_bonds": "4.5万亿元"
-    }
+    def _get_realtime_data(self, code: str) -> dict:
+        """获取实时行情 - 使用AkShare"""
+        try:
+            df = ak.stock_zh_a_spot_em()
+            stock_row = df[df['代码'] == code]
+            
+            if stock_row.empty:
+                return None
+            
+            return {
+                "price": float(stock_row['最新价'].values[0]) if '最新价' in stock_row.columns else None,
+                "change_pct": float(stock_row['涨跌幅'].values[0]) if '涨跌幅' in stock_row.columns else None,
+                "pb": float(stock_row['市净率'].values[0]) if '市净率' in stock_row.columns else None,
+                "total_mv": float(stock_row['总市值'].values[0]) if '总市值' in stock_row.columns else None
+            }
+        except Exception:
+            return None
     
-    def get_ipo_data(self, year: int = None) -> dict:
-        """获取IPO承销数据"""
-        target_year = year or 2024
-        
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "year": target_year,
-            "ipo_summary": self.IPO_DATA_2024 if target_year == 2024 else {"note": f"{target_year}年数据需查询"},
-            "top_underwriters": self.IB_RANKING[:5],
-            "market_concentration": {
-                "CR3": "约65%",
-                "CR5": "约80%",
-                "assessment": "投行承销集中度极高，头部效应显著"
-            },
-            "data_source": "中国证券业协会、Wind",
-            "data_quality": "真实数据"
+    def get_ipo_overview(self) -> dict:
+        """获取IPO承销概览 - 基于上市券商行情"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "IPO承销业务分析",
+            "note": "详细IPO数据需查阅各券商年报"
         }
+        
+        # 获取主要券商行情
+        securities = []
+        for name, code in list(self.SECURITIES_CODES.items())[:8]:
+            stock_data = self._get_realtime_data(code)
+            if stock_data:
+                securities.append({
+                    "name": name,
+                    "code": code,
+                    "price": stock_data.get("price"),
+                    "pb": stock_data.get("pb"),
+                    "market_cap_yi": round(stock_data.get("total_mv") / 1e8, 2) if stock_data.get("total_mv") else None
+                })
+        
+        # 按市值排序
+        securities.sort(key=lambda x: x.get("market_cap_yi") or 0, reverse=True)
+        result["securities_by_market_cap"] = securities
+        
+        result["ib_analysis"] = {
+            "投行业务构成": [
+                "IPO承销",
+                "再融资承销",
+                "并购重组",
+                "债券承销"
+            ],
+            "行业趋势": [
+                "注册制改革深化",
+                "IPO审核趋严",
+                "债券承销规模增长",
+                "并购重组活跃度提升"
+            ],
+            "关注要点": [
+                "IPO承销数量和规模",
+                "债券承销排名",
+                "并购重组项目",
+                "投行收入占比"
+            ],
+            "数据来源说明": "详细数据参考各券商年报、中国证券业协会统计"
+        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时行情 + 定性分析"
+        
+        return result
     
     def get_bond_underwriting(self) -> dict:
-        """获取债券承销数据"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "bond_underwriting_2024": self.BOND_DATA,
-            "top_bond_underwriters": [
-                {"rank": 1, "securities": "中信证券", "share": "约12%"},
-                {"rank": 2, "securities": "中信建投", "share": "约10%"},
-                {"rank": 3, "securities": "国泰君安", "share": "约8%"},
-                {"rank": 4, "securities": "华泰证券", "share": "约7%"},
-                {"rank": 5, "securities": "中金公司", "share": "约6%"}
+        """获取债券承销分析"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "债券承销业务分析",
+            "note": "详细债券承销数据需查阅各券商年报"
+        }
+        
+        # 获取主要券商行情
+        securities = []
+        for name, code in list(self.SECURITIES_CODES.items())[:8]:
+            stock_data = self._get_realtime_data(code)
+            if stock_data:
+                securities.append({
+                    "name": name,
+                    "code": code,
+                    "price": stock_data.get("price"),
+                    "pb": stock_data.get("pb")
+                })
+        
+        result["securities"] = securities
+        
+        result["bond_analysis"] = {
+            "债券承销类型": [
+                "公司债",
+                "企业债",
+                "金融债",
+                "ABS",
+                "可转债"
             ],
-            "data_source": "Wind、中债登",
-            "data_quality": "真实数据",
-            "note": "2024年债券承销规模统计"
+            "行业特点": [
+                "债券承销规模持续增长",
+                "头部券商优势明显",
+                "信用债风险需关注",
+                "ABS业务快速发展"
+            ],
+            "关注要点": [
+                "债券承销规模排名",
+                "承销费率水平",
+                "信用风险暴露",
+                "细分品种优势"
+            ],
+            "数据来源说明": "详细数据参考各券商年报、Wind债券承销统计"
         }
-    
-    def get_ib_ranking(self) -> dict:
-        """获取投行收入排名"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "ib_ranking": self.IB_RANKING,
-            "ib_revenue_2024": {
-                "total_industry": "约450亿元",
-                "yoy_change": "-15%",
-                "note": "受IPO放缓影响，投行收入同比下降"
-            },
-            "business_structure": {
-                "IPO承销": "约35%",
-                "再融资": "约25%",
-                "债券承销": "约30%",
-                "并购重组": "约10%"
-            },
-            "data_source": "中国证券业协会",
-            "data_quality": "真实数据"
-        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时行情 + 定性分析"
+        
+        return result
 
 
 def main():
     parser = argparse.ArgumentParser(description="券商投行业务分析器")
-    parser.add_argument("--ipo", action="store_true", help="IPO数据")
-    parser.add_argument("--year", type=int, help="年份")
-    parser.add_argument("--bond", action="store_true", help="债券承销")
-    parser.add_argument("--ranking", action="store_true", help="投行排名")
+    parser.add_argument("--ipo", action="store_true", help="IPO承销分析")
+    parser.add_argument("--bond", action="store_true", help="债券承销分析")
     
     args = parser.parse_args()
     analyzer = SecuritiesIBAnalyzer()
     
-    if args.ipo:
-        result = analyzer.get_ipo_data(args.year)
-    elif args.bond:
+    if args.bond:
         result = analyzer.get_bond_underwriting()
-    elif args.ranking:
-        result = analyzer.get_ib_ranking()
     else:
-        result = analyzer.get_ipo_data(args.year)
+        result = analyzer.get_ipo_overview()
     
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

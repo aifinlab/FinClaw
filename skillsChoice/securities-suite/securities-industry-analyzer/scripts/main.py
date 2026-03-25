@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
-"""证券行业宏观分析器 - 使用真实数据源"""
+"""证券行业宏观分析器 - 使用AkShare开源数据接口"""
 
 import akshare as ak
 import pandas as pd
 import json
 from datetime import datetime
 import argparse
-import sys
-import os
-
-# 添加common目录到路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', 'common'))
-from finance_api import FinanceDataAPI
 
 
 class SecuritiesIndustryAnalyzer:
-    """证券行业宏观分析器"""
+    """证券行业宏观分析器 - 使用AkShare获取实时数据"""
     
     # 主要券商股票代码
     TOP_SECURITIES = {
@@ -26,77 +20,83 @@ class SecuritiesIndustryAnalyzer:
         '601878': '浙商证券', '600109': '国金证券', '601990': '南京证券'
     }
     
-    # 基于2024年真实数据
-    INDUSTRY_DATA = {
-        "total_securities_firms": 145,
-        "listed_securities_firms": 50,
-        "total_assets": "12.5万亿元",
-        "total_revenue": "2024年约4500亿元",
-        "net_profit": "2024年约1400亿元",
-        "brokers": "2.1亿人",
-        "aum": "约12万亿元"
-    }
-    
-    VALUATION_DATA = {
-        "中信证券": {"pb": 1.35, "pe": 18.5, "market_cap": 3200},
-        "华泰证券": {"pb": 0.95, "pe": 14.2, "market_cap": 1450},
-        "海通证券": {"pb": 0.85, "pe": 16.8, "market_cap": 1280},
-        "国泰君安": {"pb": 0.92, "pe": 15.5, "market_cap": 1380},
-        "招商证券": {"pb": 1.05, "pe": 16.2, "market_cap": 1250},
-        "广发证券": {"pb": 0.88, "pe": 14.8, "market_cap": 1150},
-        "中国银河": {"pb": 1.15, "pe": 17.5, "market_cap": 1380},
-        "中信建投": {"pb": 1.85, "pe": 22.5, "market_cap": 1850},
-        "东方证券": {"pb": 1.05, "pe": 18.2, "market_cap": 850},
-        "兴业证券": {"pb": 0.95, "pe": 15.8, "market_cap": 680}
-    }
-    
-    def __init__(self):
-        self.api = FinanceDataAPI()
+    def _get_realtime_data(self, code: str) -> dict:
+        """从AkShare获取实时行情"""
+        try:
+            df = ak.stock_zh_a_spot_em()
+            stock_row = df[df['代码'] == code]
+            
+            if stock_row.empty:
+                return None
+            
+            return {
+                "price": float(stock_row['最新价'].values[0]) if '最新价' in stock_row.columns else None,
+                "pb": float(stock_row['市净率'].values[0]) if '市净率' in stock_row.columns else None,
+                "pe": float(stock_row['市盈率-动态'].values[0]) if '市盈率-动态' in stock_row.columns else None,
+                "total_mv": float(stock_row['总市值'].values[0]) if '总市值' in stock_row.columns else None
+            }
+        except Exception:
+            return None
     
     def get_industry_overview(self) -> dict:
-        """获取证券行业概览"""
+        """获取证券行业概览 - 使用AkShare实时数据"""
         result = {
             "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "data_type": "证券行业概览",
-            "industry_data": self.INDUSTRY_DATA,
-            "data_source": "中国证券业协会、证监会",
-            "data_quality": "真实数据",
-            "note": "数据截至2024年末"
+            "data_type": "证券行业概览"
         }
         
-        # 尝试获取实时行情数据
-        try:
-            codes = list(self.TOP_SECURITIES.keys())
-            api_result = self.api.get_realtime_quote(codes[:10])
+        # 获取主要券商实时行情
+        securities_data = []
+        for code, name in list(self.TOP_SECURITIES.items())[:10]:
+            data = self._get_realtime_data(code)
+            if data:
+                securities_data.append({
+                    "name": name,
+                    "code": code,
+                    "price": data.get("price"),
+                    "pb": data.get("pb"),
+                    "pe": data.get("pe"),
+                    "total_mv_yi": round(data.get("total_mv") / 1e8, 2) if data.get("total_mv") else None
+                })
+        
+        if securities_data:
+            # 计算行业平均估值
+            valid_pb = [s["pb"] for s in securities_data if s.get("pb")]
+            valid_pe = [s["pe"] for s in securities_data if s.get("pe")]
             
-            if api_result and 'data' in api_result:
-                data = api_result['data']
-                valid_data = [v for v in data.values() if v.get('price')]
-                
-                if valid_data:
-                    result["realtime_indicators"] = {
-                        "上市券商数量": len(self.TOP_SECURITIES),
-                        "平均PE": f"{sum([v.get('pe', 0) for v in valid_data]) / len(valid_data):.2f}",
-                        "平均PB": f"{sum([v.get('pb', 0) for v in valid_data]) / len(valid_data):.2f}",
-                        "data_source": api_result.get('data_source', 'API')
-                    }
-        except Exception as e:
-            result["realtime_note"] = f"实时数据获取失败: {e}"
+            result["realtime_indicators"] = {
+                "样本券商数": len(securities_data),
+                "平均PB": round(sum(valid_pb) / len(valid_pb), 2) if valid_pb else None,
+                "平均PE": round(sum(valid_pe) / len(valid_pe), 2) if valid_pe else None,
+                "总市值合计_亿元": sum([s.get("total_mv_yi", 0) or 0 for s in securities_data])
+            }
+            result["top_securities"] = securities_data
+        
+        result["data_source"] = "AkShare - 东方财富"
+        result["data_quality"] = "实时行情"
         
         return result
     
     def get_concentration_analysis(self) -> dict:
-        """分析行业集中度"""
+        """分析行业集中度 - 使用AkShare实时数据"""
         securities_list = []
+        
         for code, name in self.TOP_SECURITIES.items():
-            val_data = self.VALUATION_DATA.get(name, {})
-            securities_list.append({
-                'name': name,
-                'code': code,
-                'market_cap': val_data.get('market_cap', 0) * 1e6,
-                'pb': val_data.get('pb', 0),
-                'pe': val_data.get('pe', 0)
-            })
+            data = self._get_realtime_data(code)
+            if data and data.get("total_mv"):
+                securities_list.append({
+                    'name': name,
+                    'code': code,
+                    'market_cap': data.get("total_mv"),
+                    'pb': data.get("pb"),
+                    'pe': data.get("pe")
+                })
+        
+        if not securities_list:
+            return {
+                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "error": "无法获取市值数据"
+            }
         
         securities_list.sort(key=lambda x: x['market_cap'], reverse=True)
         
@@ -115,48 +115,17 @@ class SecuritiesIndustryAnalyzer:
                 "CR10": f"{cr10_cap/total_cap*100:.1f}%" if total_cap else "N/A"
             },
             "assessment": "头部高度集中" if cr5_pct > 50 else "头部集中" if cr5_pct > 40 else "竞争分散",
-            "data_source": "市场数据",
-            "data_quality": "真实数据"
+            "data_source": "AkShare - 东方财富",
+            "data_quality": "实时市值数据"
         }
     
     def get_policy_impact(self) -> dict:
         """分析政策影响"""
         return {
             "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "recent_policies": [
-                {
-                    "policy": "全面注册制改革",
-                    "impact": "利好投行收入，IPO和再融资业务扩容",
-                    "status": "已实施",
-                    "year": 2023
-                },
-                {
-                    "policy": "科创板做市商制度",
-                    "impact": "增加自营业务机会，提升流动性服务能力",
-                    "status": "实施中",
-                    "year": 2022
-                },
-                {
-                    "policy": "两融标的扩容",
-                    "impact": "利好信用业务收入，提升杠杆水平",
-                    "status": "已实施",
-                    "year": 2023
-                },
-                {
-                    "policy": "公募基金费率改革",
-                    "impact": "短期冲击代销收入，长期促进行业转型",
-                    "status": "分阶段实施",
-                    "year": 2023
-                },
-                {
-                    "policy": "活跃资本市场政策",
-                    "impact": "提升市场交易量，利好经纪和自营业务",
-                    "status": "持续推出",
-                    "year": 2023
-                }
-            ],
-            "data_source": "证监会、交易所公告",
-            "data_quality": "真实数据"
+            "message": "政策数据需从证监会、交易所公告获取",
+            "data_source": "需外部数据源",
+            "note": "AkShare暂无政策数据接口，建议关注官方公告"
         }
 
 

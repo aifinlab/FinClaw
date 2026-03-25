@@ -15,6 +15,19 @@ from typing import List, Dict, Optional
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
 import random
+import warnings
+
+# 数据文件路径
+SAMPLE_DATA_PATH = '/root/.openclaw/workspace/skillsChoice/fund-suite/sample_data.json'
+
+def _load_sample_data_from_file() -> Dict:
+    """从外部JSON文件加载示例数据"""
+    try:
+        with open(SAMPLE_DATA_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        warnings.warn(f"无法加载示例数据文件: {e}。将使用最小化默认数据。")
+        return {}
 
 
 @dataclass
@@ -62,121 +75,97 @@ class FundMarketResearch:
         self._load_sample_data()
     
     def _load_sample_data(self):
-        """加载示例数据（实际环境从API获取）"""
-        # 市场规模数据
-        self.market_overview = MarketOverview(
-            total_funds=11580,
-            total_scale=28.50,
-            scale_change_mom=0.35,
-            scale_change_yoy=2.80
+        """加载示例数据（⚠️ 警告：此为示例数据，生产环境请接入真实数据源）"""
+        warnings.warn(
+            "⚠️ 正在使用示例数据（sample_data.json）！\n"
+            "   生产环境请接入真实数据源，如：\n"
+            "   - AkShare API\n"
+            "   - 同花顺iFinD\n"
+            "   -  Wind 金融终端",
+            UserWarning,
+            stacklevel=2
         )
         
-        # 分类数据
+        # 从外部文件加载数据，如果不存在则使用最小化默认数据
+        sample_data = _load_sample_data_from_file()
+        
+        # 市场规模数据（示例数据）
+        mo = sample_data.get('market_overview', {})
+        self.market_overview = MarketOverview(
+            total_funds=mo.get('total_funds', 1000),
+            total_scale=mo.get('total_scale', 25.0),
+            scale_change_mom=mo.get('scale_change_mom', 0.30),
+            scale_change_yoy=mo.get('scale_change_yoy', 2.50)
+        )
+        
+        # 分类数据（示例数据-需替换）
+        cats = sample_data.get('categories', {})
         self.categories = {
-            'equity': CategoryData('股票型', 3200, 8.20, 5.2, 18.5),
-            'hybrid': CategoryData('混合型', 4100, 6.80, 3.8, 15.2),
-            'bond': CategoryData('债券型', 2800, 9.50, 1.5, 4.8),
-            'money': CategoryData('货币型', 800, 3.20, 0.8, 2.1),
-            'qdii': CategoryData('QDII', 400, 0.60, 8.5, 22.3),
-            'index': CategoryData('指数型', 280, 0.20, 4.2, 12.5),
+            'equity': CategoryData('股票型', 500, 8.0, 5.0, 15.0),
+            'hybrid': CategoryData('混合型', 400, 6.0, 4.0, 12.0),
+            'bond': CategoryData('债券型', 300, 8.0, 1.5, 4.5),
+            'money': CategoryData('货币型', 100, 3.0, 0.8, 2.0),
+            'qdii': CategoryData('QDII', 50, 1.0, 6.0, 18.0),
+            'index': CategoryData('指数型', 50, 1.0, 3.0, 10.0),
         }
         
-        # 市场趋势
+        # 市场趋势（示例数据-需替换）
         self.market_trends = {
-            'new_funds_30d': 45,
-            'total_raising': 1200.5,
-            'net_inflow': -85.3,
-            'sentiment_index': 52.5,
-            'active_funds': 8500,
+            'new_funds_30d': 30,
+            'total_raising': 500.0,
+            'net_inflow': -50.0,
+            'sentiment_index': 50.0,
+            'active_funds': 1000,
+            '_note': '示例数据-需替换为真实数据'
         }
         
-        # 分类资金流向
+        # 分类资金流向（示例数据-需替换）
         self.category_flows = {
-            'equity': FundFlow(-120.5, 450.2, 570.7, 1200, 1800),
-            'hybrid': FundFlow(-45.2, 320.5, 365.7, 950, 1400),
-            'bond': FundFlow(65.8, 280.3, 214.5, 1100, 900),
-            'money': FundFlow(15.3, 150.0, 134.7, 400, 350),
-            'qdii': FundFlow(-0.7, 25.5, 26.2, 150, 180),
+            'equity': FundFlow(-50.0, 200.0, 250.0, 500, 800),
+            'hybrid': FundFlow(-20.0, 150.0, 170.0, 400, 600),
+            'bond': FundFlow(30.0, 120.0, 90.0, 500, 400),
+            'money': FundFlow(10.0, 80.0, 70.0, 200, 150),
+            'qdii': FundFlow(-5.0, 15.0, 20.0, 80, 100),
         }
         
-        # 热门板块
+        # 热门板块（示例数据-需替换）
         self.hot_sectors = [
-            {'name': '白酒', 'fund_count': 45, 'scale': 1250, 'return_30d': 8.5, 'heat': 95},
-            {'name': '新能源', 'fund_count': 68, 'scale': 2180, 'return_30d': 6.2, 'heat': 88},
-            {'name': '医药生物', 'fund_count': 52, 'scale': 1680, 'return_30d': 4.8, 'heat': 76},
-            {'name': '科技(TMT)', 'fund_count': 78, 'scale': 1920, 'return_30d': 3.5, 'heat': 72},
-            {'name': '消费', 'fund_count': 35, 'scale': 980, 'return_30d': 2.8, 'heat': 58},
-            {'name': '金融地产', 'fund_count': 42, 'scale': 1150, 'return_30d': 1.5, 'heat': 45},
-            {'name': '周期资源', 'fund_count': 28, 'scale': 680, 'return_30d': -0.5, 'heat': 32},
+            {'name': '示例板块A', 'fund_count': 10, 'scale': 500, 'return_30d': 5.0, 'heat': 80, '_note': '示例数据'},
+            {'name': '示例板块B', 'fund_count': 8, 'scale': 400, 'return_30d': 3.0, 'heat': 60, '_note': '示例数据'},
         ]
         
-        # 热门流入基金
+        # 热门流入基金（示例数据-需替换）
+        funds = sample_data.get('funds', {})
+        equity_funds = funds.get('equity', [])
+        hybrid_funds = funds.get('hybrid', [])
+        
         self.hot_inflows = [
-            {'code': '000007', 'name': '招商中证白酒', 'inflow': 12.5},
-            {'code': '000002', 'name': '易方达蓝筹精选', 'inflow': 8.3},
-            {'code': '000008', 'name': '天弘余额宝', 'inflow': 5.2},
-            {'code': '000004', 'name': '富国天惠成长', 'inflow': 4.8},
-            {'code': '000006', 'name': '嘉实沪深300', 'inflow': 3.5},
+            {'code': equity_funds[0]['code'] if equity_funds else '000003', 
+             'name': equity_funds[0]['name'] if equity_funds else '示例股票基金A', 'inflow': 5.0, '_note': '示例数据'},
+            {'code': hybrid_funds[0]['code'] if hybrid_funds else '000001', 
+             'name': hybrid_funds[0]['name'] if hybrid_funds else '示例混合基金A', 'inflow': 3.0, '_note': '示例数据'},
         ]
         
-        # 热门流出基金
+        # 热门流出基金（示例数据-需替换）
         self.hot_outflows = [
-            {'code': '000001', 'name': '华夏成长混合', 'outflow': 15.2},
-            {'code': '000003', 'name': '中欧时代先锋', 'outflow': 12.8},
-            {'code': '000009', 'name': '广发科技创新', 'outflow': 10.5},
-            {'code': '000005', 'name': '景顺长城新兴', 'outflow': 8.3},
-            {'code': '000010', 'name': '工银瑞信战略', 'outflow': 6.2},
+            {'code': hybrid_funds[1]['code'] if len(hybrid_funds) > 1 else '000002', 
+             'name': hybrid_funds[1]['name'] if len(hybrid_funds) > 1 else '示例混合基金B', 'outflow': 5.0, '_note': '示例数据'},
         ]
         
-        # 发行日历
+        # 发行日历（示例数据-需替换）
         self.upcoming_funds = [
             {
                 'fund_code': '待公布',
-                'fund_name': '国泰科技创新混合',
+                'fund_name': '示例新基金A',
                 'fund_type': '混合型',
-                'manager': '李明',
-                'company': '国泰基金',
-                'start_date': '2026-03-25',
-                'end_date': '2026-04-15',
-                'target_scale': '50亿',
-                'investment_theme': '科技创新',
-                'status': '即将发行'
-            },
-            {
-                'fund_code': '待公布',
-                'fund_name': '招商中证新能源ETF',
-                'fund_type': '指数型',
-                'manager': '王强',
-                'company': '招商基金',
-                'start_date': '2026-03-28',
-                'end_date': '2026-04-10',
-                'target_scale': '30亿',
-                'investment_theme': '新能源',
-                'status': '即将发行'
-            },
-            {
-                'fund_code': '013568',
-                'fund_name': '易方达优质企业精选',
-                'fund_type': '股票型',
-                'manager': '张坤',
-                'company': '易方达基金',
+                'manager': '示例经理',
+                'company': '示例公司',
                 'start_date': '2026-04-01',
                 'end_date': '2026-04-20',
-                'target_scale': '80亿',
-                'investment_theme': '优质成长',
-                'status': '审批中'
-            },
-            {
-                'fund_code': '待公布',
-                'fund_name': '中欧医疗健康混合',
-                'fund_type': '混合型',
-                'manager': '葛兰',
-                'company': '中欧基金',
-                'start_date': '2026-04-05',
-                'end_date': '2026-04-25',
-                'target_scale': '60亿',
-                'investment_theme': '医疗健康',
-                'status': '即将发行'
+                'target_scale': '10亿',
+                'investment_theme': '示例主题',
+                'status': '即将发行',
+                '_note': '示例数据-需替换'
             },
         ]
     

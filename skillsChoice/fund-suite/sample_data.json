@@ -1,0 +1,51 @@
+{
+  "_description": "示例基金数据 - 生产环境请替换为真实数据",
+  "_warning": "⚠️ 此文件包含示例数据，仅供开发和测试使用。生产环境请从真实数据源加载数据。",
+  "funds": {
+    "equity": [
+      {"code": "000003", "name": "示例股票基金A", "return": 0.12, "volatility": 0.22},
+      {"code": "000005", "name": "示例股票基金B", "return": 0.10, "volatility": 0.25}
+    ],
+    "hybrid": [
+      {"code": "000001", "name": "示例混合基金A", "return": 0.08, "volatility": 0.16},
+      {"code": "000002", "name": "示例混合基金B", "return": 0.07, "volatility": 0.15}
+    ],
+    "bond": [
+      {"code": "000008", "name": "示例债券基金A", "return": 0.04, "volatility": 0.025}
+    ],
+    "money": [
+      {"code": "000012", "name": "示例货币基金A", "return": 0.025, "volatility": 0.001}
+    ]
+  },
+  "fund_details": {
+    "000001": {"name": "示例混合基金A", "type": "混合型"},
+    "000002": {"name": "示例混合基金B", "type": "混合型"},
+    "000003": {"name": "示例股票基金A", "type": "股票型"},
+    "000005": {"name": "示例股票基金B", "type": "股票型"},
+    "000008": {"name": "示例债券基金A", "type": "债券型"},
+    "000012": {"name": "示例货币基金A", "type": "货币型"}
+  },
+  "market_overview": {
+    "total_funds": 1000,
+    "total_scale": 25.0,
+    "scale_change_mom": 0.30,
+    "scale_change_yoy": 2.50
+  },
+  "categories": {
+    "equity": {"name": "股票型", "count": 500, "scale": 8.0, "avg_return_ytd": 5.0, "avg_return_1y": 15.0},
+    "hybrid": {"name": "混合型", "count": 400, "scale": 6.0, "avg_return_ytd": 4.0, "avg_return_1y": 12.0},
+    "bond": {"name": "债券型", "count": 300, "scale": 8.0, "avg_return_ytd": 1.5, "avg_return_1y": 4.5},
+    "money": {"name": "货币型", "count": 100, "scale": 3.0, "avg_return_ytd": 0.8, "avg_return_1y": 2.0}
+  },
+  "sample_returns": [0.001, -0.002, 0.003, 0.001, -0.001, 0.002, 0.001, -0.003, 0.002, 0.001],
+  "sample_holdings": [
+    {"code": "000001", "name": "示例混合基金A", "fund_type": "hybrid", "value": 100000, "holding_days": 365, "cost_basis": 95000},
+    {"code": "000003", "name": "示例股票基金A", "fund_type": "equity", "value": 50000, "holding_days": 180, "cost_basis": 48000}
+  ],
+  "target_allocation": {
+    "equity": 0.30,
+    "hybrid": 0.30,
+    "bond": 0.30,
+    "money": 0.10
+  }
+}

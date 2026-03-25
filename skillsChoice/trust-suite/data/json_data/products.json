@@ -1,0 +1,145 @@
+{
+  "update_time": "2026-03-25T09:20:17.357042",
+  "products": [
+    {
+      "product_code": "YY2026001",
+      "product_name": "华鑫信托-稳健1号",
+      "trust_company": "华鑫信托",
+      "product_type": "集合信托",
+      "investment_type": "固定收益类",
+      "expected_yield": 7.2,
+      "duration": 18,
+      "min_investment": 100,
+      "issue_scale": 50000,
+      "issue_date": "2026-03-25",
+      "risk_level": "R3",
+      "status": "在售",
+      "underlying_type": "",
+      "quality_label": {
+        "source": "用益信托网(模拟数据)",
+        "update_time": "2026-03-25T09:20:16.721255",
+        "freshness_score": 60,
+        "reliability_score": 70,
+        "coverage_score": 50,
+        "is_realtime": false,
+        "is_cached": true,
+        "fallback_level": 1,
+        "notes": [
+          "爬虫获取失败，使用模拟数据"
+        ]
+      }
+    },
+    {
+      "product_code": "YY2026002",
+      "product_name": "平安信托-优享2号",
+      "trust_company": "平安信托",
+      "product_type": "集合信托",
+      "investment_type": "混合类",
+      "expected_yield": 6.8,
+      "duration": 24,
+      "min_investment": 100,
+      "issue_scale": 50000,
+      "issue_date": "2026-03-25",
+      "risk_level": "R3",
+      "status": "在售",
+      "underlying_type": "",
+      "quality_label": {
+        "source": "用益信托网(模拟数据)",
+        "update_time": "2026-03-25T09:20:16.721296",
+        "freshness_score": 60,
+        "reliability_score": 70,
+        "coverage_score": 50,
+        "is_realtime": false,
+        "is_cached": true,
+        "fallback_level": 1,
+        "notes": [
+          "爬虫获取失败，使用模拟数据"
+        ]
+      }
+    },
+    {
+      "product_code": "YY2026003",
+      "product_name": "中航信托-航鑫3号",
+      "trust_company": "中航信托",
+      "product_type": "集合信托",
+      "investment_type": "固定收益类",
+      "expected_yield": 7.5,
+      "duration": 12,
+      "min_investment": 100,
+      "issue_scale": 50000,
+      "issue_date": "2026-03-25",
+      "risk_level": "R3",
+      "status": "在售",
+      "underlying_type": "",
+      "quality_label": {
+        "source": "用益信托网(模拟数据)",
+        "update_time": "2026-03-25T09:20:16.721305",
+        "freshness_score": 60,
+        "reliability_score": 70,
+        "coverage_score": 50,
+        "is_realtime": false,
+        "is_cached": true,
+        "fallback_level": 1,
+        "notes": [
+          "爬虫获取失败，使用模拟数据"
+        ]
+      }
+    },
+    {
+      "product_code": "YY2026004",
+      "product_name": "五矿信托-财富4号",
+      "trust_company": "五矿信托",
+      "product_type": "集合信托",
+      "investment_type": "固定收益类",
+      "expected_yield": 6.5,
+      "duration": 36,
+      "min_investment": 100,
+      "issue_scale": 50000,
+      "issue_date": "2026-03-25",
+      "risk_level": "R3",
+      "status": "在售",
+      "underlying_type": "",
+      "quality_label": {
+        "source": "用益信托网(模拟数据)",
+        "update_time": "2026-03-25T09:20:16.721321",
+        "freshness_score": 60,
+        "reliability_score": 70,
+        "coverage_score": 50,
+        "is_realtime": false,
+        "is_cached": true,
+        "fallback_level": 1,
+        "notes": [
+          "爬虫获取失败，使用模拟数据"
+        ]
+      }
+    },
+    {
+      "product_code": "YY2026005",
+      "product_name": "中信信托-盛世5号",
+      "trust_company": "中信信托",
+      "product_type": "集合信托",
+      "investment_type": "权益类",
+      "expected_yield": 8.0,
+      "duration": 24,
+      "min_investment": 100,
+      "issue_scale": 50000,
+      "issue_date": "2026-03-25",
+      "risk_level": "R3",
+      "status": "在售",
+      "underlying_type": "",
+      "quality_label": {
+        "source": "用益信托网(模拟数据)",
+        "update_time": "2026-03-25T09:20:16.721330",
+        "freshness_score": 60,
+        "reliability_score": 70,
+        "coverage_score": 50,
+        "is_realtime": false,
+        "is_cached": true,
+        "fallback_level": 1,
+        "notes": [
+          "爬虫获取失败，使用模拟数据"
+        ]
+      }
+    }
+  ]
+}

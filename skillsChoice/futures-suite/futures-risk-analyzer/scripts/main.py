@@ -1,142 +1,136 @@
 #!/usr/bin/env python3
-"""期货风险分析器 - 使用真实数据源"""
+"""期货风险分析器 - 使用AkShare开源数据接口
+
+功能：分析期货品种风险指标
+数据源：AkShare开源金融数据接口
+说明：风险数据需基于历史行情计算
+"""
 
 import akshare as ak
-import pandas as pd
 import json
 from datetime import datetime
 import argparse
+import math
 
 
 class FuturesRiskAnalyzer:
-    """期货风险分析器"""
+    """期货风险分析器 - 使用AkShare获取历史数据计算风险指标"""
     
-    # 品种历史波动率数据（年化）
-    VOLATILITY_DATA = {
-        # 商品期货
-        "RB": {"volatility": 0.25, "var_95": -2.5, "max_dd": -18},
-        "I": {"volatility": 0.32, "var_95": -3.2, "max_dd": -25},
-        "SC": {"volatility": 0.35, "var_95": -3.5, "max_dd": -30},
-        "CU": {"volatility": 0.18, "var_95": -1.8, "max_dd": -15},
-        "AU": {"volatility": 0.15, "var_95": -1.5, "max_dd": -12},
-        "AG": {"volatility": 0.22, "var_95": -2.2, "max_dd": -18},
-        "M": {"volatility": 0.20, "var_95": -2.0, "max_dd": -16},
-        "TA": {"volatility": 0.24, "var_95": -2.4, "max_dd": -20},
-        "MA": {"volatility": 0.22, "var_95": -2.2, "max_dd": -18},
-        # 金融期货
-        "IF": {"volatility": 0.18, "var_95": -1.8, "max_dd": -22},
-        "IC": {"volatility": 0.24, "var_95": -2.4, "max_dd": -28},
-        "IH": {"volatility": 0.16, "var_95": -1.6, "max_dd": -20},
-        "IM": {"volatility": 0.26, "var_95": -2.6, "max_dd": -30},
-        "T": {"volatility": 0.04, "var_95": -0.4, "max_dd": -5}
-    }
+    def __init__(self):
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def _get_hist_data(self, symbol: str) -> list:
+        """获取历史行情 - 使用AkShare"""
+        try:
+            df = ak.futures_zh_daily(symbol=symbol)
+            if df is not None and not df.empty:
+                return df['close'].tolist()
+        except Exception:
+            return []
+        return []
+    
+    def _calculate_volatility(self, prices: list) -> float:
+        """计算历史波动率"""
+        if len(prices) < 2:
+            return None
+        
+        returns = []
+        for i in range(1, len(prices)):
+            if prices[i-1] != 0:
+                ret = (prices[i] - prices[i-1]) / prices[i-1]
+                returns.append(ret)
+        
+        if not returns:
+            return None
+        
+        # 计算标准差（日收益率）
+        mean = sum(returns) / len(returns)
+        variance = sum((r - mean) ** 2 for r in returns) / len(returns)
+        daily_vol = math.sqrt(variance)
+        
+        # 年化波动率（假设252个交易日）
+        annual_vol = daily_vol * math.sqrt(252)
+        
+        return round(annual_vol * 100, 2)  # 返回百分比
+    
+    def _calculate_max_dd(self, prices: list) -> float:
+        """计算最大回撤"""
+        if len(prices) < 2:
+            return None
+        
+        max_price = prices[0]
+        max_dd = 0
+        
+        for price in prices:
+            if price > max_price:
+                max_price = price
+            dd = (max_price - price) / max_price if max_price > 0 else 0
+            if dd > max_dd:
+                max_dd = dd
+        
+        return round(max_dd * 100, 2)  # 返回百分比
     
     def analyze_risk(self, symbol: str, lookback: int = 60) -> dict:
         """分析期货风险指标"""
         product_code = ''.join([c for c in symbol if c.isalpha()]).upper()
         
-        risk_data = self.VOLATILITY_DATA.get(product_code)
-        
-        if not risk_data:
-            return {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "symbol": symbol,
-                "error": f"未找到品种{product_code}的风险数据",
-                "available_symbols": list(self.VOLATILITY_DATA.keys())
-            }
-        
-        volatility = risk_data["volatility"]
-        
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        result = {
+            "query_time": self.query_time,
             "symbol": symbol,
-            "lookback_days": lookback,
-            "risk_metrics": {
-                "volatility_annual": f"{volatility*100:.1f}%",
-                "var_95_daily": f"{risk_data['var_95']:.1f}%",
-                "max_drawdown_hist": f"{risk_data['max_dd']:.1f}%"
-            },
-            "risk_level": self._assess_risk(volatility),
-            "risk_assessment": self._get_risk_description(volatility),
-            "margin_recommendation": self._get_margin_recommendation(volatility),
-            "data_source": "历史波动率统计",
-            "data_quality": "真实数据",
-            "note": "基于近3年历史价格数据计算"
+            "product_code": product_code,
+            "lookback_days": lookback
         }
-    
-    def _assess_risk(self, volatility: float) -> str:
-        """评估风险等级"""
-        if volatility > 0.35:
-            return "高风险"
-        elif volatility > 0.25:
-            return "中高风险"
-        elif volatility > 0.18:
-            return "中等风险"
-        elif volatility > 0.10:
-            return "中低风险"
-        else:
-            return "低风险"
-    
-    def _get_risk_description(self, volatility: float) -> str:
-        """获取风险描述"""
-        if volatility > 0.30:
-            return "该品种波动剧烈，价格日内波动可能超过3%，建议控制仓位，严格止损"
-        elif volatility > 0.20:
-            return "该品种波动较大，价格日内波动可能超过2%，建议适度仓位管理"
-        elif volatility > 0.12:
-            return "该品种波动适中，适合趋势交易和波段操作"
-        else:
-            return "该品种波动较小，适合套保和稳健投资"
-    
-    def _get_margin_recommendation(self, volatility: float) -> str:
-        """获取保证金建议"""
-        if volatility > 0.30:
-            return "建议保证金充足率保持在30%以上"
-        elif volatility > 0.20:
-            return "建议保证金充足率保持在25%以上"
-        else:
-            return "建议保证金充足率保持在20%以上"
-    
-    def compare_risk(self, symbols: list) -> dict:
-        """对比多个品种风险"""
-        results = []
-        for symbol in symbols:
-            product_code = ''.join([c for c in symbol if c.isalpha()]).upper()
-            risk_data = self.VOLATILITY_DATA.get(product_code)
-            if risk_data:
-                results.append({
-                    "symbol": symbol,
-                    "volatility": risk_data["volatility"],
-                    "risk_level": self._assess_risk(risk_data["volatility"])
-                })
         
-        results.sort(key=lambda x: x["volatility"], reverse=True)
+        # 获取历史数据
+        prices = self._get_hist_data(symbol)
         
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "risk_comparison": results,
-            "highest_risk": results[0] if results else None,
-            "lowest_risk": results[-1] if results else None,
-            "data_source": "历史波动率统计",
-            "data_quality": "真实数据"
+        if len(prices) >= lookback:
+            recent_prices = prices[-lookback:]
+            
+            # 计算风险指标
+            volatility = self._calculate_volatility(recent_prices)
+            max_dd = self._calculate_max_dd(recent_prices)
+            
+            if volatility:
+                result["risk_indicators"] = {
+                    "volatility_annual_pct": f"{volatility}%",
+                    "max_drawdown_pct": f"{max_dd}%" if max_dd else None,
+                    "var_95_pct": f"{-1.645 * volatility / math.sqrt(252):.2f}%" if volatility else None
+                }
+            else:
+                result["note"] = "历史数据不足，无法计算风险指标"
+        else:
+            result["note"] = f"历史数据不足（仅{len(prices)}天），需要{lookback}天"
+        
+        result["risk_framework"] = {
+            "风险提示": [
+                "杠杆风险：期货交易采用保证金制度，盈亏放大",
+                "流动性风险：部分品种成交量较小",
+                "基差风险：期货与现货价格差异波动",
+                "交割风险：近月合约需关注交割规则"
+            ]
         }
+        
+        result["data_source"] = "AkShare开源数据"
+        result["data_quality"] = "基于历史行情计算"
+        
+        return result
 
 
 def main():
     parser = argparse.ArgumentParser(description="期货风险分析器")
-    parser.add_argument("--symbol", help="合约代码")
-    parser.add_argument("--symbols", help="多个合约逗号分隔")
-    parser.add_argument("--lookback", type=int, default=60, help="回看天数")
+    parser.add_argument("--symbol", help="合约代码(如: RB, CU, SC)")
+    parser.add_argument("--days", type=int, default=60, help="回 lookback天数")
     
     args = parser.parse_args()
     analyzer = FuturesRiskAnalyzer()
     
-    if args.symbols:
-        result = analyzer.compare_risk(args.symbols.split(","))
-    elif args.symbol:
-        result = analyzer.analyze_risk(args.symbol, args.lookback)
+    if args.symbol:
+        result = analyzer.analyze_risk(args.symbol, args.days)
     else:
-        result = {"available_symbols": list(analyzer.VOLATILITY_DATA.keys())}
+        result = {
+            "usage": "--symbol RB --days 60"
+        }
     
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

@@ -1,0 +1,12 @@
+# Insurance Suite Dependencies
+
+# insurance-policy-tracker
+requests>=2.28.0
+python-dateutil>=2.8.0
+
+# insurance-sector-comparison
+akshare>=1.10.0
+pandas>=1.5.0
+
+# Common dependencies
+numpy>=1.21.0

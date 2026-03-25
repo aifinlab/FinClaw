@@ -1,119 +1,148 @@
 #!/usr/bin/env python3
-"""证券行业政策分析器"""
+"""证券行业政策分析器 - 使用AkShare开源数据接口
+
+功能：分析证券行业政策影响、监管动态
+数据源：AkShare + 政策法规文本
+说明：政策信息需通过官方渠道核实
+"""
 
 import akshare as ak
-import pandas as pd
 import json
 from datetime import datetime
 import argparse
 
 
 class SecuritiesPolicyAnalyzer:
-    """证券行业政策分析器"""
+    """证券行业政策分析器 - 政策文本 + 市场数据"""
+    
+    def __init__(self):
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def _get_stock_market_data(self) -> dict:
+        """获取股票市场数据 - 使用AkShare"""
+        try:
+            df = ak.stock_zh_a_spot_em()
+            if df is not None and not df.empty:
+                # 计算市场成交额
+                total_amount = df['成交额'].sum() if '成交额' in df.columns else 0
+                # 计算上涨下跌家数
+                up_count = len(df[df['涨跌幅'] > 0]) if '涨跌幅' in df.columns else 0
+                down_count = len(df[df['涨跌幅'] < 0]) if '涨跌幅' in df.columns else 0
+                
+                return {
+                    "当日总成交额_亿元": round(total_amount / 1e8, 2) if total_amount else None,
+                    "上涨家数": up_count,
+                    "下跌家数": down_count,
+                    "data_source": "AkShare - 东方财富"
+                }
+        except Exception:
+            return None
+        return None
     
     def get_recent_policies(self) -> dict:
-        """获取近期重要政策"""
-        policies = [
-            {
-                "date": "2026-03",
-                "title": "全面注册制改革深化",
-                "issuer": "证监会",
-                "impact": "利好投行业务，提升IPO效率",
-                "affected_business": ["投资银行"],
-                "status": "实施中"
+        """获取近期重要政策 - 政策框架说明"""
+        result = {
+            "query_time": self.query_time,
+            "data_note": "政策信息需通过证监会官网核实",
+            "policy_framework": {
+                "资本市场改革": [
+                    "全面注册制改革",
+                    "科创板做市商制度",
+                    "北交所深化改革"
+                ],
+                "业务创新": [
+                    "衍生品业务发展",
+                    "跨境理财通",
+                    "公募投顾试点"
+                ],
+                "风险防控": [
+                    "两融业务风险管理",
+                    "场外衍生品监管",
+                    "信息系统安全"
+                ]
             },
-            {
-                "date": "2026-01",
-                "title": "券商做市商制度优化",
-                "issuer": "证监会",
-                "impact": "扩大自营收入来源，增加流动性服务收益",
-                "affected_business": ["自营", "做市"],
-                "status": "已实施"
-            },
-            {
-                "date": "2025-12",
-                "title": "两融标的进一步扩容",
-                "issuer": "交易所",
-                "impact": "提升信用业务规模，增加利息收入",
-                "affected_business": ["信用业务"],
-                "status": "已实施"
-            },
-            {
-                "date": "2025-11",
-                "title": "衍生品业务管理办法修订",
-                "issuer": "证监会",
-                "impact": "丰富衍生品业务类型，提升风险管理能力",
-                "affected_business": ["衍生品", "自营"],
-                "status": "征求意见"
-            },
-            {
-                "date": "2025-10",
-                "title": "公募投顾业务试点扩大",
-                "issuer": "证监会",
-                "impact": "拓展财富管理业务，增加管理费收入",
-                "affected_business": ["财富管理", "资管"],
-                "status": "试点中"
-            }
-        ]
-        
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "policies": policies,
-            "data_source": "证监会公告整理"
+            "data_source": "证监会政策框架整理",
+            "data_quality": "政策文本"
         }
+        
+        # 获取市场数据
+        market_data = self._get_stock_market_data()
+        if market_data:
+            result["market_environment"] = market_data
+        
+        return result
     
     def get_policy_impact(self, policy_type: str = None) -> dict:
-        """分析政策影响"""
+        """分析政策影响 - 基于业务条线"""
         impact_analysis = {
             "投资银行": {
-                "利好政策": ["全面注册制", "再融资松绑", "并购重组简化"],
-                "预期影响": "承销收入稳步增长"
+                "政策方向": "注册制改革、再融资优化、并购重组简化",
+                "影响分析": "承销业务扩容，但竞争加剧费率下行"
             },
             "经纪业务": {
-                "利好政策": ["T+0试点", "两融扩容", "交易机制优化"],
-                "预期影响": "成交额提升，佣金收入增加"
+                "政策方向": "交易机制优化、两融扩容、T+0研究",
+                "影响分析": "成交额提升，但佣金率持续下行"
             },
             "资管业务": {
-                "利好政策": ["公募投顾", "养老金融产品", "跨境理财通"],
-                "预期影响": "资管规模扩张，管理费收入增长"
+                "政策方向": "公募投顾、养老金融、跨境理财通",
+                "影响分析": "转型主动管理，管理费收入增长"
             },
             "自营业务": {
-                "利好政策": ["做市商制度", "衍生品扩容", "科创板做市"],
-                "预期影响": "投资收益多元化，波动性降低"
+                "政策方向": "做市商制度、衍生品扩容、科创板做市",
+                "影响分析": "投资收益多元化，去方向化转型"
             },
             "信用业务": {
-                "利好政策": ["两融扩容", "转融通优化", "标的范围扩大"],
-                "预期影响": "两融余额增长，利息收入提升"
+                "政策方向": "两融扩容、转融通优化、标的扩大",
+                "影响分析": "两融余额增长，利息收入提升"
             }
         }
         
+        # 获取市场数据
+        market_data = self._get_stock_market_data()
+        
         if policy_type and policy_type in impact_analysis:
-            return {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            result = {
+                "query_time": self.query_time,
                 "business_line": policy_type,
                 "analysis": impact_analysis[policy_type]
             }
+            if market_data:
+                result["market_environment"] = market_data
+            return result
         
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        result = {
+            "query_time": self.query_time,
             "impact_analysis": impact_analysis
         }
+        if market_data:
+            result["market_environment"] = market_data
+        
+        return result
     
     def get_regulatory_penalties(self) -> dict:
-        """获取监管处罚信息"""
+        """获取监管处罚信息 - 使用AkShare"""
         try:
             # 获取行政处罚数据
             df = ak.stock_cg_lawsuit_cninfo()
             
-            return {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            result = {
+                "query_time": self.query_time,
                 "penalty_count": len(df) if df is not None else 0,
-                "recent_cases": df.head(5).to_dict('records') if df is not None else [],
-                "data_source": "巨潮资讯网",
+                "data_source": "巨潮资讯网 - AkShare",
+                "data_quality": "公开披露数据",
                 "note": "处罚信息需通过证监会官网核实"
             }
+            
+            if df is not None and not df.empty:
+                result["recent_cases"] = df.head(5).to_dict('records')
+            
+            return result
         except Exception as e:
-            return {"error": str(e)}
+            return {
+                "query_time": self.query_time,
+                "error": f"获取处罚信息失败: {str(e)}",
+                "data_source": "AkShare"
+            }
 
 
 def main():

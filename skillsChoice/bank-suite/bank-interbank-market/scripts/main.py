@@ -1,84 +1,116 @@
 #!/usr/bin/env python3
-"""银行间市场分析器 - 使用真实数据源"""
+"""银行间市场分析器 - 使用AkShare开源数据接口
+
+功能：获取Shibor、银行间回购利率、分析市场流动性
+数据源：AkShare开源金融数据接口
+"""
 
 import akshare as ak
-import pandas as pd
 import json
 from datetime import datetime
 import argparse
 
 
 class BankInterbankMarket:
-    """银行间市场分析器"""
+    """银行间市场分析器 - 使用AkShare获取实时利率数据"""
+    
+    def __init__(self):
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     def get_shibor(self) -> dict:
-        """获取Shibor报价 - 使用真实数据"""
-        # 使用中国货币网公布的最新Shibor数据
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "data_date": "2026-03-20",
-            "shibor_overnight": "1.85%",
-            "shibor_1w": "1.95%",
-            "shibor_2w": "2.05%",
-            "shibor_1m": "2.10%",
-            "shibor_3m": "2.15%",
-            "shibor_6m": "2.20%",
-            "shibor_1y": "2.25%",
-            "historical_trend": [
-                {"date": "2026-03-20", "O/N": "1.85%", "1W": "1.95%", "3M": "2.15%"},
-                {"date": "2026-03-19", "O/N": "1.82%", "1W": "1.93%", "3M": "2.14%"},
-                {"date": "2026-03-18", "O/N": "1.80%", "1W": "1.92%", "3M": "2.14%"}
-            ],
-            "data_source": "上海银行间同业拆放利率(Shibor)",
-            "data_quality": "真实数据",
-            "note": "Shibor反映银行间市场流动性状况"
-        }
+        """获取Shibor报价 - 使用AkShare"""
+        try:
+            df = ak.macro_china_shibor_all()
+            if df is not None and not df.empty:
+                latest = df.iloc[-1]
+                return {
+                    "query_time": self.query_time,
+                    "data_date": latest.get('日期', 'N/A'),
+                    "shibor_overnight": latest.get('隔夜', 'N/A'),
+                    "shibor_1w": latest.get('1周', 'N/A'),
+                    "shibor_2w": latest.get('2周', 'N/A'),
+                    "shibor_1m": latest.get('1个月', 'N/A'),
+                    "shibor_3m": latest.get('3个月', 'N/A'),
+                    "shibor_6m": latest.get('6个月', 'N/A'),
+                    "shibor_1y": latest.get('1年', 'N/A'),
+                    "data_source": "AkShare - 上海银行间同业拆放利率(Shibor)",
+                    "data_quality": "实时利率数据",
+                    "note": "Shibor反映银行间市场流动性状况"
+                }
+        except Exception as e:
+            return {
+                "query_time": self.query_time,
+                "error": f"获取Shibor数据失败: {str(e)}",
+                "data_source": "AkShare"
+            }
     
     def get_repo_rates(self) -> dict:
-        """获取银行间回购利率 - 使用真实数据"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "repo_rates": {
-                "GC001": {"rate": "1.88%", "change": "+2bp", "volume": "1250亿"},
-                "GC007": {"rate": "1.98%", "change": "+1bp", "volume": "850亿"},
-                "GC014": {"rate": "2.08%", "change": "-1bp", "volume": "320亿"},
-                "R001": {"rate": "1.85%", "change": "+3bp", "volume": "3.2万亿"},
-                "R007": {"rate": "1.95%", "change": "+2bp", "volume": "1.1万亿"}
-            },
-            "data_source": "中国货币网",
-            "data_quality": "真实数据",
-            "note": "GC为上交所回购，R为银行间质押式回购"
-        }
+        """获取银行间回购利率 - 使用AkShare"""
+        try:
+            df = ak.macro_china_interbank_rate()
+            if df is not None and not df.empty:
+                latest = df.iloc[-1]
+                return {
+                    "query_time": self.query_time,
+                    "repo_rates": {
+                        "R001": {"rate": latest.get('隔夜', 'N/A')},
+                        "R007": {"rate": latest.get('7天', 'N/A')},
+                        "R014": {"rate": latest.get('14天', 'N/A')},
+                        "R1M": {"rate": latest.get('1个月', 'N/A')},
+                        "R3M": {"rate": latest.get('3个月', 'N/A')}
+                    },
+                    "data_source": "AkShare - 银行间同业拆借利率",
+                    "data_quality": "实时利率数据",
+                    "note": "R为银行间质押式回购利率"
+                }
+        except Exception as e:
+            return {
+                "query_time": self.query_time,
+                "error": f"获取回购利率失败: {str(e)}",
+                "data_source": "AkShare"
+            }
     
     def analyze_liquidity(self) -> dict:
-        """分析流动性状况"""
-        shibor = self.get_shibor()
-        overnight_str = shibor.get("shibor_overnight", "0%").replace("%", "")
-        
-        try:
-            overnight_rate = float(overnight_str)
-        except:
-            overnight_rate = 0
-        
-        if overnight_rate < 1.5:
-            status = "流动性充裕"
-            color = "green"
-        elif overnight_rate < 2.0:
-            status = "流动性中性"
-            color = "yellow"
-        else:
-            status = "流动性偏紧"
-            color = "red"
-        
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "liquidity_status": status,
-            "status_color": color,
-            "shibor_overnight": shibor.get("shibor_overnight"),
-            "assessment": self._get_liquidity_assessment(overnight_rate),
-            "data_source": "银行间市场",
-            "data_quality": "真实数据"
+        """分析流动性状况 - 基于Shibor数据"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "银行间市场流动性分析"
         }
+        
+        # 获取Shibor数据
+        shibor_data = self.get_shibor()
+        if "error" not in shibor_data:
+            overnight_str = shibor_data.get("shibor_overnight", "0%")
+            try:
+                overnight_rate = float(overnight_str.replace("%", ""))
+            except:
+                overnight_rate = 0
+            
+            # 判断流动性状况
+            if overnight_rate < 1.5:
+                status = "流动性充裕"
+                color = "green"
+            elif overnight_rate < 2.0:
+                status = "流动性中性"
+                color = "yellow"
+            else:
+                status = "流动性偏紧"
+                color = "red"
+            
+            result["liquidity_status"] = status
+            result["status_color"] = color
+            result["shibor_overnight"] = shibor_data.get("shibor_overnight")
+            result["assessment"] = self._get_liquidity_assessment(overnight_rate)
+        
+        # 获取回购利率
+        repo_data = self.get_repo_rates()
+        if "error" not in repo_data:
+            result["repo_rates"] = repo_data.get("repo_rates")
+        
+        result["data_source"] = "AkShare开源数据"
+        result["data_quality"] = "实时利率数据"
+        
+        return result
     
     def _get_liquidity_assessment(self, rate: float) -> str:
         """流动性评估"""

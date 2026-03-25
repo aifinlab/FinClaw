@@ -35,20 +35,25 @@ class Holding:
 class HoldingAnalyzer:
     """持仓分析器"""
     
-    # 行业映射
-    SECTOR_MAP = {
-        '600519': '食品饮料', '000858': '食品饮料',
-        '300750': '电力设备', '601012': '电力设备',
-        '600036': '银行', '601398': '银行',
-        '300760': '医药生物', '600276': '医药生物',
-        '000333': '家用电器', '000651': '家用电器',
-        '002594': '汽车', '601633': '汽车',
-        '300124': '机械设备', '601766': '机械设备',
-        '600900': '公用事业', '601985': '公用事业',
-    }
-    
     def __init__(self):
         pass
+    
+    def _get_sector_from_code(self, code: str) -> str:
+        """根据股票代码获取行业 - 尝试使用AkShare"""
+        try:
+            import akshare as ak
+            # 尝试获取股票行业信息
+            df = ak.stock_individual_info_em(symbol=code)
+            if df is not None and not df.empty:
+                # 查找行业信息
+                for _, row in df.iterrows():
+                    if '行业' in str(row.get('item', '')):
+                        return row.get('value', '未知行业')
+        except Exception:
+            pass
+        
+        # 如果无法获取，返回未知
+        return '未知行业'
     
     def analyze_holdings(self, fund_code: str, quarter: str,
                         holdings_data: Optional[List[Dict]] = None) -> Dict:
@@ -81,7 +86,7 @@ class HoldingAnalyzer:
         return {
             'analysis_id': f'HOLD_{datetime.now().strftime("%Y%m%d")}_{fund_code}',
             'fund_code': fund_code,
-            'fund_name': '示例基金',
+            'fund_name': fund_code,  # 实际使用时应从API获取基金名称
             'quarter': quarter,
             'analysis_date': datetime.now().strftime('%Y-%m-%d'),
             'concentration': concentration,
@@ -89,7 +94,8 @@ class HoldingAnalyzer:
             'sector_distribution': sector_dist,
             'style_exposure': style,
             'turnover_analysis': self._analyze_turnover(holdings),
-            'recommendations': self._generate_recommendations(concentration, sector_dist)
+            'recommendations': self._generate_recommendations(concentration, sector_dist),
+            'data_source': '用户传入' if holdings_data else '示例数据(需替换)'
         }
     
     def calculate_concentration(self, holdings: List[Dict]) -> Dict:
@@ -163,7 +169,7 @@ class HoldingAnalyzer:
         Returns:
             穿透分析报告
         """
-        # 模拟子基金底层持仓
+        # 穿透结果初始化
         lookthrough_result = {
             'fof_code': fof_code,
             'analysis_date': datetime.now().strftime('%Y-%m-%d'),
@@ -173,64 +179,54 @@ class HoldingAnalyzer:
                 'stock_ratio': 0.0,
                 'bond_ratio': 0.0,
                 'cash_ratio': 0.0,
-                'other_ratio': 0.0
+                'other_ratio': 0.0,
+                'data_note': '请传入底层资产数据或连接API获取'
             },
             'stock_holdings': [],
             'sector_distribution': {},
             'style_analysis': {},
-            'related_party_check': []
+            'related_party_check': [],
+            'data_source': '需传入底层数据'
         }
         
-        # 模拟穿透计算
+        # 如果未提供底层数据，返回提示
+        if not holdings:
+            lookthrough_result['error'] = '未提供子基金底层持仓数据'
+            return lookthrough_result
+        
+        # 累加各子基金的资产配置（假设holdings中包含底层数据）
         total_stock = 0
         stock_details = {}
         
         for fund in holdings:
             fund_weight = fund.get('weight', 0)
-            fund_type = fund.get('type', 'unknown')
             
-            # 模拟底层资产
-            if fund_type == 'equity':
-                stock_ratio = 0.90
-                bond_ratio = 0.05
-                cash_ratio = 0.05
-                
-                # 模拟股票持仓
-                stocks = [
-                    {'code': '600519', 'name': '贵州茅台', 'weight': 0.085},
-                    {'code': '300750', 'name': '宁德时代', 'weight': 0.072},
-                    {'code': '000858', 'name': '五粮液', 'weight': 0.068},
-                ]
-                
-                for stock in stocks:
-                    effective_weight = stock['weight'] * fund_weight
-                    total_stock += effective_weight
-                    
-                    code = stock['code']
+            # 从传入的数据中获取底层资产比例
+            underlying = fund.get('underlying_assets', {})
+            stock_ratio = underlying.get('stock_ratio', 0)
+            bond_ratio = underlying.get('bond_ratio', 0)
+            cash_ratio = underlying.get('cash_ratio', 0)
+            
+            lookthrough_result['lookthrough_summary']['stock_ratio'] += stock_ratio * fund_weight
+            lookthrough_result['lookthrough_summary']['bond_ratio'] += bond_ratio * fund_weight
+            lookthrough_result['lookthrough_summary']['cash_ratio'] += cash_ratio * fund_weight
+            
+            # 汇总股票持仓
+            for stock in underlying.get('stocks', []):
+                effective_weight = stock.get('weight', 0) * fund_weight
+                total_stock += effective_weight
+                code = stock.get('code')
+                if code:
                     if code in stock_details:
                         stock_details[code]['weight'] += effective_weight
                         stock_details[code]['sources'].append(fund.get('name', 'Unknown'))
                     else:
                         stock_details[code] = {
                             'code': code,
-                            'name': stock['name'],
+                            'name': stock.get('name', 'Unknown'),
                             'weight': effective_weight,
                             'sources': [fund.get('name', 'Unknown')]
                         }
-            
-            elif fund_type == 'bond':
-                stock_ratio = 0.10
-                bond_ratio = 0.85
-                cash_ratio = 0.05
-            
-            else:
-                stock_ratio = 0.05
-                bond_ratio = 0.15
-                cash_ratio = 0.80
-            
-            lookthrough_result['lookthrough_summary']['stock_ratio'] += stock_ratio * fund_weight
-            lookthrough_result['lookthrough_summary']['bond_ratio'] += bond_ratio * fund_weight
-            lookthrough_result['lookthrough_summary']['cash_ratio'] += cash_ratio * fund_weight
         
         # 整理股票持仓
         sorted_stocks = sorted(stock_details.values(), key=lambda x: x['weight'], reverse=True)
@@ -250,7 +246,7 @@ class HoldingAnalyzer:
         # 行业分布
         sector_dist = {}
         for stock in sorted_stocks:
-            sector = self.SECTOR_MAP.get(stock['code'], '其他')
+            sector = stock.get('sector') or self._get_sector_from_code(stock['code']) or '其他'
             sector_dist[sector] = sector_dist.get(sector, 0) + stock['weight']
         
         lookthrough_result['sector_distribution'] = sector_dist
@@ -381,23 +377,11 @@ class HoldingAnalyzer:
         return recs
     
     def _get_sample_holdings(self) -> List[Dict]:
-        """获取示例持仓数据"""
+        """获取示例持仓数据 - 仅用于演示"""
+        import warnings
+        warnings.warn("使用示例数据，生产环境请传入真实持仓数据", UserWarning)
         return [
-            {'code': '600519', 'name': '贵州茅台', 'weight': 0.085, 'sector': '食品饮料', 'change': 0.015, 'market_cap': 2000, 'pe': 28},
-            {'code': '300750', 'name': '宁德时代', 'weight': 0.072, 'sector': '电力设备', 'change': 0.008, 'market_cap': 800, 'pe': 25},
-            {'code': '000858', 'name': '五粮液', 'weight': 0.068, 'sector': '食品饮料', 'change': -0.005, 'market_cap': 600, 'pe': 22},
-            {'code': '600036', 'name': '招商银行', 'weight': 0.055, 'sector': '银行', 'change': 0.0, 'market_cap': 900, 'pe': 6},
-            {'code': '300760', 'name': '迈瑞医疗', 'weight': 0.048, 'sector': '医药生物', 'change': 0.020, 'market_cap': 350, 'pe': 35},
-            {'code': '000333', 'name': '美的集团', 'weight': 0.042, 'sector': '家用电器', 'change': 0.042, 'market_cap': 420, 'pe': 12},
-            {'code': '600276', 'name': '恒瑞医药', 'weight': 0.038, 'sector': '医药生物', 'change': -0.012, 'market_cap': 280, 'pe': 65},
-            {'code': '002594', 'name': '比亚迪', 'weight': 0.035, 'sector': '汽车', 'change': 0.005, 'market_cap': 550, 'pe': 30},
-            {'code': '300124', 'name': '汇川技术', 'weight': 0.030, 'sector': '机械设备', 'change': 0.030, 'market_cap': 180, 'pe': 40},
-            {'code': '600900', 'name': '长江电力', 'weight': 0.025, 'sector': '公用事业', 'change': 0.002, 'market_cap': 480, 'pe': 18},
-            {'code': '002415', 'name': '海康威视', 'weight': 0.022, 'sector': '电子', 'change': -0.003, 'market_cap': 320, 'pe': 22},
-            {'code': '600309', 'name': '万华化学', 'weight': 0.020, 'sector': '化工', 'change': 0.0, 'market_cap': 250, 'pe': 15},
-            {'code': '601012', 'name': '隆基绿能', 'weight': 0.0, 'sector': '电力设备', 'change': -0.032, 'market_cap': 150, 'pe': 18},
-            {'code': '000568', 'name': '泸州老窖', 'weight': 0.018, 'sector': '食品饮料', 'change': 0.005, 'market_cap': 200, 'pe': 24},
-            {'code': '300014', 'name': '亿纬锂能', 'weight': 0.015, 'sector': '电力设备', 'change': 0.003, 'market_cap': 120, 'pe': 35},
+            {'code': 'INPUT_CODE', 'name': '示例股票-请传入真实数据', 'weight': 0.085, 'sector': '示例', 'change': 0.015, 'market_cap': 0, 'pe': 0},
         ]
 
 
@@ -490,28 +474,63 @@ def print_fof_report(report: Dict):
 def main():
     """主函数 - CLI入口"""
     parser = argparse.ArgumentParser(description='基金持仓分析')
-    parser.add_argument('--fund', default='000001', help='基金代码')
-    parser.add_argument('--quarter', default='2024Q4', help='报告期')
+    parser.add_argument('--fund', help='基金代码')
+    parser.add_argument('--quarter', help='报告期(如: 2024Q4)')
     parser.add_argument('--concentration', action='store_true', help='集中度分析')
     parser.add_argument('--fof', action='store_true', help='FOF穿透分析')
     parser.add_argument('--json', action='store_true', help='输出JSON格式')
+    parser.add_argument('--data-file', help='持仓数据文件(JSON格式)')
     
     args = parser.parse_args()
     
     analyzer = HoldingAnalyzer()
     
-    if args.fof:
-        # FOF穿透示例
-        fof_holdings = [
-            {'code': '000002', 'name': '华夏成长', 'weight': 0.25, 'type': 'equity'},
-            {'code': '000003', 'name': '易方达蓝筹', 'weight': 0.20, 'type': 'equity'},
-            {'code': '000004', 'name': '南方稳健', 'weight': 0.15, 'type': 'bond'},
-            {'code': '000005', 'name': '招商产业债', 'weight': 0.15, 'type': 'bond'},
-            {'code': 'CASH', 'name': '货币基金', 'weight': 0.10, 'type': 'cash'},
-            {'code': 'OTHER', 'name': '其他', 'weight': 0.15, 'type': 'other'},
-        ]
+    # 从文件加载数据
+    if args.data_file:
+        try:
+            with open(args.data_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"加载数据文件失败: {e}")
+            return
+    else:
+        # 未提供数据文件时返回使用说明
+        print("=" * 70)
+        print("📊 基金持仓分析工具")
+        print("=" * 70)
+        print("\n使用方法:")
+        print("  1. 准备持仓数据文件(JSON格式)")
+        print("  2. 使用 --data-file 参数指定数据文件")
+        print("\n数据文件格式示例:")
+        print("""
+{
+  "fund_code": "000001",
+  "quarter": "2024Q4",
+  "holdings": [
+    {"code": "600519", "name": "贵州茅台", "weight": 0.08, "sector": "食品饮料"},
+    {"code": "300750", "name": "宁德时代", "weight": 0.06, "sector": "电力设备"}
+  ]
+}
+        """)
+        print("\n或使用 --fund 配合相关API获取真实数据")
+        print("=" * 70)
         
-        report = analyzer.fof_lookthrough(args.fund, fof_holdings, max_depth=2)
+        if args.fund:
+            print(f"\n提示：分析基金 {args.fund} 需要提供持仓数据文件")
+            print("请使用 --data-file 参数指定数据文件")
+        return
+    
+    fund_code = args.fund or data.get('fund_code', 'UNKNOWN')
+    quarter = args.quarter or data.get('quarter', datetime.now().strftime('%YQ') + str((datetime.now().month-1)//3 + 1))
+    
+    if args.fof:
+        # FOF穿透分析
+        fof_holdings = data.get('fof_holdings', [])
+        if not fof_holdings:
+            print("错误：FOF分析需要 fof_holdings 数据")
+            return
+        
+        report = analyzer.fof_lookthrough(fund_code, fof_holdings, max_depth=2)
         
         if args.json:
             print(json.dumps(report, ensure_ascii=False, indent=2))
@@ -520,7 +539,12 @@ def main():
     
     else:
         # 普通持仓分析
-        report = analyzer.analyze_holdings(args.fund, args.quarter)
+        holdings = data.get('holdings', [])
+        if not holdings:
+            print("错误：数据文件缺少 holdings 字段")
+            return
+        
+        report = analyzer.analyze_holdings(fund_code, quarter, holdings)
         
         if args.json:
             print(json.dumps(report, ensure_ascii=False, indent=2))

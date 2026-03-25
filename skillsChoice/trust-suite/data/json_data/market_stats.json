@@ -1,0 +1,29 @@
+{
+  "update_time": "2026-03-25T09:20:17.357411",
+  "stat_date": "2026-03-25",
+  "total_issuance": 27.5,
+  "product_count": 5,
+  "avg_yield": 7.2,
+  "yield_by_type": {
+    "固定收益类": 7.066666666666666,
+    "混合类": 6.8,
+    "权益类": 8.0
+  },
+  "yield_by_duration": {
+    "1年内": 6.0,
+    "1-2年": 6.8,
+    "2-3年": 7.5,
+    "3年以上": 8.0
+  },
+  "quality_label": {
+    "source": "用益信托网",
+    "update_time": "2026-03-25T09:20:16.721356",
+    "freshness_score": 85,
+    "reliability_score": 80,
+    "coverage_score": 75,
+    "is_realtime": false,
+    "is_cached": true,
+    "fallback_level": 0,
+    "notes": []
+  }
+}

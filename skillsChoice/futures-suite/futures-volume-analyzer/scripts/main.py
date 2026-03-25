@@ -1,100 +1,99 @@
 #!/usr/bin/env python3
-"""期货成交量持仓分析器 - 使用真实数据源"""
+"""期货成交量持仓分析器 - 使用AkShare开源数据接口
+
+功能：分析期货品种成交量、持仓量
+数据源：AkShare开源金融数据接口
+说明：成交持仓数据需参考交易所统计
+"""
 
 import akshare as ak
-import pandas as pd
 import json
 from datetime import datetime
 import argparse
 
 
 class FuturesVolumeAnalyzer:
-    """期货成交量持仓分析器"""
+    """期货成交量持仓分析器 - 使用AkShare获取实时数据"""
     
-    # 活跃品种成交量持仓数据（基于近期市场）
-    ACTIVE_CONTRACTS = {
-        "RB": {"name": "螺纹钢", "volume": "约200万手/日", "oi": "约280万手", "exchange": "上期所"},
-        "I": {"name": "铁矿石", "volume": "约150万手/日", "oi": "约180万手", "exchange": "大商所"},
-        "SC": {"name": "原油", "volume": "约30万手/日", "oi": "约4.5万手", "exchange": "INE"},
-        "M": {"name": "豆粕", "volume": "约100万手/日", "oi": "约150万手", "exchange": "大商所"},
-        "CU": {"name": "铜", "volume": "约25万手/日", "oi": "约35万手", "exchange": "上期所"},
-        "AU": {"name": "黄金", "volume": "约40万手/日", "oi": "约25万手", "exchange": "上期所"},
-        "AG": {"name": "白银", "volume": "约80万手/日", "oi": "约50万手", "exchange": "上期所"},
-        "TA": {"name": "PTA", "volume": "约180万手/日", "oi": "约220万手", "exchange": "郑商所"},
-        "MA": {"name": "甲醇", "volume": "约120万手/日", "oi": "约140万手", "exchange": "郑商所"},
-        "IF": {"name": "沪深300股指", "volume": "约15万手/日", "oi": "约25万手", "exchange": "中金所"}
-    }
+    def __init__(self):
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def _get_futures_data(self, symbol: str) -> dict:
+        """获取期货行情 - 使用AkShare"""
+        try:
+            df = ak.futures_zh_realtime(symbol=symbol)
+            if df is not None and not df.empty:
+                latest = df.iloc[0]
+                return {
+                    "price": latest.get('最新价'),
+                    "change_pct": latest.get('涨跌幅'),
+                    "volume": latest.get('成交量'),
+                    "open_interest": latest.get('持仓量')
+                }
+        except Exception:
+            return None
+    
+    def _get_hist_data(self, symbol: str) -> list:
+        """获取历史成交数据 - 使用AkShare"""
+        try:
+            df = ak.futures_zh_daily(symbol=symbol)
+            if df is not None and not df.empty:
+                return df.to_dict('records')
+        except Exception:
+            return []
+        return []
     
     def analyze_volume(self, symbol: str) -> dict:
         """分析期货品种成交量持仓"""
         product_code = ''.join([c for c in symbol if c.isalpha()]).upper()
         
-        contract_data = self.ACTIVE_CONTRACTS.get(product_code)
+        result = {
+            "query_time": self.query_time,
+            "symbol": symbol,
+            "product_code": product_code
+        }
         
-        if not contract_data:
-            return {
-                "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "symbol": symbol,
-                "error": f"未找到品种{product_code}的数据",
-                "available_symbols": list(self.ACTIVE_CONTRACTS.keys())
+        # 获取实时行情
+        quote = self._get_futures_data(symbol)
+        if quote:
+            result["realtime"] = {
+                "price": quote.get("price"),
+                "change_pct": quote.get("change_pct"),
+                "volume": quote.get("volume"),
+                "open_interest": quote.get("open_interest")
             }
         
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "symbol": symbol,
-            "product_name": contract_data["name"],
-            "exchange": contract_data["exchange"],
-            "trading_data": {
-                "volume": contract_data["volume"],
-                "open_interest": contract_data["oi"]
-            },
-            "analysis": {
-                "liquidity": "高流动性" if "万手" in contract_data["volume"] and int(contract_data["volume"].replace("约", "").replace("万手/日", "")) > 50 else "中等流动性",
-                "note": "成交量反映市场活跃度，持仓量反映资金参与度"
-            },
-            "data_source": "各期货交易所",
-            "data_quality": "真实数据"
-        }
-    
-    def get_top_volume_contracts(self) -> dict:
-        """获取成交量排名前列的合约"""
-        sorted_contracts = sorted(
-            self.ACTIVE_CONTRACTS.items(),
-            key=lambda x: int(x[1]["volume"].replace("约", "").replace("万手/日", "")),
-            reverse=True
-        )
+        # 获取历史数据计算趋势
+        hist_data = self._get_hist_data(symbol)
+        if hist_data and len(hist_data) >= 5:
+            recent_volume = [d.get('volume', 0) for d in hist_data[-5:] if d.get('volume')]
+            if recent_volume:
+                avg_volume = sum(recent_volume) / len(recent_volume)
+                result["volume_analysis"] = {
+                    "recent_5d_avg_volume": round(avg_volume, 0) if avg_volume else None,
+                    "data_points": len(recent_volume)
+                }
         
-        top10 = []
-        for code, data in sorted_contracts[:10]:
-            top10.append({
-                "code": code,
-                "name": data["name"],
-                "volume": data["volume"],
-                "exchange": data["exchange"]
-            })
+        result["analysis_note"] = "详细成交持仓排名参考各交易所统计"
+        result["data_source"] = "AkShare开源数据"
+        result["data_quality"] = "实时行情 + 历史数据"
         
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "top_volume_contracts": top10,
-            "data_source": "各期货交易所",
-            "data_quality": "真实数据"
-        }
+        return result
 
 
 def main():
     parser = argparse.ArgumentParser(description="期货成交量持仓分析器")
-    parser.add_argument("--symbol", help="期货合约代码(如: RB2501)")
-    parser.add_argument("--top", action="store_true", help="成交量排名")
+    parser.add_argument("--symbol", help="合约代码(如: RB, CU, SC)")
     
     args = parser.parse_args()
     analyzer = FuturesVolumeAnalyzer()
     
-    if args.top:
-        result = analyzer.get_top_volume_contracts()
-    elif args.symbol:
+    if args.symbol:
         result = analyzer.analyze_volume(args.symbol)
     else:
-        result = {"available_symbols": list(analyzer.ACTIVE_CONTRACTS.keys())}
+        result = {
+            "usage": "--symbol RB"
+        }
     
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

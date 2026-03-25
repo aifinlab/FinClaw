@@ -7,6 +7,7 @@ Fund Monitor Core Module
 """
 
 import sys
+import os
 sys.path.insert(0, '/root/.openclaw/workspace/finclaw/skills/fund-suite/fund-monitor/scripts')
 
 import json
@@ -66,6 +67,8 @@ class FundMonitor:
         self.portfolios = {}
         self.alert_rules = self._default_rules()
         self.alerts_history = []
+        self._data_source = "模拟数据 - 仅供演示使用"
+        self._data_quality = "sample"
     
     def _default_rules(self) -> List[AlertRule]:
         """默认预警规则"""
@@ -112,7 +115,7 @@ class FundMonitor:
         holdings = portfolio['holdings']
         
         # 使用模拟数据或传入数据
-        current = current_data or self._get_mock_current_data(holdings)
+        current = current_data or self._get_simulated_data(holdings)
         
         # 计算组合指标
         portfolio_value = sum(h.get('current_value', h.get('value', 0)) for h in current['holdings'])
@@ -157,6 +160,8 @@ class FundMonitor:
             'monitor_id': f'MON_{datetime.now().strftime("%Y%m%d")}_{portfolio_id}',
             'portfolio_id': portfolio_id,
             'check_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'data_source': self._data_source,
+            'data_quality': self._data_quality,
             'status': status,
             'status_emoji': status_emoji,
             'portfolio_value': round(portfolio_value, 2),
@@ -169,6 +174,45 @@ class FundMonitor:
             'holdings_status': self._get_holdings_status(current['holdings']),
             'metrics': self._calculate_metrics(current['holdings']),
             'recommendations': self._generate_recommendations(active_alerts, drawdown)
+        }
+    
+    def _get_simulated_data(self, holdings: List[Dict]) -> Dict:
+        """
+        获取模拟当前数据
+        
+        注意：此为模拟数据，仅供演示使用。
+        生产环境应接入真实数据源（如基金API、行情数据等）。
+        """
+        # 模拟今日涨跌幅（基于示例基金代码的模拟数据）
+        daily_changes = {
+            '000001': 0.012, '000002': 0.008, '000003': -0.003,
+            '000004': 0.005, '000005': 0.002, '000008': 0.003,
+            'CASH': 0.0
+        }
+        
+        updated_holdings = []
+        for h in holdings:
+            code = h.get('fund_code', '000001')
+            base_value = h.get('value', 10000)
+            change = daily_changes.get(code, 0.005)
+            current_value = base_value * (1 + change)
+            
+            updated_holdings.append({
+                **h,
+                'current_value': current_value,
+                'daily_return': change,
+                'daily_return_pct': change * 100
+            })
+        
+        total_value = sum(h['current_value'] for h in updated_holdings)
+        baseline = sum(h.get('value', 10000) for h in holdings)
+        daily_return = (total_value - baseline) / baseline if baseline > 0 else 0
+        
+        return {
+            'holdings': updated_holdings,
+            'daily_return': daily_return,
+            'portfolio_value': total_value,
+            '_note': '此为模拟数据，仅供演示使用'
         }
     
     def _check_rule(self, rule: AlertRule, current: Dict, 
@@ -247,8 +291,10 @@ class FundMonitor:
             'period': period,
             'period_name': period_titles.get(period, '报告'),
             'generated_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'data_source': self._data_source,
+            'data_quality': self._data_quality,
             'returns': {
-                'daily': current.get('daily_return', 0.0085) if 'current' in dir() else 0.0085,
+                'daily': weekly_return / 5,  # 简化计算
                 'weekly': weekly_return,
                 'monthly': monthly_return,
                 'ytd': ytd_return,
@@ -280,38 +326,6 @@ class FundMonitor:
             'holdings_summary': self._summarize_holdings(portfolio['holdings']),
             'alerts_summary': self._summarize_alerts(portfolio_id, period),
             'recommendations': self._generate_report_recommendations(period)
-        }
-    
-    def _get_mock_current_data(self, holdings: List[Dict]) -> Dict:
-        """获取模拟当前数据"""
-        # 模拟今日涨跌幅
-        daily_changes = {
-            '000001': 0.012, '000002': 0.008, '000003': -0.003,
-            '000004': 0.005, '000005': 0.002, '000008': 0.003
-        }
-        
-        updated_holdings = []
-        for h in holdings:
-            code = h.get('fund_code', '000001')
-            base_value = h.get('value', 10000)
-            change = daily_changes.get(code, 0.005)
-            current_value = base_value * (1 + change)
-            
-            updated_holdings.append({
-                **h,
-                'current_value': current_value,
-                'daily_return': change,
-                'daily_return_pct': change * 100
-            })
-        
-        total_value = sum(h['current_value'] for h in updated_holdings)
-        baseline = sum(h.get('value', 10000) for h in holdings)
-        daily_return = (total_value - baseline) / baseline if baseline > 0 else 0
-        
-        return {
-            'holdings': updated_holdings,
-            'daily_return': daily_return,
-            'portfolio_value': total_value
         }
     
     def _get_holdings_status(self, holdings: List[Dict]) -> List[Dict]:
@@ -430,6 +444,8 @@ def print_monitor_status(status: Dict):
     print(f"\n组合ID: {status['portfolio_id']}")
     print(f"检查时间: {status['check_time']}")
     print(f"整体状态: {status['status_emoji']} {status['status'].upper()}")
+    print(f"数据来源: {status.get('data_source', '未知')}")
+    print(f"数据质量: {status.get('data_quality', 'unknown')}")
     
     print(f"\n组合价值: ¥{status['portfolio_value']:,.0f}")
     print(f"累计收益: {status['portfolio_return_pct']:+.2f}%")
@@ -472,6 +488,8 @@ def print_report(report: Dict):
     
     print(f"\n报告ID: {report['report_id']}")
     print(f"组合ID: {report['portfolio_id']}")
+    print(f"数据来源: {report.get('data_source', '未知')}")
+    print(f"数据质量: {report.get('data_quality', 'unknown')}")
     
     returns = report['returns']
     print(f"\n📈 收益表现:")

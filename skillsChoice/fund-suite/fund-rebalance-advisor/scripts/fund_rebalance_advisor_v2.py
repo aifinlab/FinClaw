@@ -132,12 +132,20 @@ def main():
     
     args = parser.parse_args()
     
-    # 示例数据
+    # 示例数据（⚠️ 示例数据-需替换为真实数据）
+    import warnings
+    warnings.warn(
+        "⚠️ 正在使用示例数据！请传入真实的current/target/holdings参数。\n"
+        "   示例基金代码和持仓数据仅供演示，请勿用于生产环境。",
+        UserWarning,
+        stacklevel=2
+    )
+    
     current = {'equity': 0.40, 'bond': 0.35, 'money': 0.25}
     target = {'equity': 0.30, 'bond': 0.40, 'money': 0.30}
     holdings = [
-        {'code': '000001', 'name': '华夏成长', 'value': 40000, 'holding_days': 100},
-        {'code': '000002', 'name': '易方达蓝筹', 'value': 35000, 'holding_days': 800},
+        {'code': 'EXAMPLE001', 'name': '示例基金A（需替换）', 'value': 40000, 'holding_days': 100, '_note': '示例数据'},
+        {'code': 'EXAMPLE002', 'name': '示例基金B（需替换）', 'value': 35000, 'holding_days': 800, '_note': '示例数据'},
     ]
     
     result = analyze_rebalance(current, target, holdings)

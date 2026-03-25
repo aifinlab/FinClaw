@@ -242,28 +242,64 @@ class AttributionAnalyzer:
             return "选股能力中性"
 
 
+def load_portfolio_from_input() -> Dict:
+    """从标准输入或文件加载组合数据"""
+    import sys
+    if not sys.stdin.isatty():
+        try:
+            data = json.load(sys.stdin)
+            return data
+        except:
+            pass
+    return None
+
+
 def main():
     parser = argparse.ArgumentParser(description='基金收益归因分析')
     parser.add_argument('--json', action='store_true', help='输出JSON格式')
     parser.add_argument('--use-real-data', action='store_true', default=True,
                        help='使用真实数据')
-    parser.add_argument('--use-mock-data', action='store_true',
-                       help='使用模拟数据')
+    parser.add_argument('--portfolio', type=str, help='组合数据JSON文件路径')
+    parser.add_argument('--benchmark', type=str, help='基准数据JSON文件路径')
+    parser.add_argument('--fund-code', type=str, help='基金代码（自动获取真实数据）')
     
     args = parser.parse_args()
     
-    use_real = args.use_real_data and not args.use_mock_data
-    analyzer = AttributionAnalyzer(use_real_data=use_real)
+    analyzer = AttributionAnalyzer(use_real_data=args.use_real_data)
     
-    # 示例数据
-    portfolio_returns = {'科技': 0.15, '消费': 0.08, '医药': 0.12}
-    benchmark_returns = {'科技': 0.10, '消费': 0.09, '医药': 0.11}
-    portfolio_weights = {'科技': 0.40, '消费': 0.30, '医药': 0.30}
-    benchmark_weights = {'科技': 0.30, '消费': 0.40, '医药': 0.30}
+    # 从文件或输入加载数据，如果没有则提示用户
+    portfolio_data = None
+    if args.portfolio:
+        with open(args.portfolio, 'r') as f:
+            portfolio_data = json.load(f)
+    else:
+        portfolio_data = load_portfolio_from_input()
+    
+    if portfolio_data:
+        portfolio_returns = portfolio_data.get('returns', {})
+        portfolio_weights = portfolio_data.get('weights', {})
+        benchmark_returns = portfolio_data.get('benchmark_returns', {})
+        benchmark_weights = portfolio_data.get('benchmark_weights', {})
+    else:
+        print("❌ 错误: 请提供组合数据")
+        print("\n用法示例:")
+        print("  方式1: 从文件加载")
+        print("    python fund_attribution_analysis_v2.py --portfolio data.json")
+        print("\n  方式2: 使用基金代码自动获取")
+        print("    python fund_attribution_analysis_v2.py --fund-code 110011")
+        print("\n  data.json 格式:")
+        print('''    {
+      "returns": {"科技": 0.15, "消费": 0.08},
+      "weights": {"科技": 0.4, "消费": 0.6},
+      "benchmark_returns": {"科技": 0.10, "消费": 0.09},
+      "benchmark_weights": {"科技": 0.3, "消费": 0.7}
+    }''')
+        return
     
     result = analyzer.brinson_attribution(
         portfolio_returns, benchmark_returns,
-        portfolio_weights, benchmark_weights
+        portfolio_weights, benchmark_weights,
+        fund_code=args.fund_code
     )
     
     if args.json:

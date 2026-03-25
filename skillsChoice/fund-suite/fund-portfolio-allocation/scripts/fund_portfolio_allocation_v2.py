@@ -252,32 +252,30 @@ class PortfolioAllocator:
         return 'hybrid'  # 默认混合
     
     def _get_default_equity(self):
-        """默认股票型基金"""
+        """默认股票型基金（⚠️ 示例数据-需替换）"""
+        warnings.warn("⚠️ 使用默认股票型基金示例数据，生产环境请传入真实fund_pool", UserWarning, stacklevel=2)
         return [
-            {'code': '000003', 'name': '中欧时代先锋', 'return': 0.22, 'volatility': 0.22, 'data_source': '模拟'},
-            {'code': '000005', 'name': '景顺长城新兴', 'return': 0.20, 'volatility': 0.25, 'data_source': '模拟'},
-            {'code': '000009', 'name': '广发科技创新', 'return': 0.25, 'volatility': 0.30, 'data_source': '模拟'},
+            {'code': 'EXAMPLE_E001', 'name': '示例股票基金A（需替换）', 'return': 0.12, 'volatility': 0.22, 'data_source': '示例'},
+            {'code': 'EXAMPLE_E002', 'name': '示例股票基金B（需替换）', 'return': 0.10, 'volatility': 0.25, 'data_source': '示例'},
         ]
     
     def _get_default_hybrid(self):
-        """默认混合型基金"""
+        """默认混合型基金（⚠️ 示例数据-需替换）"""
         return [
-            {'code': '000001', 'name': '华夏成长混合', 'return': 0.18, 'volatility': 0.18, 'data_source': '模拟'},
-            {'code': '000002', 'name': '易方达蓝筹精选', 'return': 0.16, 'volatility': 0.16, 'data_source': '模拟'},
-            {'code': '000004', 'name': '富国天惠成长', 'return': 0.19, 'volatility': 0.17, 'data_source': '模拟'},
+            {'code': 'EXAMPLE_H001', 'name': '示例混合基金A（需替换）', 'return': 0.08, 'volatility': 0.16, 'data_source': '示例'},
+            {'code': 'EXAMPLE_H002', 'name': '示例混合基金B（需替换）', 'return': 0.07, 'volatility': 0.15, 'data_source': '示例'},
         ]
     
     def _get_default_bond(self):
-        """默认债券型基金"""
+        """默认债券型基金（⚠️ 示例数据-需替换）"""
         return [
-            {'code': '000008', 'name': '南方稳健成长', 'return': 0.045, 'volatility': 0.025, 'data_source': '模拟'},
-            {'code': '000011', 'name': '招商产业债', 'return': 0.05, 'volatility': 0.03, 'data_source': '模拟'},
+            {'code': 'EXAMPLE_B001', 'name': '示例债券基金A（需替换）', 'return': 0.04, 'volatility': 0.025, 'data_source': '示例'},
         ]
     
     def _get_default_money(self):
-        """默认货币基金"""
+        """默认货币基金（⚠️ 示例数据-需替换）"""
         return [
-            {'code': '000012', 'name': '天弘余额宝', 'return': 0.025, 'volatility': 0.001, 'data_source': '模拟'},
+            {'code': 'EXAMPLE_M001', 'name': '示例货币基金A（需替换）', 'return': 0.025, 'volatility': 0.001, 'data_source': '示例'},
         ]
     
     def _load_sample_fund_pool(self):

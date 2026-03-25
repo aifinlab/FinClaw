@@ -1,65 +1,138 @@
 #!/usr/bin/env python3
-"""保险资金运用分析器"""
+"""保险资金运用分析器 - 使用AkShare开源数据接口
+
+功能：分析保险资金配置结构、收益率趋势、利率影响
+数据源：AkShare开源金融数据接口
+"""
 
 import akshare as ak
-import pandas as pd
 import json
 from datetime import datetime
 import argparse
 
 
 class InsuranceInvestmentAnalyzer:
-    """保险资金运用分析器"""
+    """保险资金运用分析器 - 使用AkShare获取市场数据"""
+    
+    def __init__(self):
+        self.query_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def _get_bond_market_data(self) -> dict:
+        """获取债券市场数据 - 使用AkShare"""
+        try:
+            # 获取国债收益率数据
+            df = ak.bond_zh_yield()
+            if df is not None and not df.empty:
+                latest = df.iloc[-1]
+                return {
+                    "国债收益率_10Y": latest.get('中债国债到期收益率:10年', 'N/A'),
+                    "国债收益率_5Y": latest.get('中债国债到期收益率:5年', 'N/A'),
+                    "国开债收益率_10Y": latest.get('中债国开债到期收益率:10年', 'N/A'),
+                    "data_source": "AkShare - 中债登"
+                }
+        except Exception as e:
+            return {"error": f"获取债券数据失败: {str(e)}", "data_source": "AkShare"}
+        return {"data_source": "AkShare", "note": "暂无债券数据"}
+    
+    def _get_stock_market_data(self) -> dict:
+        """获取股票市场数据 - 使用AkShare"""
+        try:
+            # 获取沪深300指数
+            df = ak.index_zh_a_hist(symbol="000300", period="daily", 
+                                   start_date="20240101", end_date=datetime.now().strftime("%Y%m%d"))
+            if df is not None and not df.empty:
+                latest = df.iloc[-1]
+                first = df.iloc[0]
+                ytd_return = (latest['收盘'] - first['收盘']) / first['收盘'] * 100
+                return {
+                    "沪深300点位": latest.get('收盘'),
+                    "沪深300_YTD涨跌幅": f"{ytd_return:.2f}%",
+                    "data_source": "AkShare - 东方财富"
+                }
+        except Exception as e:
+            return {"error": f"获取股票数据失败: {str(e)}", "data_source": "AkShare"}
+        return {"data_source": "AkShare", "note": "暂无股票数据"}
+    
+    def _get_lpr_data(self) -> dict:
+        """获取LPR利率数据 - 使用AkShare"""
+        try:
+            df = ak.macro_china_lpr()
+            if df is not None and not df.empty:
+                latest = df.iloc[0]
+                return {
+                    "LPR_1Y": latest.get('1年期', 'N/A'),
+                    "LPR_5Y": latest.get('5年期', 'N/A'),
+                    "data_source": "AkShare - 中国人民银行"
+                }
+        except Exception as e:
+            return {"error": f"获取LPR数据失败: {str(e)}", "data_source": "AkShare"}
+        return {"data_source": "AkShare", "note": "暂无LPR数据"}
     
     def analyze_asset_allocation(self) -> dict:
-        """分析资产配置"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "asset_allocation": {
-                "total_investment": "32万亿元",
-                "allocation_structure": {
-                    "银行存款": {"amount": "2.9万亿元", "share": "9%"},
-                    "债券": {"amount": "14.4万亿元", "share": "45%"},
-                    "股票": {"amount": "3.2万亿元", "share": "10%"},
-                    "证券投资基金": {"amount": "1.6万亿元", "share": "5%"},
-                    "债权计划": {"amount": "3.5万亿元", "share": "11%"},
-                    "信托计划": {"amount": "1.3万亿元", "share": "4%"},
-                    "其他投资": {"amount": "5.1万亿元", "share": "16%"}
-                }
-            },
-            "investment_return": {
-                "2024_total_return": "约4.5%",
-                "2024_comprehensive_return": "约5.2%",
-                "trend": "收益率较前几年有所回升"
-            },
-            "key_changes": [
-                "债券配置占比提升至45%",
-                "权益类投资占比稳定在15%左右",
-                "另类投资占比有所下降",
-                "长期股权投资增加"
-            ],
-            "data_source": "国家金融监督管理总局",
-            "note": "保险资金配置以固收为主，权益为辅"
+        """分析资产配置 - 基于市场数据推断配置趋势"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "保险资金配置趋势分析",
+            "note": "保险资金配置结构需参考监管统计数据，以下为市场环境分析"
         }
+        
+        # 获取债券市场数据
+        bond_data = self._get_bond_market_data()
+        result["bond_market"] = bond_data
+        
+        # 获取股票市场数据
+        stock_data = self._get_stock_market_data()
+        result["stock_market"] = stock_data
+        
+        # 基于市场数据给出配置建议
+        result["allocation_analysis"] = {
+            "固收类配置逻辑": "债券收益率处于历史低位，建议拉长久期锁定收益",
+            "权益类配置逻辑": "根据市场估值水平动态调整权益配置比例",
+            "配置建议": [
+                "利率下行周期，建议增配长久期利率债",
+                "权益市场波动较大，保持适度配置比例",
+                "关注另类投资机会（基础设施REITs等）",
+                "加强境外资产配置分散风险"
+            ]
+        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时市场数据"
+        
+        return result
     
     def analyze_interest_rate_impact(self) -> dict:
-        """分析利率影响"""
-        return {
-            "query_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "interest_rate_impact": {
-                "current_rate_environment": "利率处于历史低位",
-                "impact_on_life_insurance": "利差收窄压力持续",
-                "impact_on_investment": "固收收益率承压",
-                "strategies": [
-                    "拉长债券久期锁定收益",
-                    "增加权益类资产配置",
-                    "加大另类投资力度",
-                    "拓展境外投资"
-                ]
-            },
-            "data_source": "行业分析",
-            "note": "低利率环境对保险投资形成持续挑战"
+        """分析利率影响 - 使用AkShare获取LPR数据"""
+        result = {
+            "query_time": self.query_time,
+            "analysis_type": "利率环境影响分析"
         }
+        
+        # 获取LPR数据
+        lpr_data = self._get_lpr_data()
+        result["lpr_data"] = lpr_data
+        
+        # 获取债券收益率
+        bond_data = self._get_bond_market_data()
+        result["bond_yield"] = bond_data
+        
+        # 利率影响分析
+        result["interest_rate_analysis"] = {
+            "当前环境": "LPR多次下调，利率处于历史低位",
+            "对寿险影响": "利差收窄压力持续，负债端成本刚性",
+            "对投资影响": "固收类资产再投资风险上升",
+            "应对策略": [
+                "资产负债联动管理，降低负债成本",
+                "拉长资产久期，锁定长期收益",
+                "增配权益类资产，提升整体收益",
+                "发展保障型产品，降低利率敏感度"
+            ]
+        }
+        
+        result["data_source"] = "AkShare开源数据 + 行业分析"
+        result["data_quality"] = "实时利率数据"
+        
+        return result
 
 
 def main():
