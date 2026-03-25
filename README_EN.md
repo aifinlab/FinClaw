@@ -1,81 +1,150 @@
 <div align="center">
   <img src="images/finclaw-logo.png" alt="finclaw-logo" width="300">
+
+  <h1>FinClaw 🦞 | The First Open-Source Finance-Dedicated Lobster with 1000+ Financial Skills Fully Free</h1>
+
+  <p>
+    <a href="https://nodejs.org/">
+      <img src="https://img.shields.io/badge/Node.js-18%2B-green.svg">
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
+    </a>
+    <a href="package.json">
+      <img src="https://img.shields.io/badge/Version-3.0.0-orange.svg">
+    </a>
+    <a href="#-skills-overview">
+      <img src="https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg">
+    </a>
+    <img src="https://img.shields.io/badge/Free-$0-brightgreen.svg">
+  </p>
+
+  <p>
+    📄<a href="README_EN.md">English</a> |
+    <a href="README.md">中文</a>
+  </p>
 </div>
 
-# FinClaw 🦞 | The First Open-Source Finance-Dedicated Lobster, 1000+ Financial Skills Fully Free
+**FinClaw** is the first open-source autonomous AI agent execution framework designed specifically for the financial industry. It is jointly developed by the Artificial Intelligence Finance Lab (AIFinLab), led by **Professor Liwen Zhang, Director of the Shanghai Financial Intelligence Engineering Technology Research Center and faculty of the School of Statistics and Data Science at Shanghai University of Finance and Economics**.
 
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.0-orange.svg)](package.json)
-[![Skills](https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg)](#-core-highlights-of-finclaw)
-[![Free](https://img.shields.io/badge/Free-$0-brightgreen.svg)]()
+Rather than being a generic-purpose agent, FinClaw is **structured into six specialized “financial lobsters,” enabling AI agents to think and act like seasoned financial professionals**. It focuses on deeply vertical financial scenarios, covering six core sectors: banking, securities, insurance, funds, futures, and trusts, while adapting to each sector’s unique business processes, regulatory requirements, and application scenarios.
 
-> **A ready-to-use financial data and investment research powerhouse — featuring 60 carefully selected core financial Skills, 1000+ open-source Skills, and 6 financial lobsters covering banking, securities, insurance, funds, futures, and trusts. Empowering finance professionals across every major track. No API Key required. Get started with one click!**
+## 📌 Table of Contents<a name="toc"></a>   
+  - [💡 Application Scenarios](#summary) 
+    - [🦞 Banking Lobster | Corporate Credit + Proprietary Investment Think Tank](#banking-lobster)
+    - [🦞 Securities Lobster | Research Intelligence + Business Expansion Radar](#securities-lobster)
+    - [🦞 Insurance Lobster | Liability Matching + Asset Allocation Expert](#insurance-lobster)
+    - [🦞 Fund Lobster | NAV Attribution + Performance Diagnosis Scalpel](#fund-lobster)
+    - [🦞 Futures Lobster | Market Replay + Trading Decision Operator](#futures-lobster)
+    - [🦞 Trust Lobster | Non-Standard Assets + Wealth Structuring Architect](#trust-lobster)
+  - [🌟 Core Highlights](#core-highlights)
+    - [1️⃣ 60 Curated Financial Skills](#60-curated-skills)
+    - [2️⃣ 1000+ Financial Skills](#1000-skills)
+    - [3️⃣ Unified Financial Data Abstraction Layer](#data-layer)
+    - [4️⃣ Containerized One-Click Deployment](#deployment)
+    - [5️⃣ Zero-Barrier Task Execution](#task-execution)
+  - [🔧 Troubleshooting](#troubleshooting)
+  - [📅 Roadmap](#roadmap)
+  - [🤝 Contribution Guide](#contribution)
+  - [💡 Future Outlook](#todo) 
+  - [📫 Contact Us](#contact)
+  - [⭐ Star History](#star)
 
-[English](README_EN.md) | [中文](README.md)
+
+## 💡 Application Scenarios  <a name="summary"></a>  
+
+### 🦞 **Six Financial Lobsters**
+
+| Lobster | Positioning | Core Capabilities |
+|:---|:---|:---|
+| Banking Lobster | Corporate Credit + Proprietary Investment Think Tank | Credit approval, industry research, asset allocation, credit risk monitoring |
+| Fund Lobster | NAV Attribution + Performance Diagnosis Scalpel | Backtesting, performance attribution, compliance checks, FOF portfolio construction |
+| Securities Lobster | Research Intelligence + Business Expansion Radar | Investment banking due diligence, research, roadshows, margin trading |
+| Insurance Lobster | Liability Matching + Asset Allocation Expert | Product comparison, protection analysis, underwriting & claims, compliance |
+| Trust Lobster | Non-standard Assets + Wealth Structuring Architect | Family trust, valuation, ABS modeling, government financing risk |
+| Futures Lobster | Market Replay + Trading Decision Operator | Contract replay, spread analysis, industrial drivers |
 
 ---
 
-**FinClaw** is the first open-source autonomous AI agent execution framework designed for the financial industry. It is **jointly developed by the Artificial Intelligence Finance Laboratory (AIFinLab), led by Professor Liwen Zhang, Director of the Shanghai Financial Intelligence Engineering Technology Research Center and faculty member at the School of Statistics and Data Science, Shanghai University of Finance and Economics.** This framework is not a generic, all-purpose agent. Instead, it is **composed of six specialized “lobsters” vertically tailored to different segments of the financial industry, enabling AI agents to think and act like experienced finance professionals.** FinClaw focuses on deeply vertical financial needs, covering six core sectors—banking, securities, insurance, funds, futures, and trusts—and is designed to adapt to the unique business processes, regulatory requirements, and delivery scenarios of each domain.
-
-## 💡 Use Cases
-
-### 🦞 **Banking Lobster | Dedicated Think Tank for Corporate Credit + Proprietary Investment**
+### 🦞 **Banking Lobster | Dedicated Think Tank for Corporate Credit + Proprietary Investment** <a name="banking-lobster"></a> 
 FinClaw’s Banking Lobster can rapidly generate professional outputs for core scenarios such as credit approval, industry research, and asset allocation, including industry credit risk monitoring lists and strategic asset allocation ideas for proprietary accounts. It helps front-load a large amount of repetitive preliminary analysis work.
 
 
 https://github.com/user-attachments/assets/1db084f2-1cd4-417d-989a-636ea281cd1e
 
 
-### 🦞 **Securities Lobster | Precision Radar for Investment Research + Business Expansion**
+### 🦞 **Securities Lobster | Precision Radar for Investment Research + Business Expansion** <a name="securities-lobster"></a>
 FinClaw’s Securities Lobster can accurately capture policy signals and market themes across workflows ranging from investment banking due diligence materials and industry research coverage prioritization to key institutional roadshow topics and margin financing/securities lending analysis, helping both research and brokerage businesses stay in sync with the market rhythm.
 
 
 https://github.com/user-attachments/assets/bf20305f-1bb4-4ced-b63b-c9f7f3710d0d
 
 
-### 🦞 **Insurance Lobster | Customized Expert for Liability Matching + Asset Allocation**
-FinClaw’s Insurance Lobster can generate asset allocation strategies better aligned with real insurance business scenarios by incorporating insurers’ liability structures, interest-rate environments, and risk preferences. It also covers common tasks such as product comparison, protection analysis, underwriting and claims, compliance, and risk control.
+### 🦞 **Banking Lobster | Corporate Credit + Proprietary Investment Think Tank**  <a name="banking-lobster"></a>  
 
+FinClaw’s banking lobster focuses on credit approval, industry research, and asset allocation. It can quickly generate credit risk monitoring lists and portfolio allocation strategies, significantly reducing repetitive analytical workload.
 
-
-https://github.com/user-attachments/assets/0ef1dba7-11f4-4bc0-938e-cd0b998e91d0
-
-
-
-### 🦞 **Fund Lobster | Precision Scalpel for NAV Attribution + Performance Diagnosis**
-FinClaw’s Fund Lobster can identify the core reasons why an ETF underperformed its benchmark with one click, locate heavyweight holdings dragging down NAV, distinguish between fundamental, trading, and event-driven impacts, and cover the full workflow from investment research backtesting and performance attribution to holding compliance and FOF portfolio construction.
-
-
-https://github.com/user-attachments/assets/b0c9f07b-355d-48b5-9809-4700c92bb79c
-
-
-### 🦞 **Futures Lobster | Around-the-Clock Trader for Market Replay + Trading Analysis**
-FinClaw’s Futures Lobster can complete main contract reviews in minutes, break down intraday turning points, volume/open-interest changes, calendar spreads, and industrial drivers, and accurately assess whether late-session volatility reflects trend continuation, emotional release, or short-term overselling. Both quantitative and discretionary traders can use it out of the box.
-
-
-
-https://github.com/user-attachments/assets/b71a3f66-3faa-482b-8098-313fd34dc3b9
-
-
-
-### 🦞 **Trust Lobster | Dedicated Architect for Non-Standard Business + Wealth Inheritance**
-FinClaw’s Trust Lobster can generate asset suitability diagnostics, risk identification, beneficiary distribution frameworks, and control-right arrangement suggestions for scenarios such as family trusts, HNW client services, non-standard asset valuation, ABS analysis, and government-financing risk control, supporting more complete solution design.
-
-
-
-https://github.com/user-attachments/assets/773affad-4b35-4ded-a39d-7ada54071719
-
-
-
+<div align="center">
+  <img src="images/case1.gif" alt="case 1" width="600">
+</div>
 
 ---
 
-## 🌟 Core Highlights of FinClaw
+### 🦞 **Securities Lobster | Research Intelligence + Business Expansion Radar**  <a name="securities-lobster"></a>  
+
+It supports investment banking due diligence, industry coverage ranking, roadshow topic extraction, and margin business analysis, enabling precise alignment with policy and market trends.
+
+<div align="center">
+  <img src="images/case2.gif" alt="case 2" width="600">
+</div>
+
+---
+
+### 🦞 **Insurance Lobster | Liability Matching + Asset Allocation Expert**  <a name="insurance-lobster"></a>  
+
+Combining liability structures, interest rate environments, and risk preferences, it generates realistic asset allocation strategies and supports underwriting, claims, and compliance workflows.
+
+<div align="center">
+  <img src="images/case3.gif" alt="case 3" width="600">
+</div>
+
+---
+
+### 🦞 **Fund Lobster | NAV Attribution + Performance Diagnosis Scalpel**  <a name="fund-lobster"></a>  
+
+It decomposes underperformance, identifies drag factors, and distinguishes between fundamental, trading, and event-driven impacts across the full investment lifecycle.
+
+<div align="center">
+  <img src="images/case4.gif" alt="case 4" width="600">
+</div>
+
+---
+
+### 🦞 **Futures Lobster | Market Replay + Trading Decision Operator**  <a name="futures-lobster"></a>  
+
+Capable of minute-level contract replay, identifying turning points, volume/position changes, spreads, and industrial drivers.
+
+<div align="center">
+  <img src="images/case5.gif" alt="case 5" width="600">
+</div>
+
+---
+
+### 🦞 **Trust Lobster | Non-Standard Assets + Wealth Structuring Architect**  <a name="trust-lobster"></a>  
+
+Supports family trust design, high-net-worth wealth planning, valuation, and risk structuring.
+
+<div align="center">
+  <img src="images/case6.gif" alt="case 6" width="600">
+</div>
+
+---
+
+## 🌟 Core Highlights of FinClaw <a name="core-highlights"></a>
 
 FinClaw centers on a full closed loop for financial business workflows, forming a complete chain from underlying data to upper-layer applications. The system adopts a layered architecture that decouples and reconstructs financial capabilities and task execution. At the bottom layer, a Skills library accumulates standardized financial task capabilities. At the top layer, a unified task orchestration and scheduling mechanism dynamically combines and invokes these capabilities, enabling a leap from mere “tool calling” to true “task execution.”
 
-### 1️⃣ 60 Carefully Selected In-House Financial Skills That Break Through Professional Barriers
+### 1️⃣ 60 Carefully Selected In-House Financial Skills That Break Through Professional Barriers  <a name="60-curated-skills"></a>
 
 Tailored to the characteristics of the six major financial industries — banking, securities, funds, insurance, futures, and trusts — FinClaw selectively curates and deeply adapts high-frequency business capabilities to fill the gap left by general AI in professional scenarios. Based on typical financial business workflows, related capabilities are abstracted and structured into standardized, reusable modules, building a high-quality and reusable Skills capability set that supports the entire pipeline from data acquisition and processing to analysis and result output. The capability system is uniformly connected to multiple real-world data sources to ensure stability, consistency, and professionalism during task execution.
 
@@ -169,7 +238,7 @@ Tailored to the characteristics of the six major financial industries — bankin
 | `trust-post-investment-monitor` | Post-investment monitoring | Project data |
 | `trust-asset-allocation` | Asset allocation optimization | Optimization algorithms |
 
-### 2️⃣ 1000+ In-House Financial Skills
+### 2️⃣ 1000+ In-House Financial Skills <a name="1000-skills"></a>
 
 FinClaw’s Skills system is not simply divided by financial sectors. Instead, it starts from a deeper capability structure and abstracts the common capabilities across financial business scenarios into standardized modules. In practical use, these capabilities can be flexibly orchestrated and combined, thereby naturally extending into six core financial application scenarios: banking, securities, funds, insurance, futures, and trusts.
 
@@ -191,7 +260,7 @@ FinClaw’s Skills system is not simply divided by financial sectors. Instead, i
 
 **Completely free · No registration required · Install and use immediately**
 
-### 3️⃣ Unified Financial Data Abstraction Layer
+### 3️⃣ Unified Financial Data Abstraction Layer  <a name="data-layer"></a>
 
 FinClaw builds a standardized data access layer by wrapping multi-source financial data interfaces based on cn-stock-data, enabling a unified schema, code format, and access protocol across data sources. Through intelligent routing and fault-tolerant degradation, the system dynamically dispatches between sources such as AkShare, Eastmoney, Tonghuashun, and CNINFO, shielding upper layers from source-level differences while ensuring service stability. This allows upper-layer Agents and Skills to invoke data through a consistent interface.
 
@@ -209,7 +278,7 @@ User Request → cn-stock-data (Unified Entry) → Intelligent Routing → efina
 
 **Unified code format (SH600519), unified field names (English snake_case), and automatic fallback — upper-layer Skills do not need to care about data source differences.**
 
-### 4️⃣ One-Click Containerized Deployment
+### 4️⃣ One-Click Containerized Deployment <a name="deployment"></a>  
 
 In addition to supporting standardized local installation, FinClaw provides a Docker-based containerized deployment solution that packages the runtime environment, dependencies, and core services into a unified bundle for out-of-the-box startup. Container isolation effectively avoids environment conflicts, improves system stability and reproducibility, and offers stronger protection at both the data and business levels. At the same time, this approach has strong scalability and environment adaptability, making it suitable for seamless enterprise deployment and production use.
 
@@ -245,14 +314,17 @@ docker restart openclaw
 
 ---
 
-### 5️⃣ Zero-Barrier Task Execution Capability
+### 5️⃣ Zero-Barrier Task Execution Capability  <a name="task-execution"></a>
 FinClaw is natively compatible with the OpenClaw Agent OS architecture and can seamlessly integrate with its message routing, session management, skill registration, and permission control system. The system requires no additional API Key or complex environment configuration. Deployment can be completed through a standardized startup process, delivering out-of-the-box financial task execution capability. Users can directly invoke the corresponding financial Skills in a conversational environment and orchestrate them together with general-purpose capabilities.
+
 **Method 1: Invoke via OpenClaw Agent (Recommended)**
+
 After startup, interact directly with OpenClaw in conversation, for example:
 - "Check the stock price trend of Kweichow Moutai"
 - "Help me do a DCF valuation for Kweichow Moutai"
 - ""Analyze recent northbound capital movements"
 - "Backtest a momentum strategy on CSI 300 constituents"
+
 **Method 2: Run Skills directly from the command line**
 ```
 # View all skills
@@ -266,7 +338,7 @@ ls -1 skills/ | grep "^fund-"        # Funds
 
 ---
 
-## 🔧 Troubleshooting
+## 🔧 Troubleshooting  <a name="troubleshooting"></a> 
 
 | Issue | Solution |
 |:---|:---|
@@ -289,14 +361,14 @@ python -c "import akshare; print(akshare.__version__)"
 
 ---
 
-## 📅 Roadmap
+## 📅 Roadmap  <a name="roadmap"></a>
 
 - ✅ **Completed**：1000+ Skills, unified data abstraction layer, Docker deployment, 60 curated Skills
 - 🚧 **In Progress**：Web visualization interface, FinSkillsHub
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contributing  <a name="contribution"></a>
 
 Issues and PRs are welcome!
 
@@ -308,9 +380,15 @@ git push origin feature/your-feature
 
 ---
 
+## 💡 Future Outlook <a name="todo"></a>
+This project is **jointly developed by the Artificial Intelligence Finance Lab (AIFinLab), led by Professor Liwen Zhang, Director of the Shanghai Financial Intelligence Engineering Technology Research Center and faculty of the School of Statistics and Data Science at Shanghai University of Finance and Economics.**
+As an open-source autonomous AI agent execution framework for the financial domain, FinClaw is capable of performing a wide range of financial tasks and providing professional-level services. However, at its current stage, it still faces technical limitations and application constraints. The insights and analytical outputs it generates are for reference only and should not be regarded as equivalent to the precise judgment of professional financial analysts or experts.
+We sincerely encourage users to approach the outputs of the agent with critical thinking, and to make decisions in combination with their own domain knowledge and experience. Looking ahead, we will continue to refine and enhance FinClaw, further exploring its potential in cutting-edge financial scenarios, and supporting the financial industry in advancing toward greater intelligence and regulatory compliance, while injecting strong momentum into its future development.
+
 ## 📫 Contact Us
 
 We sincerely invite industry peers to explore innovative paradigms for the deep integration of AI and finance and to jointly build a new ecosystem for intelligent finance. Feel free to contact us by email:
+
 📧 [zhang.liwen@shufe.edu.cn](mailto:zhang.liwen@shufe.edu.cn)
 📧 [chengdongpo@mail.sufe.edu.cn](mailto:chengdongpo@mail.sufe.edu.cn)
 
@@ -323,5 +401,13 @@ We sincerely invite industry peers to explore innovative paradigms for the deep 
 
 ## 📄 If you would like to engage in deeper discussions on project co-construction, scientific research, talent cultivation, or industrial applications, please scan the QR code and fill out the form.
 
-[Apache 2.0](LICENSE) © 2026 FinClaw Contributors
+## ⭐ Star History <a name="star"></a>
+<p align="center"> <a href="https://www.star-history.com/#aifinlab/FinClaw&Date"> <img src="https://api.star-history.com/svg?repos=aifinlab/FinClaw&type=Date" /> </a> </p>
+<div align="center">
+
+⭐ If FinClaw helps you, please give us a star!
+
+Made with ❤️ by AIFinLab
+
+</div> ```
 

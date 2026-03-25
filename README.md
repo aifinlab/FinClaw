@@ -1,20 +1,30 @@
+
 <div align="center">
   <img src="images/finclaw-logo.png" alt="finclaw-logo" width="300">
+
+  <h1>FinClaw 🦞 | 首个开源金融专属龙虾，1000+ 金融专属Skills全量免费</h1>
+
+  <p>
+    <a href="https://nodejs.org/">
+      <img src="https://img.shields.io/badge/Node.js-18%2B-green.svg">
+    </a>
+    <a href="LICENSE">
+      <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg">
+    </a>
+    <a href="package.json">
+      <img src="https://img.shields.io/badge/Version-3.0.0-orange.svg">
+    </a>
+    <a href="#-skills-分类概览">
+      <img src="https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg">
+    </a>
+    <img src="https://img.shields.io/badge/免费-0元-brightgreen.svg">
+  </p>
+
+  <p>
+    📄<a href="README_EN.md">English</a> |
+    <a href="README.md">中文</a>
+  </p>
 </div>
-
-# FinClaw 🦞 | 首个开源金融专属龙虾，1000+ 金融专属Skills全量免费
-
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.0-orange.svg)](package.json)
-[![Skills](https://img.shields.io/badge/Skills-1000+%2B-blueviolet.svg)](#-skills-分类概览)
-[![Free](https://img.shields.io/badge/免费-0元-brightgreen.svg)]()
-
-  <!-- 语言切换链接 -->
-  [English](README_EN.md) | [中文](README.md)
-</div>
-
----
 
 **FinClaw**是首个面向金融行业的开源自主 AI 智能体执行框架，由**上海财经大学统计与数据科学学院、上海金融智能工程技术研究中心主任张立文教授领衔**的人工智能金融实验室（AIFinLab）联合研发。本框架不是一个泛泛而谈的通用 Agent，而是**按金融行业垂直拆分出的六只专属龙虾，让 AI Agent 像资深金融人一样思考与行动**。FinClaw 聚焦金融领域的深度垂直需求，围绕银行、证券、保险、基金、期货、信托六大核心赛道，适配各赛道特有的应用场景、业务流程与监管要求。
 
@@ -37,10 +47,20 @@
   - [🤝 贡献指南](#贡献指南)
   - [💡 未来展望](#todo) 
   - [📫 联系我们](#联系我们)
-  - [📄 许可证](#许可证)
+  - [⭐ Star历史趋势](#star)
 
 
 ## 💡 场景应用  <a name="summary"></a>  
+### 🦞**六只金融龙虾**
+
+| 龙虾 | 定位 | 核心能力 |
+|:---|:---|:---|
+| 银行龙虾 | 对公授信 + 自营投资专属智囊 | 授信审批、行业研究、资产配置、信用风险监测 |
+| 基金龙虾 | 净值归因 + 业绩诊断精准手术刀 | 投研回测、绩效归因、持仓合规、FOF组合构建 |
+| 证券龙虾 | 投研研判 + 业务拓展精准雷达 | 投行尽调、行业投研、机构路演、两融业务 |
+| 保险龙虾 | 负债匹配 + 资产配置定制专家 | 产品对比、保障分析、核保理赔、合规风控 |
+| 信托龙虾 | 非标业务 + 财富传承专属架构师 | 家族信托、非标估值、ABS测算、政信风控 |
+| 期货龙虾 | 行情复盘 + 交易研判全天候操盘手 | 主力合约复盘、跨期价差、产业驱动分析 |
 
 ### 🦞**银行龙虾 | 对公授信+自营投资专属智囊**  <a name="银行龙虾"></a>  
 FinClaw银行龙虾能够围绕授信审批、行业研究、资产配置等核心场景，快速生成行业信用风险监测清单、自营账户大类资产配置思路等专业结果，把大量重复性的前期分析工作先做起来。
@@ -257,12 +277,15 @@ docker restart openclaw
 
 ### 5️⃣ 零门槛任务执行能力  <a name="零门槛任务执行能力"></a>  
 FinClaw 原生兼容 OpenClaw Agent OS 架构，能够无缝接入其消息路由、会话管理、技能注册与权限控制体系。**系统无需额外 API Key 或复杂环境配置，通过标准化启动方式即可完成部署，实现开箱即用的金融任务执行能力**。用户可直接在对话环境中调用对应金融 Skills，并与通用能力实现统一编排与协同执行。
+
 **方式一：通过 OpenClaw Agent 调用（推荐）**
+
 启动后，直接在对话中与 OpenClaw 交互，例如：
 - "查询茅台股票行情"
 - "帮我做贵州茅台的 DCF 估值"
 - "分析北向资金近期动向"
 - "用动量策略回测沪深300成分股"
+
 **方式二：命令行直接运行 Skills**
 ```
 # 查看所有 skills
@@ -322,6 +345,7 @@ git push origin feature/your-feature
 ## 📫 联系我们  <a name="联系我们"></a>  
 
 诚邀业界同仁共同探索AI与金融深度融合的创新范式，共建智慧金融新生态。欢迎通过邮件联系：
+
 📧 [zhang.liwen@shufe.edu.cn](mailto:zhang.liwen@shufe.edu.cn)
 📧 [chengdongpo@mail.sufe.edu.cn](mailto:chengdongpo@mail.sufe.edu.cn)
 
@@ -331,8 +355,21 @@ git push origin feature/your-feature
 </div>
 
 ---
+## ⭐ Star历史趋势  <a name="star"></a>  
 
-## 📄 许可证  <a name="许可证"></a>
+<p align="center">
+  <a href="https://www.star-history.com/#aifinlab/FinClaw&Date">
+    <img src="https://api.star-history.com/svg?repos=aifinlab/FinClaw&type=Date" alt="Star History Chart" />
+  </a>
+</p>
 
-[Apache 2.0](LICENSE) © 2026 FinClaw Contributors
+---
+
+<div align="center">
+
+⭐ **如果 FinClaw 对你有帮助，欢迎点一个 Star 支持我们！**
+
+FinClaw 由 ❤️ AIFinLab 团队打造
+
+</div>
 
