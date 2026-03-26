@@ -5,9 +5,9 @@
 
 from __future__ import annotations
 
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
 
 
 def render(data: Dict[str, Any]) -> str:

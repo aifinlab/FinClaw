@@ -28,11 +28,11 @@ JSON 格式:
     }
 """
 
+from typing import Dict, List, Tuple
 import argparse
 import csv
 import json
 import sys
-from typing import Dict, List, Tuple
 
 
 def load_csv(filepath: str) -> List[Dict]:

@@ -10,6 +10,7 @@
 from __future__ import annotations
 import json
 from typing import Any, Dict, List
+import argparse
 
 CATEGORY_RULES = {
     "服务态度类": ["态度差", "冷漠", "敷衍", "推诿", "不耐烦", "服务差"],
@@ -22,13 +23,15 @@ CATEGORY_RULES = {
     "流程体验类": ["流程复杂", "反复提交", "材料太多", "来回跑", "重复操作"],
 }
 
+
 def classify_text(text: str) -> Dict[str, Any]:
     text = text or ""
     hits = []
     for category, keywords in CATEGORY_RULES.items():
         matched = [kw for kw in keywords if kw in text]
         if matched:
-            hits.append({"category": category, "keywords": matched, "score": len(matched)})
+            hits.append(
+                {"category": category, "keywords": matched, "score": len(matched)})
     hits.sort(key=lambda x: x["score"], reverse=True)
     main_category = hits[0]["category"] if hits else "其他特殊类"
     sub_categories = [item["category"] for item in hits[1:3]]
@@ -38,20 +41,20 @@ def classify_text(text: str) -> Dict[str, Any]:
         "matched_rules": hits,
     }
 
+
 def classify_records(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     output = []
     for item in records:
-        text = " ".join(
-            str(item.get(k, "")) for k in ["title", "content", "summary", "customer_request"]
-        )
+        text = " ".join(str(item.get(k, ""))
+                        for k in ["title", "content", "summary", "customer_request"])
         result = classify_text(text)
         merged = dict(item)
         merged.update(result)
         output.append(merged)
     return output
 
+
 if __name__ == "__main__":
-    import argparse
     parser = argparse.ArgumentParser(description="投诉分类脚本")
     parser.add_argument("--input", required=True, help="输入 JSON 文件路径")
     parser.add_argument("--output", required=True, help="输出 JSON 文件路径")

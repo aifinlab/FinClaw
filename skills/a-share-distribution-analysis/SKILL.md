@@ -33,3 +33,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 峰度>3说明极端收益出现频率高于正态预期
 4. 分布假设影响VaR/期权定价等所有风险计算
 5. 不同市值股票的分布特征差异大——小盘更尖峰
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

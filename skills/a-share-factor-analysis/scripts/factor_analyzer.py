@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """单因子分析工具 - IC/IR/分组回测/换手率分析"""
+from scipy import stats
 import argparse
 import json
-import sys
 import numpy as np
 import pandas as pd
-from scipy import stats
+import sys
 
 
 def load_data(path: str) -> pd.DataFrame:

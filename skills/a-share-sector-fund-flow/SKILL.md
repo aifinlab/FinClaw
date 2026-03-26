@@ -29,3 +29,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 资金流入≠涨——可能是高位承接
 4. 行业轮动往往资金先行、股价后动
 5. 融资余额变化是行业资金流的辅助指标
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

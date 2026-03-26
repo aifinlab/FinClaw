@@ -190,3 +190,21 @@ description: |
 - [ ] 政策分析具体（城市、政策内容）
 - [ ] 债务风险分析充分（到期、融资）
 - [ ] 风险提示到位（销售、债务、政策）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import argparse, json, re, sys
 from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse, json, re, sys
+import sys
 
 def load_items(path: Path) -> List[Dict[str, Any]]:
     raw = path.read_text(encoding="utf-8").strip()
@@ -57,5 +58,19 @@ def main():
     if a.output: Path(a.output).write_text(rep,encoding='utf-8')
     else: sys.stdout.write(rep+'\n')
 
-if __name__=='__main__':
-    main()
+
+def main():
+
+
+        main()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

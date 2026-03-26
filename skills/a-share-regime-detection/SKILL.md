@@ -47,3 +47,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A 股政策市特征明显——政策转向往往是状态转折点
 4. 成交量是判断市场状态的领先指标
 5. 不同状态适用不同策略（趋势市用动量，震荡市用均值回归）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

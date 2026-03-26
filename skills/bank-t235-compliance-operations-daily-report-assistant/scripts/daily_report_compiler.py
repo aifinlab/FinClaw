@@ -1,8 +1,8 @@
+from pathlib import Path
+from typing import Dict, List, Any
 import argparse
 import csv
 import json
-from pathlib import Path
-from typing import Dict, List, Any
 
 
 def load_records(path: Path) -> List[Dict[str, Any]]:

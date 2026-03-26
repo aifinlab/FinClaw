@@ -1,7 +1,7 @@
-import argparse
-import json
 from datetime import datetime
 from typing import Any, Dict, List
+import argparse
+import json
 
 
 def load_json(path: str) -> Dict[str, Any]:

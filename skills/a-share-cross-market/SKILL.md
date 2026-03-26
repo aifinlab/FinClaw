@@ -142,3 +142,21 @@ print(df.tail(5).to_string())
 5. **时差与交易时间**：美股收盘→A股开盘有时差，需注意盘后/盘前信息；港股与A股交易时间有重叠
 6. **数据来源标注**：跨市场数据来源多样，务必标注每项数据的来源和时间点
 7. **与其他 skill 联动**：跨市场分析结论可指导 a-share-sector（受影响行业）、a-share-northbound（北向资金分析）、a-share-macro（宏观政策背景）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

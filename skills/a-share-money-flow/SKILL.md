@@ -66,3 +66,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [CODE] --freq daily --start [日
 ## 免责声明
 
 在 formal 输出末尾附加：资金流向数据基于成交量估算，仅供参考，不构成投资建议。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

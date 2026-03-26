@@ -101,3 +101,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [COMP1],[COMP2],[COMP3]
 5. **警惕伪护城河**：低价不等于成本优势、规模大不等于规模经济、市占率高不等于有护城河
 6. **数据驱动**：所有判断必须有财务数据或行业数据支撑，不做无依据的定性评价
 7. **数据截止标注**：报告标注数据截止日期和报告生成日期
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

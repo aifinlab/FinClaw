@@ -39,3 +39,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 收益率相似不等于基本面相似——需分维度聚类
 4. 聚类结果可用于配对交易候选筛选
 5. 行业分类≠统计聚类——后者可能发现隐含关联
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -81,3 +81,21 @@ python "$SCRIPTS/cn_stock_data.py" fund_flow --code SH000001
 4. **不做点位预测**：不说"明天大盘涨到XX点"，只做趋势方向和支撑压力区间判断
 5. **整数关口效应**：3000/3100/3200 等整数关口有心理支撑压力效应，年线（MA250）是牛熊分界参考
 6. **与其他 skill 联动**：个股深入用 a-share-technical / a-share-earnings-analysis，北向资金用 a-share-northbound，行业层面用 a-share-sector
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

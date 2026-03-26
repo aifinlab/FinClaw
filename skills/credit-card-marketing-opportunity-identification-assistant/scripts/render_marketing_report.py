@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 def render(records: List[Dict[str, Any]], task_name: str = "信用卡营销机会识别") -> str:
     lines: List[str] = []

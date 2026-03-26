@@ -31,3 +31,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A股中上游→下游传导较明显（如铜→电线电缆）
 4. 大盘股往往领先小盘股1-2日
 5. 北向资金动向常领先A股1-3日
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

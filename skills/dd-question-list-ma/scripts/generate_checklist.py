@@ -5,8 +5,9 @@
 用于根据行业类型生成定制化的尽调问题清单
 """
 
-import json
 from datetime import datetime
+import json
+import sys
 
 # 行业特定问题库
 INDUSTRY_QUESTIONS = {
@@ -51,11 +52,11 @@ INDUSTRY_QUESTIONS = {
 def generate_checklist(industry: str, transaction_type: str = "控股收购") -> dict:
     """
     生成尽调问题清单
-    
+
     Args:
         industry: 行业类型 (TMT/医疗/制造/消费)
         transaction_type: 交易类型 (控股收购/参股投资/资产收购)
-    
+
     Returns:
         问题清单字典
     """
@@ -67,10 +68,10 @@ def generate_checklist(industry: str, transaction_type: str = "控股收购") ->
         "四、人力资源尽调",
         "五、并购整合专项"
     ]
-    
+
     # 获取行业特定问题
     industry_questions = INDUSTRY_QUESTIONS.get(industry, [])
-    
+
     checklist = {
         "project_name": "",
         "industry": industry,
@@ -80,7 +81,7 @@ def generate_checklist(industry: str, transaction_type: str = "控股收购") ->
         "industry_specific_questions": industry_questions,
         "total_questions": len(industry_questions) + 20  # 基础问题 + 行业问题
     }
-    
+
     return checklist
 
 def export_to_json(checklist: dict, output_path: str):
@@ -89,8 +90,22 @@ def export_to_json(checklist: dict, output_path: str):
         json.dump(checklist, f, ensure_ascii=False, indent=2)
     print(f"清单已导出至：{output_path}")
 
+
+def main():
+
+
+        # 示例：生成 TMT 行业尽调清单
+        checklist = generate_checklist(industry="TMT", transaction_type="控股收购")
+        export_to_json(checklist, "ma_dd_checklist.json")
+        print(f"生成问题总数：{checklist['total_questions']}")
+
+
 if __name__ == "__main__":
-    # 示例：生成 TMT 行业尽调清单
-    checklist = generate_checklist(industry="TMT", transaction_type="控股收购")
-    export_to_json(checklist, "ma_dd_checklist.json")
-    print(f"生成问题总数：{checklist['total_questions']}")
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

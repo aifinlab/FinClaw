@@ -1,0 +1,15 @@
+{
+  "event_date": "2026-03-01",
+  "disclosure_date": "2026-03-05",
+  "materiality": "重大",
+  "related_party_transaction": true,
+  "transaction_amount": 15000000,
+  "board_approved": false,
+  "independent_director_opinion": false,
+  "disclosed": true,
+  "share_reduction": false,
+  "plan_disclosed": false,
+  "sensitive_window": false,
+  "commitment_restriction": false,
+  "pledge_ratio": 62
+}

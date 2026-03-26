@@ -153,3 +153,21 @@ description: |
 - [ ] 影响分析到位（财务/经营/融资/声誉）
 - [ ] 投资含义清晰
 - [ ] 风险提示充分
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

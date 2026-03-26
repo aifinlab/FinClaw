@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "cross-table-consistency",
+  "run_type": "without_skill",
+  "expectations": [
+    {"text": "两表余额不一致", "passed": true, "evidence": "识别表1合计160000与表2合计160500不一致，差异500万元"},
+    {"text": "表1占比之和≠100%", "passed": true, "evidence": "识别表1占比合计100.1%≠100%"},
+    {"text": "表2占比之和≠100%", "passed": true, "evidence": "识别表2占比合计100.4%≠100%"},
+    {"text": "表内明细求和校验", "passed": true, "evidence": "校验了两表明细之和与合计行一致性"},
+    {"text": "两表笔数一致", "passed": true, "evidence": "确认两表合计笔数均为1000"},
+    {"text": "结论优先", "passed": false, "evidence": "先给出校验概述，但结论在最后（第五部分），不是结论先行"},
+    {"text": "免责提示", "passed": false, "evidence": "末尾没有免责提示或安全边界声明"}
+  ]
+}

@@ -1,8 +1,9 @@
 from __future__ import annotations
-
 import json
+
 from pathlib import Path
 from typing import Dict, Optional
+import argparse
 
 
 def load_payload(path: Path) -> Dict[str, object]:
@@ -24,17 +25,22 @@ def main(input_path: str, output_path: Optional[str] = None) -> None:
     payload = load_payload(Path(input_path))
     report = build_summary(payload)
     if output_path:
-        Path(output_path).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+        Path(output_path).write_text(
+            json.dumps(
+                report,
+                ensure_ascii=False,
+                indent=2),
+            encoding="utf-8")
     else:
         print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
-    import argparse
 
-    parser = argparse.ArgumentParser(description="Build watchlist screening summary")
-    parser.add_argument("input", help="Input watchlist screening json file")
-    parser.add_argument("--output", help="Output report path")
-    args = parser.parse_args()
+   parser = argparse.ArgumentParser(
+       description="Build watchlist screening summary")
+   parser.add_argument("input", help="Input watchlist screening json file")
+   parser.add_argument("--output", help="Output report path")
+   args = parser.parse_args()
 
-    main(args.input, args.output)
+   main(args.input, args.output)

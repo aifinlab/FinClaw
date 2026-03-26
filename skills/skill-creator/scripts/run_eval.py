@@ -5,6 +5,9 @@ Tests whether a skill's description causes Claude to trigger (read the skill)
 for a set of queries. Outputs results as JSON.
 """
 
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pathlib import Path
+from scripts.utils import parse_skill_md
 import argparse
 import json
 import os
@@ -12,11 +15,8 @@ import select
 import subprocess
 import sys
 import time
-import uuid
-from concurrent.futures import ProcessPoolExecutor, as_completed
-from pathlib import Path
 
-from scripts.utils import parse_skill_md
+import uuid
 
 
 def find_project_root() -> Path:

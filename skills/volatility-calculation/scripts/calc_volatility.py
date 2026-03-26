@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # Volatility calculator from a price series CSV.
+from datetime import datetime
 import argparse
 import csv
 import math
 import statistics
-from datetime import datetime
 
 
 def parse_date(value):

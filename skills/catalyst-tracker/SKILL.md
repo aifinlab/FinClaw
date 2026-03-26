@@ -152,3 +152,21 @@ description: |
 - [ ] 应对策略具体（事前/事中/事后）
 - [ ] 综合建议明确
 - [ ] 风险提示到位
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

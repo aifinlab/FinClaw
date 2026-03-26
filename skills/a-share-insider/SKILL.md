@@ -74,3 +74,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [CODE] --freq daily --start [日
 4. **锁定期**：IPO后通常12-36个月锁定期，定增6-18个月，到期≠立即减持
 5. **不做交易建议**：只陈述增减持事实和信号含义，不建议"跟随买入/卖出"
 6. **数据时效**：增减持公告可能滞后，分析时注明数据截止日期
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

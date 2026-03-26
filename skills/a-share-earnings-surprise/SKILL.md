@@ -33,3 +33,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 业绩预告vs正式报告可能有差异——两次都需关注
 4. 分析师一致预期是衡量超预期的最佳基准（如有）
 5. 业绩公告通常盘后发布——T+1为首个反应日
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

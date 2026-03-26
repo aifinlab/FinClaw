@@ -8,13 +8,13 @@ Usage:
 
 from __future__ import annotations
 
-import argparse
-import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-
 import akshare as ak
+import argparse
+
+import json
 import numpy as np
 import pandas as pd
 

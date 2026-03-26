@@ -60,3 +60,21 @@ python "$QSCRIPTS/pairs_analyzer.py" --stock1 data1.json --stock2 data2.json --w
 3. 停牌风险：一方停牌导致无法对冲
 4. 协整关系可能失效——需定期检验，建议滚动窗口
 5. 交易成本：双边交易成本约 0.2%，需纳入回测
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

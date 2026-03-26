@@ -3,12 +3,12 @@
 efinance 期货数据获取脚本
 支持：期货实时行情、历史K线、基本信息
 """
-import sys
-import json
 import argparse
-
 import efinance as ef
+import json
+
 import pandas as pd
+import sys
 
 
 def _df_to_json(df, max_rows=None):

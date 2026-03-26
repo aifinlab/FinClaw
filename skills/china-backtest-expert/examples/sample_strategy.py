@@ -4,19 +4,19 @@
 示例PE-PB-ROE多因子策略
 用于测试china-backtest-expert
 """
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 def generate_sample_backtest_data(n_days=1000, seed=42):
     """生成示例回测数据"""
     np.random.seed(seed)
-    
+
     dates = pd.date_range(start='2020-01-01', periods=n_days, freq='B')
-    
+
     # 生成价格数据
     returns = np.random.normal(0.0005, 0.02, n_days)  # 正收益，适度波动
     prices = 100 * (1 + returns).cumprod()
-    
+
     # 生成交易记录
     trades = []
     for i in range(0, n_days, 20):  # 每20天交易一次
@@ -34,7 +34,7 @@ def generate_sample_backtest_data(n_days=1000, seed=42):
                 'shares': 100,
                 'holding_days': 10
             })
-    
+
     df = pd.DataFrame({
         'date': dates,
         'close': prices,
@@ -44,9 +44,9 @@ def generate_sample_backtest_data(n_days=1000, seed=42):
         'volume': np.random.randint(1000000, 10000000, n_days),
         'return': returns
     })
-    
+
     trades_df = pd.DataFrame(trades)
-    
+
     return df, trades_df
 
 

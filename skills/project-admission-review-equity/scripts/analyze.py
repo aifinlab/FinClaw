@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-import argparse, json, re, sys
 from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse, json, re, sys
 
 def load_items(path: Path) -> List[Dict[str, Any]]:
     raw = path.read_text(encoding='utf-8').strip()

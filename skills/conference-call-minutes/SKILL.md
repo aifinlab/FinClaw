@@ -154,3 +154,21 @@ description: |
 - [ ] 投资要点明确
 - [ ] 篇幅适中（2000-4000 字）
 - [ ] 格式规范、便于阅读
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

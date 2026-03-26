@@ -5,9 +5,9 @@
 
 from __future__ import annotations
 
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
 
 
 REQUIRED_DOCS = ["合同", "订单", "发票", "物流", "回款"]

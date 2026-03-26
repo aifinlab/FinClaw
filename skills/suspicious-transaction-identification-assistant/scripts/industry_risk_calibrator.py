@@ -1,11 +1,13 @@
 from __future__ import annotations
-
 import json
+
 from pathlib import Path
 from typing import Any
+import argparse
 
 
-def calibrate_with_industry(scan_result: dict[str, Any], industry_context: dict[str, Any]) -> dict[str, Any]:
+def calibrate_with_industry(
+        scan_result: dict[str, Any], industry_context: dict[str, Any]) -> dict[str, Any]:
     result = dict(scan_result)
     summary = dict(result.get("summary", {}))
 
@@ -49,16 +51,31 @@ def calibrate_with_industry(scan_result: dict[str, Any], industry_context: dict[
 
 
 if __name__ == "__main__":
-    import argparse
 
-    parser = argparse.ArgumentParser(description="行业与外部风险信息校准")
-    parser.add_argument("scan_result", help="基础扫描 JSON 文件")
-    parser.add_argument("industry_context", help="行业上下文 JSON 文件")
-    parser.add_argument("-o", "--output", default="calibrated_result.json", help="输出 JSON 文件")
-    args = parser.parse_args()
+   parser = argparse.ArgumentParser(description="行业与外部风险信息校准")
+   parser.add_argument("scan_result", help="基础扫描 JSON 文件")
+   parser.add_argument("industry_context", help="行业上下文 JSON 文件")
+   parser.add_argument(
+       "-o",
+       "--output",
+       default="calibrated_result.json",
+       help="输出 JSON 文件")
+   args = parser.parse_args()
 
-    scan_result = json.loads(Path(args.scan_result).read_text(encoding="utf-8"))
-    industry_context = json.loads(Path(args.industry_context).read_text(encoding="utf-8"))
-    output = calibrate_with_industry(scan_result, industry_context)
-    Path(args.output).write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"已输出到 {args.output}")
+   scan_result = json.loads(
+       Path(
+           args.scan_result).read_text(
+           encoding="utf-8"))
+   industry_context = json.loads(
+       Path(
+           args.industry_context).read_text(
+           encoding="utf-8"))
+   output = calibrate_with_industry(scan_result, industry_context)
+   Path(
+       args.output).write_text(
+       json.dumps(
+           output,
+           ensure_ascii=False,
+           indent=2),
+       encoding="utf-8")
+   print(f"已输出到 {args.output}")

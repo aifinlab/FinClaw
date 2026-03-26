@@ -118,3 +118,21 @@ python "$SCRIPTS/cn_stock_data.py" fund_flow --code [CODE] --days 30
 4. **季节性调整**：注意 A 股的季度盈利不均匀分布（Q4 常有减值/一次性项目）
 5. **同比 vs 环比**：高基数/低基数效应会扭曲同比增速，环比更能反映边际变化
 6. **与 a-share-earnings-analysis 联动**：前瞻报告发布后，实际财报出来时用 a-share-earnings-analysis 做验证
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

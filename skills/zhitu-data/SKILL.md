@@ -1,6 +1,6 @@
 ---
 name: "zhitu-data"
-description: "Free stock data via 智兔数服. Real-time quotes, historical data, and technical indicators for A-shares, HK stocks, and funds. No registration required."
+description: "智兔数服数据Skill - 免注册A股/港股/基金实时行情、历史K线、技术指标 via 智兔数服"
 metadata:
   openclaw:
     requires:
@@ -8,137 +8,178 @@ metadata:
     install:
       - id: python-packages
         kind: pip
-        packages: ["requests"]
+        packages: ["requests", "pandas", "pyyaml"]
 ---
 
-# zhitu-data
+# SKILL.md - zhitu-data
 
-Free stock data skill powered by [智兔数服](https://zhituapi.com).
+## 技能信息
 
-## Setup
-
-### 1. Install Dependencies
-
-```bash
-pip install requests
-```
-
-### 2. No Registration Required
-
-智兔数服 provides a free test token, no registration needed!
-
-```bash
-# Free test token (built into scripts)
-export ZHITU_TOKEN="ZHITU_TOKEN_LIMIT_TEST"
-```
-
-## Features
-
-- **A-Share Real-time** - Real-time quotes for all A-shares
-- **Hong Kong Stocks** - HK stock data
-- **Fund Data** - ETF and LOF fund quotes
-- **Beijing Exchange** - 北交所 stock data
-- **Historical K-line** - Daily, weekly, monthly data
-- **Technical Indicators** - MACD, KDJ, BOLL, MA built-in
-- **No Registration** - Completely free, no signup needed
-- **No Rate Limits** - Unlimited calls with test token
-
-## Commands
-
-### Real-time Quotes
-```bash
-python scripts/zhitu_quote.py <code>
-```
-
-### Historical Data
-```bash
-python scripts/zhitu_hist.py <code> [start_date] [end_date]
-```
-
-### Technical Indicators
-```bash
-python scripts/zhitu_tech.py <code> <indicator>
-```
-
-### Stock List
-```bash
-python scripts/zhitu_list.py [market]
-```
-
-## Stock Code Format
-
-- **Shanghai A-share**: `600000.SH` or just `600000`
-- **Shenzhen A-share**: `000001.SZ` or just `000001`
-- **ChiNext**: `300001.SZ` or just `300001`
-- **STAR Market**: `688001.SH` or just `688001`
-- **Beijing Exchange**: `430047.BJ` or just `430047`
-- **Hong Kong**: `00001.HK` or just `00001`
-- **Fund**: `510300.SH` or just `510300`
-
-## Examples
-
-```bash
-# A-share real-time quote
-python scripts/zhitu_quote.py 000001
-python scripts/zhitu_quote.py 600519.SH
-
-# Historical data
-python scripts/zhitu_hist.py 600519 20240101 20240312
-
-# Technical indicators
-python scripts/zhitu_tech.py 000001 MACD
-python scripts/zhitu_tech.py 600519 KDJ
-
-# Stock list
-python scripts/zhitu_list.py
-python scripts/zhitu_list.py sh
-```
-
-## Technical Indicators
-
-| Indicator | Description |
+| 属性 | 内容 |
 |:---|:---|
-| MACD | Moving Average Convergence Divergence |
-| KDJ | Stochastic Oscillator |
-| BOLL | Bollinger Bands |
-| MA | Moving Average |
+| **名称** | zhitu-data |
+| **版本** | 1.1.0 |
+| **分类** | 免费数据源 |
+| **状态** | ✅ 已上线 |
+| **维护者** | FinClaw Core Team |
+| **最后更新** | 2026-03-19 |
 
-## File Structure
+## 功能描述
 
-```
-zhitu-data/
-├── SKILL.md
-└── scripts/
-    ├── zhitu_quote.py      # Real-time quotes
-    ├── zhitu_hist.py       # Historical K-line data
-    ├── zhitu_tech.py       # Technical indicators
-    └── zhitu_list.py       # Stock list
-```
+智兔数服数据Skill，提供免注册、免费的A股、港股、基金实时行情、历史K线数据、技术指标（MACD/KDJ/BOLL/MA）。作为备用数据源使用。
 
-## Data Sources
+## 触发意图
 
-- **智兔数服** - Free stock data API for A-shares, HK, funds
+### 主要触发词
+- "智兔"、"zhitu"
+- "免费行情"
+- "免注册数据"
+- "备用数据源"
 
-## Features Comparison
+### Few-shot 示例
 
-| Feature | 智兔数服 | Other APIs |
+| 用户输入 | 识别意图 | 调用函数 |
 |:---|:---|:---|
-| **Registration** | Not required | Usually required |
-| **Cost** | Completely free | Free/Paid |
-| **A-Share Data** | ✅ Full coverage | Partial |
-| **HK Stocks** | ✅ Supported | Varies |
-| **北交所** | ✅ Supported | Rare |
-| **Technical Indicators** | ✅ Built-in | Varies |
-| **Rate Limits** | Generous | Strict |
+| 查茅台行情（智兔） | zhitu_quote | zhitu_quote.py 600519 |
+| 历史K线 | zhitu_hist | zhitu_hist.py 600519 20240101 20260319 |
+| MACD指标 | zhitu_tech | zhitu_tech.py 600519 MACD |
+| 股票列表 | zhitu_list | zhitu_list.py |
 
-## Notes
+## 数据源配置
 
-- Test token may have usage limits for high-frequency calls
-- For production use, consider registering for a free API key
-- Data is suitable for personal research and learning
-- HK stock data may be delayed
+| 数据类型 | 主要来源 | 备用来源 | 认证要求 |
+|:---|:---|:---|:---:|
+| 实时行情 | 智兔数服 | - | 免注册（测试Token） |
+| 历史K线 | 智兔数服 | - | 免注册 |
+| 技术指标 | 智兔数服 | - | 免注册 |
 
-## Links
+## 支持的市场
 
-- [智兔数服官网](https://zhituapi.com)
-- [API Documentation](https://zhituapi.com/docs)
+| 市场 | 代码格式 | 示例 |
+|:---|:---|:---|
+| 上海A股 | 600000.SH 或 600000 | 600519 |
+| 深圳A股 | 000001.SZ 或 000001 | 000001 |
+| 创业板 | 300001.SZ 或 300001 | 300750 |
+| 科创板 | 688001.SH 或 688001 | 688981 |
+| 北交所 | 430047.BJ 或 430047 | 430047 |
+| 港股 | 00001.HK 或 00001 | 00700 |
+| 基金 | 510300.SH 或 510300 | 510300 |
+
+## 功能列表
+
+### 1. 实时行情
+- **功能描述**: 获取实时行情数据
+- **输入参数**: 股票代码
+- **输出格式**: Markdown表格
+- **数据源**: 智兔数服
+- **使用示例**:
+  ```bash
+  python scripts/zhitu_quote.py 600519
+  python scripts/zhitu_quote.py 600519.SH
+  ```
+
+### 2. 历史K线
+- **功能描述**: 获取历史K线数据
+- **输入参数**: 股票代码、开始日期、结束日期
+- **输出格式**: CSV/Markdown
+- **数据源**: 智兔数服
+- **使用示例**:
+  ```bash
+  python scripts/zhitu_hist.py 600519 20240101 20260319
+  ```
+
+### 3. 技术指标
+- **功能描述**: 计算技术指标（MACD/KDJ/BOLL/MA）
+- **输入参数**: 股票代码、指标类型
+- **输出格式**: Markdown表格
+- **数据源**: 智兔数服
+- **使用示例**:
+  ```bash
+  python scripts/zhitu_tech.py 600519 MACD
+  python scripts/zhitu_tech.py 600519 KDJ
+  python scripts/zhitu_tech.py 600519 BOLL
+  python scripts/zhitu_tech.py 600519 MA
+  ```
+
+### 4. 股票列表
+- **功能描述**: 获取股票列表
+- **输入参数**: 市场（可选）
+- **输出格式**: Markdown表格
+- **数据源**: 智兔数服
+- **使用示例**:
+  ```bash
+  python scripts/zhitu_list.py
+  python scripts/zhitu_list.py sh
+  ```
+
+## 技术指标说明
+
+| 指标 | 说明 | 用法 |
+|:---|:---|:---|
+| **MACD** | 指数平滑异同平均线 | DIF上穿DEA买入 |
+| **KDJ** | 随机指标 | K上穿D买入，超买超卖 |
+| **BOLL** | 布林带 | 价格触及下轨买入 |
+| **MA** | 移动平均线 | 价格站上均线买入 |
+
+## 脚本清单
+
+| 脚本名 | 功能 | 入口点 |
+|:---|:---|:---:|
+| zhitu_quote.py | 实时行情 | ✅ |
+| zhitu_hist.py | 历史K线 | ✅ |
+| zhitu_tech.py | 技术指标 | ✅ |
+| zhitu_list.py | 股票列表 | ✅ |
+
+## 特点对比
+
+| 特性 | 智兔数服 | 其他API |
+|:---|:---|:---|
+| **注册** | 免注册 | 通常需要 |
+| **费用** | 免费 | 免费/付费 |
+| **A股覆盖** | 全覆盖 | 部分 |
+| **港股** | 支持 | 视API而定 |
+| **北交所** | 支持 | 较少 |
+| **技术指标** | 内置 | 视API而定 |
+| **调用限制** | 较宽松 | 较严格 |
+
+## 数据来源标注规范
+
+```markdown
+---
+📊 **数据来源**: 智兔数服
+⏱️ **数据时间**: 2026-03-19 10:30:15
+🔗 **原始来源**: 智兔数服API
+🔧 **分析工具**: FinClaw v1.0
+```
+
+## 依赖要求
+
+```
+requests>=2.25.0
+pandas>=1.3.0
+pyyaml>=5.4.0
+```
+
+## 注意事项
+
+- 测试Token可能有调用频率限制
+- 生产环境建议申请正式API Key
+- 数据仅供个人学习研究使用
+- 港股数据可能有延迟
+
+## 相关链接
+
+- 智兔数服: https://zhituapi.com
+- API文档: https://zhituapi.com/docs
+- FinClaw数据规范: `finclaw/config/data_source_config.yaml`
+
+## 更新日志
+
+| 版本 | 日期 | 变更内容 |
+|:---|:---:|:---|
+| 1.1.0 | 2026-03-19 | 符合FinClaw数据规范v1.0 |
+| 1.0.0 | 2026-03-13 | 初始版本 |
+
+---
+
+*本Skill遵循 FinClaw 数据规范 v1.0 | 数据来源强制标注 | 禁止训练数据编造*

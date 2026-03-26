@@ -1,13 +1,28 @@
-﻿#!/usr/bin/env python3
+﻿  # !/usr/bin/env python3
 """将职业相关资料整理为标准化职业风险识别结果。"""
 
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Any
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 RISK_TOPICS = {
     "岗位风险": ["施工", "高空", "井下", "海上", "焊工", "电工", "吊装", "爆破", "设备操作", "特种设备", "体力劳动", "夜班", "轮班"],
@@ -188,7 +203,7 @@ def render_report(data: dict[str, Any]) -> str:
     next_steps = build_next_steps(text, topic_risks)
 
     lines = [
-        "# 职业风险识别结果",
+        "  # 职业风险识别结果",
         "",
         "一、职业基本信息",
         f"- 被保人基本信息：{basic['person_info']}",
@@ -228,4 +243,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

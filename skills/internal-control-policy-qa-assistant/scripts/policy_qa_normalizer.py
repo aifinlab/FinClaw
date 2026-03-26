@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from typing import Any, Dict, List
 import json
 import re
 import sys
-from typing import Any, Dict, List
 
 QUESTION_TYPES = {
     "审批": ["谁审批", "谁来批", "审批", "复核", "授权"],

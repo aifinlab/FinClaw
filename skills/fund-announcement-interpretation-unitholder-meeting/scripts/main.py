@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+from pathlib import Path
 import argparse
 import json
 import re
-from pathlib import Path
+import sys
 
 SKILL_META = {
   "display_name": "基金公告解读助手-持有人大会版",
@@ -156,5 +157,19 @@ def main() -> None:
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

@@ -1,13 +1,14 @@
 {
+  "_comment": "⚠️ 示例数据文件 - 生产环境请使用真实数据",
   "batch_id": "2026W11-t152",
   "time_window": "近30天",
   "goal": "运营编排",
   "customers": [
     {
       "customer_id": "R001",
-      "name": "张三",
+      "name": "张三(示例)",
       "segment": "零售A",
-      "mobile": "13812345678",
+      "mobile": "",
       "consent_marketing": true,
       "aum": 2400000,
       "deposit": 560000,

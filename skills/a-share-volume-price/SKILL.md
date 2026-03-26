@@ -53,3 +53,21 @@ python "$QSCRIPTS/volume_price_analyzer.py" --data kline.json --window 20
 3. 涨跌停板的成交量需特殊处理（封板量 vs 开板量）
 4. 换手率比成交量更具可比性（剔除了流通盘大小差异）
 5. 量价背离是趋势衰竭的重要信号
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

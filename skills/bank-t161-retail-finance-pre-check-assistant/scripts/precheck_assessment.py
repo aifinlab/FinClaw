@@ -1,7 +1,7 @@
-import argparse
-import json
 from datetime import datetime
 from typing import Any, Dict, List
+import argparse
+import json
 
 
 def get_path(data: Dict[str, Any], path: str) -> Any:

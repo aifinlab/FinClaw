@@ -14,21 +14,37 @@ Arguments:
     market: sh (Shanghai), sz (Shenzhen), bj (Beijing), or empty for all
 """
 
-import sys
 import json
+import os
 import requests
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 API_BASE = "https://api.zhituapi.com"
-TOKEN = "ZHITU_TOKEN_LIMIT_TEST"
+TOKEN = os.environ.get("ZHITU_API_TOKEN", "")
 
 def get_stock_list(market=None):
     try:
         print(f"\n📋 A-Share Stock List")
         print(f"{'='*80}\n")
-        
+
         # Note: 智兔数服 doesn't have a direct stock list API
         # We'll provide a curated list of popular stocks
-        
+
         stocks = {
             'sh': [
                 ('600519.SH', '贵州茅台'),
@@ -60,9 +76,9 @@ def get_stock_list(market=None):
                 ('832735.BJ', '德源药业'),
             ]
         }
-        
+
         all_stocks = stocks['sh'] + stocks['sz'] + stocks['bj']
-        
+
         if market:
             if market.lower() in stocks:
                 display_stocks = stocks[market.lower()]
@@ -73,30 +89,30 @@ def get_stock_list(market=None):
         else:
             display_stocks = all_stocks[:20]
             print(f"  Popular A-Share Stocks ({len(display_stocks)} samples):")
-        
+
         print(f"  {'-'*60}")
         print(f"  {'Code':<15} {'Name':<20} {'Exchange':<10}")
         print(f"  {'-'*60}")
-        
+
         for code, name in display_stocks:
             exchange = 'Shanghai' if '.SH' in code else ('Shenzhen' if '.SZ' in code else 'Beijing')
             print(f"  {code:<15} {name:<20} {exchange:<10}")
-        
+
         if not market:
             print(f"\n  ... and more")
-        
+
         print(f"\n  Usage examples:")
         print(f"    python zhitu_quote.py 600519")
         print(f"    python zhitu_hist.py 000001 20240101 20240312")
         print(f"    python zhitu_tech.py 300750 MACD")
-        
+
         print(f"\n##LIST_META##")
         print(json.dumps({
             'market': market or 'all',
             'count': len(display_stocks),
             'stocks': [{'code': c, 'name': n} for c, n in display_stocks]
         }, ensure_ascii=False))
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get list: {e}")
         sys.exit(1)

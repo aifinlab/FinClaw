@@ -5,20 +5,20 @@
 用于计算发行人的关键财务指标和偿债能力指标
 """
 
-import json
 from datetime import datetime
+import json
 
-def calculate_liquidity_ratios(current_assets: float, current_liabilities: float, 
+def calculate_liquidity_ratios(current_assets: float, current_liabilities: float,
                                 inventory: float = 0, cash: float = 0) -> dict:
     """
     计算短期偿债能力指标
-    
+
     Args:
         current_assets: 流动资产
         current_liabilities: 流动负债
         inventory: 存货
         cash: 货币资金
-    
+
     Returns:
         指标字典
     """
@@ -34,14 +34,14 @@ def calculate_leverage_ratios(total_assets: float, total_liabilities: float,
                                ebitda: float) -> dict:
     """
     计算长期偿债能力指标
-    
+
     Args:
         total_assets: 总资产
         total_liabilities: 总负债
         equity: 所有者权益
         interest_expense: 利息费用
         ebitda: 息税折旧摊销前利润
-    
+
     Returns:
         指标字典
     """
@@ -56,16 +56,16 @@ def calculate_leverage_ratios(total_assets: float, total_liabilities: float,
 def evaluate_credit_risk(ratios: dict) -> dict:
     """
     评估信用风险等级
-    
+
     Args:
         ratios: 财务指标字典
-    
+
     Returns:
         风险评估结果
     """
     risk_score = 0
     risk_factors = []
-    
+
     # 资产负债率评估
     alr = ratios.get("asset_liability_ratio", 0)
     if alr > 70:
@@ -74,7 +74,7 @@ def evaluate_credit_risk(ratios: dict) -> dict:
     elif alr > 60:
         risk_score += 2
         risk_factors.append("资产负债率较高")
-    
+
     # 流动比率评估
     cr = ratios.get("current_ratio", 0)
     if cr < 1:
@@ -83,7 +83,7 @@ def evaluate_credit_risk(ratios: dict) -> dict:
     elif cr < 1.5:
         risk_score += 2
         risk_factors.append("流动比率偏低")
-    
+
     # 利息保障倍数评估
     ic = ratios.get("interest_coverage", 0)
     if ic < 2:
@@ -92,7 +92,7 @@ def evaluate_credit_risk(ratios: dict) -> dict:
     elif ic < 3:
         risk_score += 2
         risk_factors.append("利息保障倍数偏低")
-    
+
     # 风险等级判定
     if risk_score >= 8:
         risk_level = "高风险"
@@ -100,7 +100,7 @@ def evaluate_credit_risk(ratios: dict) -> dict:
         risk_level = "中风险"
     else:
         risk_level = "低风险"
-    
+
     return {
         "risk_score": risk_score,
         "risk_level": risk_level,
@@ -110,10 +110,10 @@ def evaluate_credit_risk(ratios: dict) -> dict:
 def generate_report(financial_data: dict) -> dict:
     """
     生成财务分析报告
-    
+
     Args:
         financial_data: 财务数据字典
-    
+
     Returns:
         分析报告
     """
@@ -124,7 +124,7 @@ def generate_report(financial_data: dict) -> dict:
         financial_data.get("inventory", 0),
         financial_data.get("cash", 0)
     )
-    
+
     # 计算长期偿债能力
     leverage = calculate_leverage_ratios(
         financial_data.get("total_assets", 0),
@@ -133,13 +133,13 @@ def generate_report(financial_data: dict) -> dict:
         financial_data.get("interest_expense", 0),
         financial_data.get("ebitda", 0)
     )
-    
+
     # 合并指标
     all_ratios = {**liquidity, **leverage}
-    
+
     # 风险评估
     risk_eval = evaluate_credit_risk(all_ratios)
-    
+
     report = {
         "report_date": datetime.now().strftime("%Y-%m-%d"),
         "liquidity_ratios": liquidity,
@@ -147,7 +147,7 @@ def generate_report(financial_data: dict) -> dict:
         "risk_evaluation": risk_eval,
         "recommendation": "建议关注" if risk_eval["risk_score"] >= 5 else "风险可控"
     }
-    
+
     return report
 
 if __name__ == "__main__":
@@ -163,6 +163,6 @@ if __name__ == "__main__":
         "interest_expense": 5000,
         "ebitda": 20000
     }
-    
+
     report = generate_report(sample_data)
     print(json.dumps(report, ensure_ascii=False, indent=2))

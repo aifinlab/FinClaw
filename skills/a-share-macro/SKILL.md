@@ -107,3 +107,21 @@ print(df.to_json(orient='records', force_ascii=False))
 4. **区分领先/同步/滞后指标**：PMI 是领先指标，GDP 是滞后指标，分析时注意时序关系
 5. **政策解读谨慎**：政策信号往往需要多次确认，避免过度解读单次表态
 6. **与其他 skill 联动**：宏观判断可指导 a-share-sector（哪些行业受益）、a-share-stock-screen（调整筛选策略）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

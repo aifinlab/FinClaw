@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+from pathlib import Path
 import argparse
 import json
 import re
-from pathlib import Path
 
 SKILL_META = {
   "display_name": "FOF基金体检助手",

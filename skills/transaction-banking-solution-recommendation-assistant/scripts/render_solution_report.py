@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import json
 from typing import Dict, List
+import json
 
 def render_report(data: Dict) -> str:
     lines = []

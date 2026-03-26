@@ -1,0 +1,4 @@
+interface:
+  display_name: "案件事实时间线助手"
+  short_description: "重建理赔案件时间轴并识别关键节点与时间冲突。"
+  default_prompt: "Use $claims-fact-timeline-assistant to reconstruct a claim case timeline from scattered records, align timestamps across sources, highlight conflicts, and summarize key intervals and follow-up checks."

@@ -1,7 +1,7 @@
+from pathlib import Path
 import argparse
 import json
 import sys
-from pathlib import Path
 
 
 def load_json(path: str | None):
@@ -81,4 +81,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

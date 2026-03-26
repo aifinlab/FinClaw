@@ -1,0 +1,4 @@
+interface:
+  display_name: "理赔条款定位助手"
+  short_description: "辅助定位理赔案件核心责任、免责、定义与边界限制条款。"
+  default_prompt: "Use $claims-clause-locator-assistant to analyze a claim, extract the key case facts, locate the most relevant coverage, definition, exclusion, boundary and special-agreement clauses, organize them by priority, and produce a structured clause-location result for claim review."

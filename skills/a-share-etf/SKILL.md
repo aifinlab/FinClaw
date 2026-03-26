@@ -57,3 +57,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [指数代码] --freq daily --st
 ## 参考资料
 
 详见 [references/etf-guide.md](references/etf-guide.md)：ETF分类、核心ETF清单、选择指标、溢折价分析、行业轮动策略。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

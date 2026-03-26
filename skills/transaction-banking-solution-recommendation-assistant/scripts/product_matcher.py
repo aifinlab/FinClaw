@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import json
 from typing import Dict, List
+import json
 
 PRODUCT_RULES = {
     "账户管理方案": ["账户", "权限", "集团", "可视化", "母子公司"],

@@ -1,8 +1,23 @@
 #!/usr/bin/env python3
 """获取股票实时价格和K线数据"""
-import sys
-import json
 import akshare as ak
+import json
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 def get_stock_price(symbol, period="daily", start_date=None):
     """获取股票价格"""
@@ -54,5 +69,5 @@ if __name__ == "__main__":
             result = {"error": f"Unknown command: {cmd}"}
     else:
         result = {"usage": "python stock.py price <symbol> | overview"}
-    
+
     print(json.dumps(result, ensure_ascii=False, indent=2))

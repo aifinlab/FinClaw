@@ -50,3 +50,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE]
 2. A 股盘后公告次日生效，需注意 T+1 定义
 3. 避免事件窗口重叠（同一股票短期内多个事件）
 4. 样本量 > 30 才有统计意义
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

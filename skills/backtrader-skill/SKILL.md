@@ -1,45 +1,189 @@
-# Backtrader 策略回测 Skill
+---
+name: "backtrader-skill"
+description: "策略回测Skill - 基于Backtrader提供量化策略回测、绩效分析、策略优化 via Backtrader/AkShare"
+metadata:
+  openclaw:
+    requires:
+      bins: ["python3"]
+    install:
+      - id: python-packages
+        kind: pip
+        packages: ["backtrader", "akshare", "pandas", "numpy", "matplotlib", "pyyaml"]
+---
 
-基于 Backtrader 的量化策略回测框架。
+# SKILL.md - backtrader-skill
 
-## 依赖
-- **Backtrader**: https://www.backtrader.com
-- **AkShare**: 数据获取
+## 技能信息
 
-## 核心功能
-
-| 脚本 | 功能 | 命令 |
-|:---|:---|:---|
-| `backtest_sma.py` | 双均线策略 | `python backtest_sma.py 600519` |
-| `backtest_macd.py` | MACD策略 | `python backtest_macd.py 600519` |
-| `backtest_boll.py` | 布林带策略 | `python backtest_boll.py 600519` |
-| `backtest_report.py` | 绩效分析 | `python backtest_report.py` |
-
-## 绩效指标
-
-| 指标 | 说明 |
+| 属性 | 内容 |
 |:---|:---|
-| 总收益率 | 策略总收益 |
-| 年化收益率 | 年化后的收益率 |
-| 夏普比率 | 风险调整收益 |
-| 最大回撤 | 最大亏损幅度 |
-| 胜率 | 盈利交易占比 |
+| **名称** | backtrader-skill |
+| **版本** | 1.1.0 |
+| **分类** | 策略回测 |
+| **状态** | ✅ 已上线 |
+| **维护者** | FinClaw Core Team |
+| **最后更新** | 2026-03-19 |
 
-## 快速开始
+## 功能描述
 
-```bash
-# 安装依赖
-pip install backtrader akshare
+策略回测Skill，基于Backtrader框架提供量化策略回测功能。支持双均线、MACD、布林带等经典策略，提供完整的绩效分析报告。
 
-# 双均线回测
-python scripts/backtest_sma.py 600519
+## 触发意图
 
-# MACD回测
-python scripts/backtest_macd.py 600519
+### 主要触发词
+- "回测"、"策略回测"、"量化回测"
+- "双均线策略"、"MACD策略"
+- "回测报告"、"绩效分析"
+- "量化策略"、"策略优化"
+- "夏普比率"、"最大回撤"
 
-# 绩效报告
-python scripts/backtest_report.py
+### Few-shot 示例
+
+| 用户输入 | 识别意图 | 调用函数 |
+|:---|:---|:---|
+| 回测茅台双均线策略 | backtest_sma | backtest_sma.py 600519 |
+| 用MACD策略回测 | backtest_macd | backtest_macd.py 600519 |
+| 查看回测绩效 | backtest_report | backtest_report.py |
+| 布林带策略回测 | backtest_boll | backtest_boll.py 600519 |
+
+## 数据源配置
+
+| 数据类型 | 主要来源 | 备用来源 | 认证要求 |
+|:---|:---|:---|:---:|
+| 历史数据 | AkShare | baostock-history | 无需 |
+| 回测引擎 | Backtrader | - | 无需 |
+
+## 内置策略
+
+| 策略 | 原理 | 适用场景 |
+|:---|:---|:---|
+| **双均线(SMA)** | 短期均线上穿长期均线买入 | 趋势跟踪 |
+| **MACD** | DIF上穿DEA买入 | 趋势确认 |
+| **布林带(Boll)** | 价格触及下轨买入/上轨卖出 | 均值回归 |
+
+## 功能列表
+
+### 1. 双均线策略回测
+- **功能描述**: 使用双均线策略进行回测
+- **输入参数**: 股票代码、短期均线周期、长期均线周期
+- **输出格式**: 回测报告 + 绩效指标
+- **数据源**: AkShare
+- **使用示例**:
+  ```bash
+  python scripts/backtest_sma.py 600519
+  python scripts/backtest_sma.py 600519 --short 5 --long 20
+  ```
+
+### 2. MACD策略回测
+- **功能描述**: 使用MACD策略进行回测
+- **输入参数**: 股票代码、MACD参数
+- **输出格式**: 回测报告 + 绩效指标
+- **数据源**: AkShare
+- **使用示例**:
+  ```bash
+  python scripts/backtest_macd.py 600519
+  ```
+
+### 3. 布林带策略回测
+- **功能描述**: 使用布林带策略进行回测
+- **输入参数**: 股票代码、布林带周期
+- **输出格式**: 回测报告 + 绩效指标
+- **数据源**: AkShare
+- **使用示例**:
+  ```bash
+  python scripts/backtest_boll.py 600519
+  ```
+
+### 4. 绩效分析报告
+- **功能描述**: 生成回测绩效分析报告
+- **输入参数**: 回测结果文件
+- **输出格式**: Markdown报告
+- **数据源**: 回测结果
+- **使用示例**:
+  ```bash
+  python scripts/backtest_report.py
+  ```
+
+## 脚本清单
+
+| 脚本名 | 功能 | 入口点 |
+|:---|:---|:---:|
+| backtest_sma.py | 双均线策略 | ✅ |
+| backtest_macd.py | MACD策略 | ✅ |
+| backtest_boll.py | 布林带策略 | ✅ |
+| backtest_report.py | 绩效分析 | ✅ |
+
+## 绩效指标说明
+
+| 指标 | 说明 | 优秀标准 |
+|:---|:---|:---:|
+| **总收益率** | 策略总收益 | >30% |
+| **年化收益率** | 年化后的收益率 | >15% |
+| **夏普比率** | 风险调整收益 | >1.0 |
+| **最大回撤** | 最大亏损幅度 | <20% |
+| **胜率** | 盈利交易占比 | >50% |
+| **盈亏比** | 平均盈利/平均亏损 | >1.5 |
+| **交易次数** | 总交易次数 | - |
+| **持仓天数** | 平均持仓天数 | - |
+
+## 回测参数设置
+
+### 初始资金
+- 默认值: 100,000元
+- 可通过 `--cash` 参数调整
+
+### 手续费
+- 买入: 0.03%
+- 卖出: 0.03% + 0.1%印花税
+
+### 滑点
+- 默认: 0.01元
+
+## 回测注意事项
+
+### ⚠️ 常见陷阱
+1. **未来函数**: 使用未来数据导致过度拟合
+2. **幸存者偏差**: 只回测现存股票，忽略退市股
+3. **过拟合**: 参数过度优化，实盘失效
+4. **滑点忽视**: 未考虑实际成交滑点
+
+### ✅ 最佳实践
+1. **样本外测试**: 将数据分为训练集和测试集
+2. **参数稳健性**: 参数小范围变化对结果影响小
+3. **多股回测**: 不只测试单只股票
+4. **分时段验证**: 牛市/熊市/震荡市分别测试
+
+## 数据来源标注规范
+
+```markdown
+---
+📊 **数据来源**: AkShare / Backtrader
+⏱️ **回测周期**: 2020-01-01 至 2026-03-19
+📌 **初始资金**: 100,000元
+📌 **手续费**: 0.03% (买入) / 0.13% (卖出)
+🔗 **回测引擎**: Backtrader v1.9.78.123
+🔧 **分析工具**: FinClaw v1.0
+⚠️ **风险提示**: 回测结果不代表未来收益
 ```
 
-## 许可证
-MIT
+## 依赖要求
+
+```
+backtrader>=1.9.78
+akshare>=1.10.0
+pandas>=1.3.0
+numpy>=1.21.0
+matplotlib>=3.4.0
+pyyaml>=5.4.0
+```
+
+## 更新日志
+
+| 版本 | 日期 | 变更内容 |
+|:---|:---:|:---|
+| 1.1.0 | 2026-03-19 | 符合FinClaw数据规范v1.0，新增绩效指标说明 |
+| 1.0.0 | 2026-03-13 | 初始版本 |
+
+---
+
+*本Skill遵循 FinClaw 数据规范 v1.0 | 数据来源强制标注 | 禁止训练数据编造*

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from typing import Any, Dict
 import json
 import sys
-from typing import Any, Dict
 
 TEMPLATE = """# 制度问答答复\n\n## 问题\n{question}\n\n## 适用依据\n{basis}\n\n## 结论（{confidence_level}）\n{conclusion}\n\n## 解释说明\n{explanation}\n\n## 例外与补充条件\n{exceptions}\n\n## 执行建议\n{actions}\n\n## 升级确认建议\n{escalation}\n\n## 风险提示\n{risk_notice}\n"""
 

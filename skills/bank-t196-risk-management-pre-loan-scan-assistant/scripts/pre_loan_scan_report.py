@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 import argparse
 import csv
 import json
 import os
-from dataclasses import dataclass
-from datetime import datetime
-from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 
 SEVERITY_ORDER = {

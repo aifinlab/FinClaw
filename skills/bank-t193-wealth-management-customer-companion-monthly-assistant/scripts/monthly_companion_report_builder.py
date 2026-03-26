@@ -1,57 +1,72 @@
 """Monthly companion report builder.
 
 Usage:
-  python monthly_companion_report_builder.py --input sample.json --output report.md
+python monthly_companion_report_builder.py --input sample.json --output report.md
 
 Input JSON schema (minimal example):
 {
-  "customer": {
+"customer": {
     "name": "客户名称",
     "risk_level": "R3",
     "investment_goal": "稳健增值",
     "horizon_months": 24,
     "liquidity_constraints": "6个月内不动用"
-  },
-  "portfolio": {
+},
+"portfolio": {
     "as_of": "2026-02-28",
     "allocation": [
-      {"asset_class": "固收", "weight": 0.55},
-      {"asset_class": "权益", "weight": 0.25},
-      {"asset_class": "另类", "weight": 0.20}
+    {"asset_class": "固收", "weight": 0.55},
+    {"asset_class": "权益", "weight": 0.25},
+    {"asset_class": "另类", "weight": 0.20}
     ],
     "holdings": [
-      {
+    {
         "product": "固收+1号",
         "type": "理财",
         "amount": 800000,
         "monthly_return": 0.004,
         "risk_note": "久期偏长"
-      }
+    }
     ]
-  },
-  "market_view": {
+},
+"market_view": {
     "summary": "市场震荡，固收稳定",
     "risk_warnings": ["权益波动抬升", "利率阶段性上行"]
-  },
-  "communications": {
+},
+"communications": {
     "key_concerns": ["回撤", "流动性"],
     "notes": "客户关注收益回撤原因"
-  },
-  "actions": [
+},
+"actions": [
     {"owner": "RM", "item": "解释回撤来源", "due": "2026-03-05"}
-  ],
-  "pending": ["补充上月对比数据"]
+],
+"pending": ["补充上月对比数据"]
 }
 """
 
 from __future__ import annotations
 
-import argparse
-import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+import argparse
+import json
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 @dataclass

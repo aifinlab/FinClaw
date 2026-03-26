@@ -6,8 +6,8 @@ Usage:
     python stock_lhb.py [date]
 
 Example:
-    python stock_lhb.py              # Today's data
-    python stock_lhb.py 20250311     # Specific date (YYYYMMDD)
+    python stock_lhb.py  # Today's data
+    python stock_lhb.py 20250311  # Specific date (YYYYMMDD)
 
 The Dragon Tiger List shows:
     - Stocks with abnormal price movement
@@ -16,47 +16,50 @@ The Dragon Tiger List shows:
 """
 
 import sys
-import json
 from datetime import datetime, timedelta
+import akshare as ak
+import json
+
 
 def get_lhb(date_str=None):
-    try:
-        import akshare as ak
-    except ImportError:
-        print("[ERROR] akshare not installed. Run: pip install akshare")
-        sys.exit(1)
-    
     try:
         # Get date
         if date_str:
             date = datetime.strptime(date_str, '%Y%m%d')
         else:
             date = datetime.now()
-        
+
         date_formatted = date.strftime('%Y%m%d')
-        
+
         print(f"\n🐲 Dragon Tiger List ({date_formatted})")
-        print(f"{'='*90}")
-        
+        print(f"{'=' *90}")
+
         # Get LHB data
-        df = ak.stock_lhb_detail_daily_sina(start_date=date_formatted, end_date=date_formatted)
-        
+        df = ak.stock_lhb_detail_daily_sina(
+    start_date=date_formatted, end_date=date_formatted)
+
         if df.empty:
             print(f"[INFO] No Dragon Tiger data for {date_formatted}")
             print(f"[INFO] Note: Data may not be available for weekends/holidays")
             sys.exit(0)
-        
-        print(f"  {'No.':<4} {'Code':<8} {'Name':<15} {'Reason':<30} {'Amount(万)':<12}")
-        print(f"  {'-'*90}")
-        
+
+        print(
+    f"  {
+        'No.':<4} {
+            'Code':<8} {
+                'Name':<15} {
+                    'Reason':<30} {
+                        'Amount(万)':<12}")
+        print(f"  {'-' *90}")
+
         results = []
         for idx, (_, row) in enumerate(df.iterrows(), 1):
             code = row.get('代码', '')
             name = row.get('名称', '')
             reason = row.get('异动原因', '')[:28]
             amount = row.get('成交额', 0)
-            
-            print(f"  {idx:<4} {code:<8} {name:<15} {reason:<30} {amount/10000:>10.2f}")
+
+            print(f"  {idx:<4} {code:<8} {name:<15} {reason:<30} {amount /10000:>10.2f}")
             results.append({
                 'index': idx,
                 'code': code,
@@ -64,17 +67,17 @@ def get_lhb(date_str=None):
                 'reason': row.get('异动原因', ''),
                 'amount': amount
             })
-        
+
         print(f"\n  Total: {len(results)} stocks on Dragon Tiger List")
-        
+
         # Print JSON for parsing
-        print(f"\n##LHB_META##")
+        print(f"\n  # LHB_META##")
         print(json.dumps({
             'date': date_formatted,
             'count': len(results),
             'data': results
         }, ensure_ascii=False, default=str))
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get Dragon Tiger list: {e}")
         print(f"[INFO] Try: python stock_lhb.py 20250311")

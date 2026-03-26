@@ -33,3 +33,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 避免追入已连涨超过3周的板块（动量衰减）
 4. 北向资金流向可辅助判断板块动量持续性
 5. 板块动量与市场状态有关——趋势市动量更强
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

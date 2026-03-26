@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
+from difflib import SequenceMatcher
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
 import argparse
 import json
 import re
 import sys
-from difflib import SequenceMatcher
-from pathlib import Path
-from typing import Any, Dict, List, Tuple
 
 
 DEFAULT_KEYWORDS = {

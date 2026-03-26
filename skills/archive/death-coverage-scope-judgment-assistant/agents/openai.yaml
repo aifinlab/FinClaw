@@ -1,0 +1,4 @@
+interface:
+  display_name: "责任范围判断助手-身故版"
+  short_description: "辅助判断身故理赔责任范围、死因属性与关键限制因素。"
+  default_prompt: "Use $death-coverage-scope-judgment-assistant to analyze a death claim, compare known facts with policy terms, identify death-cause attributes, waiting-period or exclusion risks, assess material sufficiency, and produce a structured preliminary coverage opinion."

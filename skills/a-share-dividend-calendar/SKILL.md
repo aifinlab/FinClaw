@@ -108,3 +108,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE]
 4. **送转不等于分红** — 送股/转增只是股本拆分，不涉及现金流出，不要与现金分红混为一谈
 5. **关注方案进度** — 预案阶段可能变更，只有实施公告后的日期才是确定的
 6. **高送转风险提示** — 高送转常被用于配合减持，监管已加强审查，需警惕炒作风险
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """adata adapter for cn-stock-data unified layer."""
+import os
+import sys
 import pandas as pd
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+import adata
 from code_converter import to_adata
 from field_mapper import KLINE_FIELDS, QUOTE_FIELDS, FUND_FLOW_FIELDS, NORTH_FLOW_FIELDS, map_fields, normalize_date
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 
 class AdataAdapter:
@@ -13,16 +15,23 @@ class AdataAdapter:
     @staticmethod
     def is_available():
         try:
-            import adata
+
             return True
         except ImportError:
             return False
 
-    def get_kline(self, code: str, freq: str = "daily", start: str = "", end: str = "", count: int = 0) -> pd.DataFrame:
-        import adata
+    def get_kline(
+            self,
+            code: str,
+            freq: str = "daily",
+            start: str = "",
+            end: str = "",
+            count: int = 0) -> pd.DataFrame:
+
         bare = to_adata(code)
         if freq not in ("daily",):
-            raise ValueError(f"adata only supports daily kline, got freq={freq}")
+            raise ValueError(
+                f"adata only supports daily kline, got freq={freq}")
         kwargs = {"stock_code": bare}
         if start:
             kwargs["start_date"] = start
@@ -38,7 +47,7 @@ class AdataAdapter:
         return df.reset_index(drop=True)
 
     def get_quote(self, codes: list) -> pd.DataFrame:
-        import adata
+
         bare_codes = [to_adata(c) for c in codes]
         df = adata.stock.market.list_market_current()
         if df is None or df.empty:
@@ -48,7 +57,7 @@ class AdataAdapter:
         return df.reset_index(drop=True)
 
     def get_fund_flow(self, code: str, days: int = 30) -> pd.DataFrame:
-        import adata
+
         bare = to_adata(code)
         df = adata.stock.market.get_capital_flow(stock_code=bare)
         if df is None or df.empty:
@@ -60,7 +69,7 @@ class AdataAdapter:
         return df.reset_index(drop=True)
 
     def get_finance(self, code: str) -> pd.DataFrame:
-        import adata
+
         bare = to_adata(code)
         df = adata.stock.finance.get_core_index(stock_code=bare)
         if df is None or df.empty:
@@ -68,7 +77,7 @@ class AdataAdapter:
         return df.reset_index(drop=True)
 
     def get_north_flow(self) -> pd.DataFrame:
-        import adata
+
         df = adata.sentiment.north.north_flow()
         if df is None or df.empty:
             return pd.DataFrame()

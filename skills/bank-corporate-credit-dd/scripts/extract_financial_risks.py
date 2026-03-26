@@ -19,9 +19,9 @@ Input example:
 
 from __future__ import annotations
 
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
 
 
 def analyze(data: Dict[str, Any]) -> List[Dict[str, str]]:
@@ -99,5 +99,19 @@ def main() -> int:
     return 0
 
 
+
+def main():
+
+
+        raise SystemExit(main())
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

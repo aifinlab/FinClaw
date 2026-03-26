@@ -4,11 +4,11 @@
 风险因素披露检查脚本
 """
 
-import argparse
-import re
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any
+import argparse
+import re
 
 # 风险类别定义
 RISK_CATEGORIES = {
@@ -74,7 +74,7 @@ def analyze_risk_disclosure(text: str) -> Dict[str, Any]:
         'risk_items': [],
         'quality_assessment': {}
     }
-    
+
     # 检测已覆盖的风险类别
     for category_id, category_info in RISK_CATEGORIES.items():
         covered = False
@@ -82,7 +82,7 @@ def analyze_risk_disclosure(text: str) -> Dict[str, Any]:
             if keyword in text:
                 covered = True
                 break
-        
+
         if covered:
             results['covered_categories'].append({
                 'id': category_id,
@@ -93,38 +93,38 @@ def analyze_risk_disclosure(text: str) -> Dict[str, Any]:
                 'id': category_id,
                 'name': category_info['name']
             })
-    
+
     # 提取风险条目
     risk_pattern = r'[（(]\d+[）)]\s*([^\n]+)|^\d+[\.,]\s*([^\n]+)|^（[一二三四五六七八九十]+）\s*([^\n]+)'
     risk_matches = re.findall(risk_pattern, text, re.MULTILINE)
-    
+
     for match in risk_matches:
         risk_text = next((m for m in match if m), '')
         if risk_text and len(risk_text) > 5:
             results['risk_items'].append(risk_text.strip())
-    
+
     # 质量评估
     total_categories = len(RISK_CATEGORIES)
     covered_count = len(results['covered_categories'])
     coverage_rate = (covered_count / total_categories * 100) if total_categories > 0 else 0
-    
+
     results['quality_assessment'] = {
         'coverage_rate': f"{coverage_rate:.1f}%",
         'risk_item_count': len(results['risk_items']),
         'rating': '优秀' if coverage_rate >= 90 else '良好' if coverage_rate >= 70 else '待改进'
     }
-    
+
     return results
 
 
 def generate_report(results: Dict[str, Any], output_path: str) -> str:
     """生成检查报告"""
     lines = []
-    
+
     lines.append("# 风险因素披露检查报告\n")
     lines.append(f"生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     lines.append("---\n")
-    
+
     # 检查概况
     lines.append("## 检查概况\n")
     qa = results.get('quality_assessment', {})
@@ -133,21 +133,21 @@ def generate_report(results: Dict[str, Any], output_path: str) -> str:
     lines.append(f"- 风险条目数量：{qa.get('risk_item_count', 0)} 条")
     lines.append(f"- 覆盖率：{qa.get('coverage_rate', '0%')}")
     lines.append(f"- 质量评级：**{qa.get('rating', '未知')}**\n")
-    
+
     # 已覆盖类别
     if results['covered_categories']:
         lines.append("## ✅ 已披露风险类别\n")
         for cat in results['covered_categories']:
             lines.append(f"- {cat['name']}")
         lines.append("")
-    
+
     # 缺失类别
     if results['missing_categories']:
         lines.append("## ⚠️ 缺失风险类别\n")
         for cat in results['missing_categories']:
             lines.append(f"- {cat['name']}")
         lines.append("")
-    
+
     # 改进建议
     if results['missing_categories']:
         lines.append("## 📝 改进建议\n")
@@ -159,16 +159,16 @@ def generate_report(results: Dict[str, Any], output_path: str) -> str:
             if sub_risks:
                 lines.append(f"   可披露：{', '.join(sub_risks[:3])}等")
         lines.append("")
-    
+
     # 输出报告
     report_content = "\n".join(lines)
-    
+
     output_file = Path(output_path) / f"风险披露检查报告_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(report_content)
-    
+
     print(f"检查报告已生成：{output_file}")
     return report_content
 
@@ -178,23 +178,23 @@ def main():
     parser.add_argument('--input', '-i', required=True, help='风险章节文本文件路径')
     parser.add_argument('--output', '-o', required=True, help='输出报告目录')
     parser.add_argument('--industry', help='行业代码（可选）')
-    
+
     args = parser.parse_args()
-    
+
     print("=" * 60)
     print("风险因素披露检查工具")
     print("=" * 60)
-    
+
     print(f"\n[1/3] 加载风险章节：{args.input}")
     text = load_risk_text(args.input)
     print(f"      文本长度：{len(text)} 字符")
-    
+
     print(f"\n[2/3] 分析风险披露...")
     results = analyze_risk_disclosure(text)
-    
+
     print(f"\n[3/3] 生成检查报告...")
     generate_report(results, args.output)
-    
+
     print("\n" + "=" * 60)
     print("检查摘要")
     print("=" * 60)

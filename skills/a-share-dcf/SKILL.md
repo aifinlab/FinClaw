@@ -150,3 +150,21 @@ vs 当前股价 → 上行/下行空间(%)
    - 关联交易可能扭曲利润，需调整
 5. **不做精确预测**：DCF 的价值在于理解价值驱动因素和估值区间，而非得出一个"精确"的目标价
 6. **与其他 skill 联动**：建议用 a-share-comps 的估值中位数交叉验证 DCF 结果
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

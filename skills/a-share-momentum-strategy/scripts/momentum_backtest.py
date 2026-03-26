@@ -20,13 +20,13 @@ A股动量策略回测脚本
   每条记录需包含 code(股票代码), date(日期), close(收盘价)，volume(成交量) 可选。
 """
 
+from typing import Dict, List, Tuple
 import argparse
 import json
-import sys
-from typing import Dict, List, Tuple
-
 import numpy as np
+
 import pandas as pd
+import sys
 
 
 def load_data(filepath: str) -> pd.DataFrame:

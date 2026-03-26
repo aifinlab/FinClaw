@@ -5,17 +5,16 @@
 
 from __future__ import annotations
 
-import json
-import sys
 from pathlib import Path
 from typing import Any, Dict, List
+import json
+import sys
 
 
 def bullet_lines(items: List[str]) -> str:
     if not items:
         return "- 无\n"
     return "".join(f"- {item}\n" for item in items)
-
 
 
 def render_report(data: Dict[str, Any]) -> str:
@@ -58,7 +57,6 @@ def render_report(data: Dict[str, Any]) -> str:
     lines.append(f"{conclusion}\n")
 
     return "".join(lines)
-
 
 
 def main() -> None:

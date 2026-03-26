@@ -33,3 +33,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 考虑交易成本（A股约0.15%单边）和滑点
 4. T+1限制需在回测中体现——当日信号次日执行
 5. 参数敏感性分析：参数微调后收益不应剧变
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

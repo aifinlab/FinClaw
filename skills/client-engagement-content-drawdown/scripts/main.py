@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+from pathlib import Path
 import argparse
 import json
 import re
-from pathlib import Path
 
 SKILL_META = {
   "display_name": "客户陪伴内容助手-回撤版",

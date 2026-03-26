@@ -52,3 +52,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A 股短期（1-4 周）有显著反转效应，是均值回归策略的基础
 4. 需区分"超跌反弹"和"趋势延续"——结合基本面判断
 5. 涨跌停限制可能延长回归时间
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

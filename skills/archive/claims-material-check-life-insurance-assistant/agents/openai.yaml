@@ -1,0 +1,4 @@
+interface:
+  display_name: "理赔材料检查助手 - 寿险版"
+  short_description: "检查寿险理赔材料完整性、关系链条与补件需求。"
+  default_prompt: "Use $claims-material-check-life-insurance-assistant to review a life insurance claim package for completeness, clarity, consistency, key missing materials, beneficiary qualification, and pre-acceptance supplement needs."

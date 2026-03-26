@@ -11,11 +11,11 @@ python scripts/needs_insight_builder.py --input input.json --output report.md
 
 from __future__ import annotations
 
-import argparse
-import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+import argparse
+import json
 
 
 REQUIRED_SECTIONS = {

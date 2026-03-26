@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """akshare adapter for cn-stock-data unified layer."""
+import os
+import sys
 import pandas as pd
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+import akshare as ak
+import akshare
 from code_converter import to_akshare
 from field_mapper import KLINE_FIELDS, map_fields, normalize_date
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 
 class AkshareAdapter:
@@ -13,20 +16,27 @@ class AkshareAdapter:
     @staticmethod
     def is_available():
         try:
-            import akshare
+
             return True
         except ImportError:
             return False
 
-    def get_kline(self, code: str, freq: str = "daily", start: str = "", end: str = "", count: int = 0) -> pd.DataFrame:
-        import akshare as ak
+    def get_kline(
+            self,
+            code: str,
+            freq: str = "daily",
+            start: str = "",
+            end: str = "",
+            count: int = 0) -> pd.DataFrame:
+
         bare = to_akshare(code)
         period_map = {
             "daily": "daily", "weekly": "weekly", "monthly": "monthly",
         }
         period = period_map.get(freq)
         if not period:
-            raise ValueError(f"akshare does not support freq={freq}, use daily/weekly/monthly")
+            raise ValueError(
+                f"akshare does not support freq={freq}, use daily/weekly/monthly")
         kwargs = {"symbol": bare, "period": period, "adjust": "qfq"}
         if start:
             kwargs["start_date"] = start.replace("-", "")
@@ -43,7 +53,7 @@ class AkshareAdapter:
 
     def get_quote(self, codes: list) -> pd.DataFrame:
         """akshare realtime returns full market; filter by codes."""
-        import akshare as ak
+
         bare_codes = [to_akshare(c) for c in codes]
         df = ak.stock_zh_a_spot_em()
         if df.empty:
@@ -62,7 +72,8 @@ class AkshareAdapter:
 
     def get_finance(self, code: str) -> pd.DataFrame:
         """Get financial indicator data via akshare."""
-        import akshare as ak
+
+
         bare = to_akshare(code)
         try:
             df = ak.stock_financial_abstract_ths(symbol=bare)

@@ -55,14 +55,12 @@ def main():
     for x in sorted(rows,key=lambda z:z['score'])[:a.top]:
         lines.append(f"- {x['id']} | score={x['score']} | level={x['level']} | pos_hits={x['ph']} | neg_hits={x['nh']}")
     lines += ['','## 三、免责声明','- 本报告由系统自动生成，仅用于业务初筛。','- 结论需由业务、风控、法务人工复核后使用。','- 本报告不构成投资建议、授信决策或法律意见。']
-    rep='
-'.join(lines)
+    rep='\n'.join(lines)
 
     if a.output:
         Path(a.output).write_text(rep,encoding='utf-8')
     else:
-        sys.stdout.write(rep+'
-')
+        sys.stdout.write(rep+'\n')
 
 if __name__=='__main__':
     main()

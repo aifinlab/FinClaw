@@ -7,11 +7,11 @@ generated frames, with automatic optimization for Slack's requirements.
 """
 
 from pathlib import Path
-from typing import Optional
+from PIL import Image
 
+from typing import Optional
 import imageio.v3 as imageio
 import numpy as np
-from PIL import Image
 
 
 class GIFBuilder:

@@ -4,15 +4,15 @@
 回测绩效报告 - Backtrader
 """
 
-import backtrader as bt
 import akshare as ak
+import backtrader as bt
 
 def generate_report():
     """生成回测报告模板"""
     print("=" * 80)
     print("📊 回测绩效报告模板")
     print("=" * 80)
-    
+
     print("""
 📈 绩效指标说明:
 
@@ -41,7 +41,7 @@ def generate_report():
    python backtest_macd.py <股票代码>
    python backtest_boll.py <股票代码>
 """)
-    
+
     print("=" * 80)
 
 if __name__ == "__main__":

@@ -6,15 +6,15 @@ by calling `claude -p` as a subprocess (same auth pattern as run_eval.py —
 uses the session's Claude Code auth, no separate ANTHROPIC_API_KEY needed).
 """
 
+from pathlib import Path
+from scripts.utils import parse_skill_md
 import argparse
 import json
 import os
 import re
 import subprocess
-import sys
-from pathlib import Path
 
-from scripts.utils import parse_skill_md
+import sys
 
 
 def _call_claude(prompt: str, model: str | None, timeout: int = 300) -> str:
@@ -137,7 +137,7 @@ Here are some tips that we've found to work well in writing these descriptions:
 - The description competes with other skills for Claude's attention — make it distinctive and immediately recognizable.
 - If you're getting lots of failures after repeated attempts, change things up. Try different sentence structures or wordings.
 
-I'd encourage you to be creative and mix up the style in different iterations since you'll have multiple opportunities to try different approaches and we'll just grab the highest-scoring one at the end. 
+I'd encourage you to be creative and mix up the style in different iterations since you'll have multiple opportunities to try different approaches and we'll just grab the highest-scoring one at the end.
 
 Please respond with only the new description text in <new_description> tags, nothing else."""
 

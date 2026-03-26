@@ -86,3 +86,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE]
 - 不允许出现"预计"、"大约"等模糊表述（除引用分析师观点外）
 - 关注现金流与利润背离的情况，必须给出解释
 - 行业特征必须纳入考量（重资产 vs 轻资产，周期 vs 消费）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -56,3 +56,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code SH000001,SH000300,SZ399006 --fre
 ## formal 免责声明
 
 > 以上季节性分析基于历史统计数据，仅供参考，不构成投资建议。历史规律不代表未来必然重现，市场有风险，投资需谨慎。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

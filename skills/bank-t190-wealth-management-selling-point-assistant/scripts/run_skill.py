@@ -1,11 +1,26 @@
-import json
 from pathlib import Path
-
 from wealth_management_selling_points import build_packet, load_input, render_markdown
+
+import argparse
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 def main() -> None:
-    import argparse
+    import json
 
     parser = argparse.ArgumentParser(description="Run wealth management selling point assistant.")
     parser.add_argument("--input", required=True, help="Input JSON path")

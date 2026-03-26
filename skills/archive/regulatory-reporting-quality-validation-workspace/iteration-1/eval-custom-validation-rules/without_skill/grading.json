@@ -1,0 +1,14 @@
+{
+  "eval_id": 2,
+  "eval_name": "custom-validation-rules",
+  "run_type": "without_skill",
+  "expectations": [
+    {"text": "V1违规识别", "passed": true, "evidence": "识别LN005(次级+利率3.50%<4.35%)和LN006(可疑+利率4.00%<4.35%)"},
+    {"text": "V2违规识别", "passed": true, "evidence": "识别LN003(信用+400万>100万)"},
+    {"text": "V3违规识别", "passed": true, "evidence": "识别LN004(余额0+五级分类正常)"},
+    {"text": "V4违规识别", "passed": true, "evidence": "识别LN003(2024年+利率3.80%<3.85%)和LN007(2024年+利率3.60%<3.85%)"},
+    {"text": "V5违规识别", "passed": true, "evidence": "识别张三(ID001)总余额1030万>1000万"},
+    {"text": "用户规则优先", "passed": true, "evidence": "按V1-V5规则执行，没有添加额外规则"},
+    {"text": "免责提示", "passed": false, "evidence": "末尾没有免责提示或安全边界声明"}
+  ]
+}

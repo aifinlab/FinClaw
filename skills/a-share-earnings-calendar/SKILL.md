@@ -58,3 +58,21 @@ python -c "import akshare as ak; df=ak.stock_yjkb_em(date='20260331'); print(df.
 4. **区分"已发布"和"即将发布"**，所有数据标注时效
 5. **date 参数映射**：根据当前日期推断最近报告期季末日（0331/0630/0930/1231）
 6. 参考 `references/earnings-calendar-guide.md` 了解业绩预告类型定义和财报季节奏
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

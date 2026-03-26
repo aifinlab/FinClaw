@@ -1,0 +1,216 @@
+{
+  "description": "B类数据配置文件 - 模板和文案配置",
+  "version": "1.0.0",
+  
+  "templates": {
+    "contract": {
+      "fund_purchase_agreement": {
+        "template_file": "templates/contract/fund_purchase.html",
+        "required_fields": [
+          "party_a",
+          "party_b", 
+          "fund_name",
+          "fund_code",
+          "fund_type",
+          "risk_level",
+          "amount",
+          "purchase_fee",
+          "management_fee",
+          "custody_fee",
+          "sign_date"
+        ],
+        "optional_fields": ["promotion_code", "referrer"]
+      },
+      
+      "risk_disclosure": {
+        "template_file": "templates/contract/risk_disclosure.html",
+        "risk_types": [
+          {
+            "type": "市场风险",
+            "description": "基金投资受证券市场波动影响，可能面临本金损失风险。"
+          },
+          {
+            "type": "流动性风险", 
+            "description": "基金可能面临赎回困难或无法及时变现的风险。"
+          },
+          {
+            "type": "管理风险",
+            "description": "基金管理人的管理能力可能影响基金业绩。"
+          },
+          {
+            "type": "政策风险",
+            "description": "国家政策变化可能对基金投资产生影响。"
+          }
+        ]
+      }
+    },
+    
+    "report": {
+      "monthly_report": {
+        "template_file": "templates/report/monthly_report.html",
+        "sections": [
+          "基金概况",
+          "业绩表现", 
+          "市场回顾",
+          "投资策略回顾",
+          "持仓分析",
+          "后市展望"
+        ],
+        "charts": ["净值走势", "业绩对比", "持仓分布"]
+      },
+      
+      "quarterly_report": {
+        "template_file": "templates/report/quarterly_report.html",
+        "sections": [
+          "重要提示",
+          "基金产品概况",
+          "主要财务指标",
+          "管理人报告",
+          "投资组合报告",
+          "开放式基金份额变动",
+          "备查文件"
+        ]
+      },
+      
+      "manager_change_announcement": {
+        "template_file": "templates/announcement/manager_change.html",
+        "required_fields": [
+          "fund_name",
+          "announce_date",
+          "announce_no",
+          "former_manager",
+          "new_manager",
+          "change_reason",
+          "effective_date",
+          "manager_info"
+        ]
+      }
+    },
+    
+    "notification": {
+      "trade_confirm": {
+        "template": "尊敬的投资者：\n\n您于 {{trade_date}} 提交的{{trade_type}}申请已确认。\n\n基金名称：{{fund_name}}\n基金代码：{{fund_code}}\n确认份额：{{confirmed_shares}} 份\n确认金额：{{confirmed_amount}} 元\n确认净值：{{nav}} 元\n手续费：{{fee}} 元",
+        "channels": ["短信", "APP推送", "邮件"],
+        "priority": "high"
+      },
+      
+      "dividend_notice": {
+        "template": "尊敬的投资者：\n\n您持有的{{fund_name}}将于{{payment_date}}进行分红。\n\n分红方案：每10份派{{dividend}}元\n您的持有份额：{{shares}}份\n预计分红金额：{{expected_dividend}}元",
+        "channels": ["短信", "APP推送"],
+        "priority": "medium"
+      },
+      
+      "massive_redemption": {
+        "template": "尊敬的投资者：\n\n您于 {{trade_date}} 提交的赎回申请因巨额赎回被部分确认。\n\n申请份额：{{applied_shares}} 份\n确认份额：{{confirmed_shares}} 份\n未确认份额：{{unconfirmed_shares}} 份（将顺延至下一交易日处理）",
+        "channels": ["短信", "电话", "APP推送"],
+        "priority": "high"
+      }
+    },
+    
+    "marketing": {
+      "new_fund": {
+        "template_file": "templates/marketing/new_fund.html",
+        "max_length": 500,
+        "required_elements": ["产品名称", "亮点", "基金经理", "认购时间", "风险提示"]
+      },
+      
+      "top_performer": {
+        "template_file": "templates/marketing/top_performer.html",
+        "performance_periods": ["近一年", "近三年", "成立以来"],
+        "disclaimer": "过往业绩不代表未来表现"
+      },
+      
+      "sip_promotion": {
+        "template_file": "templates/marketing/sip_promotion.html",
+        "key_messages": ["坚持定投", "复利效应", "分散风险"]
+      }
+    }
+  },
+  
+  "compliance": {
+    "suitability_matching": {
+      "rules": [
+        {
+          "investor_type": "C1",
+          "suitable_products": ["R1"],
+          "unsuitable_products": ["R2", "R3", "R4", "R5"]
+        },
+        {
+          "investor_type": "C2",
+          "suitable_products": ["R1", "R2"],
+          "unsuitable_products": ["R3", "R4", "R5"]
+        },
+        {
+          "investor_type": "C3",
+          "suitable_products": ["R1", "R2", "R3"],
+          "unsuitable_products": ["R4", "R5"]
+        },
+        {
+          "investor_type": "C4",
+          "suitable_products": ["R1", "R2", "R3", "R4"],
+          "unsuitable_products": ["R5"]
+        },
+        {
+          "investor_type": "C5",
+          "suitable_products": ["R1", "R2", "R3", "R4", "R5"],
+          "unsuitable_products": []
+        }
+      ]
+    },
+    
+    "disclosure_requirements": {
+      "募集期": [
+        "基金合同",
+        "招募说明书",
+        "托管协议",
+        "产品资料概要",
+        "风险揭示书",
+        "投资者权益须知"
+      ],
+      "定期报告": {
+        "年度报告": {"deadline": "次年4月30日", "retention_years": 20},
+        "半年度报告": {"deadline": "8月31日", "retention_years": 20},
+        "季度报告": {"deadline": "季后15个工作日", "retention_years": 20}
+      },
+      "临时公告": {
+        "基金经理变更": {"deadline_hours": 2},
+        "分红公告": {"deadline_hours": 24},
+        "巨额赎回": {"deadline_hours": 24}
+      }
+    }
+  },
+  
+  "qa": {
+    "categories": [
+      {
+        "name": "基础知识",
+        "keywords": ["基金", "净值", "申购", "赎回"]
+      },
+      {
+        "name": "投资策略",
+        "keywords": ["定投", "资产配置", "风险控制"]
+      },
+      {
+        "name": "合规相关",
+        "keywords": ["适当性", "风险测评", "合格投资者"]
+      }
+    ],
+    
+    "templates": {
+      "question_format": "【问题】{question}\n\n【回答】{answer}",
+      "related_questions_header": "【相关问题】",
+      "disclaimer": "以上信息仅供参考，不构成投资建议。"
+    }
+  },
+  
+  "localization": {
+    "date_format": "YYYY-MM-DD",
+    "currency": "CNY",
+    "currency_symbol": "¥",
+    "number_format": {
+      "decimal_places": 2,
+      "thousands_separator": ",",
+      "decimal_separator": "."
+    }
+  }
+}

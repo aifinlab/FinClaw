@@ -109,3 +109,21 @@ description: |
 - [ ] 业绩增速分析到位
 - [ ] 机构持仓数据更新
 - [ ] 风险提示充分（解禁、估值消化、业绩变脸）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

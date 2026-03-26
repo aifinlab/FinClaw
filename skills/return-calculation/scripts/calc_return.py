@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # Simple return calculator from a price series CSV.
+from datetime import datetime
 import argparse
 import csv
 import math
-from datetime import datetime
 
 
 def parse_date(value):

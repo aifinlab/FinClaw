@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import json
 from typing import Any, Dict, List
+import json
 
 
 def _pick(data: Dict[str, Any], keys: List[str], default: Any = None) -> Any:

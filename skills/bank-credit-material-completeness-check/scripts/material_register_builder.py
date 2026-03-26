@@ -5,10 +5,10 @@
 
 from __future__ import annotations
 
-import json
-import sys
 from pathlib import Path
 from typing import Any, Dict, List
+import json
+import sys
 
 DEFAULT_CATEGORY_RULES = {
     "营业执照": "主体资格类",
@@ -40,7 +40,14 @@ def infer_category(name: str) -> str:
 
 
 
+def validate_input(items: List[Dict[str, Any]]) -> None:
+    """验证输入参数"""
+    if not isinstance(items, list):
+        raise ValueError("输入必须是列表类型")
+
+
 def build_register(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    validate_input(items)
     rows: List[Dict[str, Any]] = []
     for idx, item in enumerate(items, start=1):
         name = str(item.get("材料名称", "")).strip()

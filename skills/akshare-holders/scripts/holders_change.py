@@ -7,6 +7,21 @@
 import akshare as ak
 import sys
 
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+    
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+    
+    return data
+
+
+
 def get_holders_change(stock="600519"):
     """获取股东增减持"""
     try:

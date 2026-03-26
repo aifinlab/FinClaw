@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """pysnowball 行情数据（无需 token）"""
-import sys
-import json
 import argparse
+import json
 import pysnowball as ball
+import sys
 
 
 def quotec(codes):

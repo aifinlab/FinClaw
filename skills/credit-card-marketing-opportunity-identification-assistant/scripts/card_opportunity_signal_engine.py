@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 def score_customer_opportunity(customer: Dict[str, Any]) -> Dict[str, Any]:
     score = 0

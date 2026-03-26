@@ -5,10 +5,10 @@
 
 from __future__ import annotations
 
-import argparse
-import json
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+import argparse
+import json
 
 
 def load_payload(path: Path) -> Dict[str, Any]:

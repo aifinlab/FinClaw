@@ -6,9 +6,9 @@
 """
 
 from __future__ import annotations
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
 
 REQUIRED_FIELDS = ["report_name", "period", "field_name", "value"]
 

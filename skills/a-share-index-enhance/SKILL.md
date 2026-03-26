@@ -49,3 +49,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE1],[CODE2],...
 3. A 股特殊：ST/涨跌停/停牌股需特殊处理
 4. 交易成本显著影响超额——换手率控制很重要
 5. 成分股调整日（6月/12月）需注意调仓冲击
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

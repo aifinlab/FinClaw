@@ -1,0 +1,47 @@
+{
+  "case_id": "CLM-OUT-2026-001",
+  "product_name": "某医疗保险",
+  "insurance_type": "医疗险",
+  "coverage_module": "普通门急诊",
+  "visit_type": "普通门诊",
+  "visit_date": "2026-02-18",
+  "current_status": "审核中",
+  "insured_role": "被保险人",
+  "materials": [
+    "门诊病历",
+    "诊断证明",
+    "处方单",
+    "检查报告",
+    "医疗发票",
+    "费用清单",
+    "医保结算单"
+  ],
+  "facts": {
+    "chief_complaint": "发热、咳嗽后门诊就诊",
+    "diagnosis": "上呼吸道感染",
+    "hospital": "某市人民医院",
+    "treatments": [
+      "门诊问诊",
+      "血常规检查",
+      "药物治疗"
+    ],
+    "expense_items": [
+      "挂号费",
+      "检查费",
+      "药费"
+    ]
+  },
+  "policy_terms": {
+    "waiting_period": "30天",
+    "hospital_requirement": "二级及以上公立医院普通部",
+    "deductible": "100元",
+    "reimbursement_ratio": "80%",
+    "annual_limit": "5000元",
+    "social_security_scope": "限医保目录内合理且必要费用"
+  },
+  "user_focus": [
+    "是否属于责任范围",
+    "是否存在免责或限制",
+    "当前材料是否足以支持判断"
+  ]
+}

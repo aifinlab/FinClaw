@@ -40,3 +40,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 危机时相关性趋向1——分散化在最需要时失效
 4. 尾部对冲成本高——需权衡保护成本与风险暴露
 5. 流动性风险在极端行情下放大——小盘股尤为严重
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

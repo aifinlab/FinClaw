@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
+from collections import Counter
+from pathlib import Path
+from typing import Any, Dict, List
 import argparse
 import json
 import re
 import sys
-from collections import Counter
-from pathlib import Path
-from typing import Any, Dict, List
 
 
 DEFAULT_RULES = [

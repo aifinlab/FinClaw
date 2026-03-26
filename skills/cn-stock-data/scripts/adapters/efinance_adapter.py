@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """efinance adapter for cn-stock-data unified layer."""
+import os
+import sys
 import pandas as pd
-import sys, os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+import efinance as ef
+import efinance
 from code_converter import to_efinance
 from field_mapper import KLINE_FIELDS, QUOTE_FIELDS, FUND_FLOW_FIELDS, map_fields, normalize_date
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 
 class EfinanceAdapter:
@@ -13,13 +16,19 @@ class EfinanceAdapter:
     @staticmethod
     def is_available():
         try:
-            import efinance
+
             return True
         except ImportError:
             return False
 
-    def get_kline(self, code: str, freq: str = "daily", start: str = "", end: str = "", count: int = 0) -> pd.DataFrame:
-        import efinance as ef
+    def get_kline(
+            self,
+            code: str,
+            freq: str = "daily",
+            start: str = "",
+            end: str = "",
+            count: int = 0) -> pd.DataFrame:
+
         bare = to_efinance(code)
         klt_map = {
             "daily": 101, "weekly": 102, "monthly": 103,
@@ -43,7 +52,7 @@ class EfinanceAdapter:
         return df.reset_index(drop=True)
 
     def get_quote(self, codes: list) -> pd.DataFrame:
-        import efinance as ef
+
         bare_codes = [to_efinance(c) for c in codes]
         df = ef.stock.get_realtime_quotes(bare_codes)
         if df.empty:
@@ -52,7 +61,7 @@ class EfinanceAdapter:
         return df.reset_index(drop=True)
 
     def get_fund_flow(self, code: str, days: int = 30) -> pd.DataFrame:
-        import efinance as ef
+
         bare = to_efinance(code)
         df = ef.stock.get_history_bill(bare)
         if df.empty:

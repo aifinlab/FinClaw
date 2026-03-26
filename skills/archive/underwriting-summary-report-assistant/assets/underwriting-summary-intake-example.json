@@ -1,0 +1,27 @@
+{
+  "product_name": "某医疗险",
+  "insurance_type": "医疗险",
+  "insured_person": {
+    "age": 42,
+    "gender": "男"
+  },
+  "underwriting_stage": "复核汇总",
+  "source_materials": [
+    "投保问卷",
+    "健康告知",
+    "体检报告OCR文本",
+    "门诊病历",
+    "补件结果",
+    "初审意见"
+  ],
+  "identified_risks": [
+    "既往脂肪肝和肝功能异常",
+    "BMI 偏高",
+    "饮酒情况仍需进一步核实"
+  ],
+  "pending_items": [
+    "近半年复查结果未补齐",
+    "既往门诊治疗时间线仍不完整"
+  ],
+  "business_context": "供复核人员快速掌握案件全貌"
+}

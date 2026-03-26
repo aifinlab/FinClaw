@@ -6,11 +6,11 @@ showing each description attempt with check/x for each test case.
 Distinguishes between train and test queries.
 """
 
+from pathlib import Path
 import argparse
 import html
 import json
 import sys
-from pathlib import Path
 
 
 def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = "") -> str:

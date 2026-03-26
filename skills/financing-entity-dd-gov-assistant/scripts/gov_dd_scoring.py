@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
+from collections import Counter
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
 import argparse
 import json
 import re
 import statistics
 import sys
-from collections import Counter
-from pathlib import Path
-from typing import Any, Dict, List, Tuple
 
 
 def load_records(path: Path) -> List[Dict[str, Any]]:

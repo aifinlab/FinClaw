@@ -4,9 +4,24 @@
 双均线策略回测 - Backtrader
 """
 
-import backtrader as bt
 import akshare as ak
+import backtrader as bt
 import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 class SmaStrategy(bt.Strategy):
     """双均线策略"""
@@ -14,12 +29,12 @@ class SmaStrategy(bt.Strategy):
         ('fast', 5),
         ('slow', 20),
     )
-    
+
     def __init__(self):
         self.fast_sma = bt.indicators.SMA(period=self.p.fast)
         self.slow_sma = bt.indicators.SMA(period=self.p.slow)
         self.crossover = bt.indicators.CrossOver(self.fast_sma, self.slow_sma)
-    
+
     def next(self):
         if not self.position:
             if self.crossover > 0:
@@ -42,39 +57,39 @@ def run_backtest(stock="600519", start="20230101", end="20241231"):
     except:
         print("获取数据失败")
         return
-    
+
     # 创建回测引擎
     cerebro = bt.Cerebro()
-    
+
     # 添加数据
     data = bt.feeds.PandasData(dataname=df)
     cerebro.adddata(data)
-    
+
     # 添加策略
     cerebro.addstrategy(SmaStrategy)
-    
+
     # 设置初始资金
     cerebro.broker.setcash(100000.0)
-    
+
     # 设置佣金
     cerebro.broker.setcommission(commission=0.001)
-    
+
     # 添加分析器
     cerebro.addanalyzer(bt.analyzers.SharpeRatio, _name='sharpe')
     cerebro.addanalyzer(bt.analyzers.DrawDown, _name='drawdown')
     cerebro.addanalyzer(bt.analyzers.Returns, _name='returns')
-    
+
     # 运行回测
     print(f"初始资金: {cerebro.broker.getvalue():.2f}")
     results = cerebro.run()
     print(f"最终资金: {cerebro.broker.getvalue():.2f}")
-    
+
     # 输出绩效
     strat = results[0]
     sharpe = strat.analyzers.sharpe.get_analysis()
     drawdown = strat.analyzers.drawdown.get_analysis()
     returns = strat.analyzers.returns.get_analysis()
-    
+
     print(f"\n📊 绩效指标:")
     print(f"   夏普比率: {sharpe.get('sharperatio', 'N/A')}")
     print(f"   最大回撤: {drawdown.get('max', 'N/A')}")

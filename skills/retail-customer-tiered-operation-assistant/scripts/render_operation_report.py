@@ -34,8 +34,7 @@ def render_report(items: List[Dict], objective: str = "零售客户分层经营"
     lines.append("")
     lines.append("## 五、待补充信息与下一步动作")
     lines.append("- 补充近 90 天资产变动、交易活跃度和最近触达反馈。")
-    return "
-".join(lines)
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

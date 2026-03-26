@@ -9,15 +9,15 @@ Usage:
   python cn_stock_data.py north_flow
   python cn_stock_data.py status
 """
+from routing import execute_with_fallback, get_available_sources
 import argparse
 import json
-import sys
 import os
 
 # Ensure scripts/ is on path
 sys.path.insert(0, os.path.dirname(__file__))
 
-from routing import execute_with_fallback, get_available_sources
+import sys
 
 
 def cmd_kline(args):

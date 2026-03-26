@@ -47,3 +47,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A 股历史上大盘级别回撤：2008(-72%)、2015(-49%)、2018(-31%)
 4. 个股回撤通常远大于指数回撤
 5. 回撤期间的成交量放大通常意味着恐慌性抛售
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

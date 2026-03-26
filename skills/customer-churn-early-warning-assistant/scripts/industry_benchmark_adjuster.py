@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import json
 from typing import Any, Dict
+import json
 
 
 def apply_industry_adjustment(result: Dict[str, Any], benchmark: Dict[str, Any]) -> Dict[str, Any]:

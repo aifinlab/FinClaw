@@ -2,9 +2,9 @@
 """多因子模型构建工具 - 截面回归/因子收益/协方差矩阵"""
 import argparse
 import json
-import sys
 import numpy as np
 import pandas as pd
+import sys
 
 
 def winsorize_mad(series: pd.Series, n_mad: float = 3.0) -> pd.Series:

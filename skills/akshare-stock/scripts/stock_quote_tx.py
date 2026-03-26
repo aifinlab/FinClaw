@@ -9,9 +9,24 @@ Example:
     python stock_quote_tx.py 600519
 """
 
-import sys
 import json
 import requests
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 def get_quote_tx(stock_code):
     try:
@@ -20,25 +35,25 @@ def get_quote_tx(stock_code):
             symbol = f"sh{stock_code}"
         else:
             symbol = f"sz{stock_code}"
-        
+
         # Tencent Finance API
         url = f"https://qt.gtimg.cn/q={symbol}"
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
         }
-        
+
         resp = requests.get(url, headers=headers, timeout=10)
         resp.encoding = 'gbk'  # Tencent uses GBK encoding
-        
+
         data = resp.text
         if not data or '~' not in data:
             print(f"[ERROR] No data for {stock_code}")
             sys.exit(1)
-        
+
         # Parse Tencent format: v_sh600519="1~贵州茅台~600519..."
         content = data.split('"')[1]
         fields = content.split('~')
-        
+
         # Field mapping based on Tencent format
         result = {
             "code": fields[2] if len(fields) > 2 else stock_code,
@@ -64,7 +79,7 @@ def get_quote_tx(stock_code):
             "float_cap": float(fields[45]) if len(fields) > 45 and fields[45] else 0,
             "turnover": float(fields[38]) if len(fields) > 38 and fields[38] else 0,
         }
-        
+
         # Print readable format
         change_emoji = "📈" if result['change'] >= 0 else "📉"
         print(f"\n📈 {result['name']} ({result['code']})")
@@ -85,11 +100,11 @@ def get_quote_tx(stock_code):
         print(f"  总市值: {result['market_cap']/10000:.2f}亿")
         print(f"  流通市值: {result['float_cap']/10000:.2f}亿")
         print(f"  换手率: {result['turnover']:.2f}%")
-        
+
         # Print JSON for parsing
         print(f"\n##QUOTE_META##")
         print(json.dumps(result, ensure_ascii=False, default=str))
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get quote: {e}")
         sys.exit(1)
@@ -99,6 +114,6 @@ if __name__ == "__main__":
         print("Usage: python stock_quote_tx.py <stock_code>")
         print("Example: python stock_quote_tx.py 600519")
         sys.exit(1)
-    
+
     stock_code = sys.argv[1]
     get_quote_tx(stock_code)

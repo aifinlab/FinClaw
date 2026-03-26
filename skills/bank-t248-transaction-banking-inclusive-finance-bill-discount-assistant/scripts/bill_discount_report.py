@@ -8,12 +8,13 @@
 """
 from __future__ import annotations
 
-import argparse
-import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse
+import json
+import sys
 
 
 @dataclass
@@ -172,5 +173,19 @@ def main() -> None:
         write_output(Path(args.output), build_markdown(payload))
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

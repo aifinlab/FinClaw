@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Maximum drawdown calculator from a price series CSV.
+from datetime import datetime
 import argparse
 import csv
-from datetime import datetime
 
 
 def parse_date(value):

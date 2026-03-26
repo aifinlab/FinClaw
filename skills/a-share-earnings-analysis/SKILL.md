@@ -81,3 +81,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE]
 | 引用 | 必须标注数据来源 | 可省略 |
 | 免责声明 | 需要 | 不需要 |
 | 投资评级 | 不给（避免合规风险） | 可给个人判断 |
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

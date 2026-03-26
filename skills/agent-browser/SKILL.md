@@ -33,10 +33,8 @@ Every browser automation follows this pattern:
 
 ```bash
 # 1. Start session
-RESULT=$(infsh app run agent-browser --function open --session new --input '{
-  "url": "https://example.com/login"
-}')
-SESSION_ID=$(echo $RESULT | jq -r '.session_id')
+RESULT=
+SESSION_ID=
 # Elements: @e1 [input] "Email", @e2 [input] "Password", @e3 [button] "Sign In"
 
 # 2. Fill and submit
@@ -113,11 +111,7 @@ Record browser sessions for debugging or documentation:
 
 ```bash
 # Start with recording enabled (optionally show cursor indicator)
-SESSION=$(infsh app run agent-browser --function open --session new --input '{
-  "url": "https://example.com",
-  "record_video": true,
-  "show_cursor": true
-}' | jq -r '.session_id')
+SESSION=
 
 # ... perform actions ...
 
@@ -212,9 +206,7 @@ infsh app run agent-browser --function execute --session $SESSION --input '{
 ### Form Submission
 
 ```bash
-SESSION=$(infsh app run agent-browser --function open --session new --input '{
-  "url": "https://example.com/contact"
-}' | jq -r '.session_id')
+SESSION=
 
 # Get elements: @e1 [input] "Name", @e2 [input] "Email", @e3 [textarea], @e4 [button] "Send"
 
@@ -230,9 +222,7 @@ infsh app run agent-browser --function close --session $SESSION --input '{}'
 ### Search and Extract
 
 ```bash
-SESSION=$(infsh app run agent-browser --function open --session new --input '{
-  "url": "https://google.com"
-}' | jq -r '.session_id')
+SESSION=
 
 infsh app run agent-browser --function interact --session $SESSION --input '{"action": "fill", "ref": "@e1", "text": "weather today"}'
 infsh app run agent-browser --function interact --session $SESSION --input '{"action": "press", "text": "Enter"}'
@@ -245,10 +235,7 @@ infsh app run agent-browser --function close --session $SESSION --input '{}'
 ### Screenshot with Video
 
 ```bash
-SESSION=$(infsh app run agent-browser --function open --session new --input '{
-  "url": "https://example.com",
-  "record_video": true
-}' | jq -r '.session_id')
+SESSION=
 
 # Take full page screenshot
 infsh app run agent-browser --function screenshot --session $SESSION --input '{
@@ -256,7 +243,7 @@ infsh app run agent-browser --function screenshot --session $SESSION --input '{
 }'
 
 # Close and get video
-RESULT=$(infsh app run agent-browser --function close --session $SESSION --input '{}')
+RESULT=
 echo $RESULT | jq '.video'
 ```
 

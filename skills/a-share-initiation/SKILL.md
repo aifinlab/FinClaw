@@ -112,3 +112,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [COMP]
 4. **\u6570\u636E\u9A71\u52A8**\uFF1A\u6240\u6709\u89C2\u70B9\u5FC5\u987B\u6709\u6570\u636E\u652F\u6491
 5. **\u5E73\u8861\u5BA2\u89C2**\uFF1A\u540C\u65F6\u5206\u6790\u770B\u591A\u548C\u770B\u7A7A\u7406\u7531\uFF0Cformal \u6A21\u5F0F\u4E0D\u7ED9\u660E\u786E\u4E70\u5356\u5EFA\u8BAE
 6. **\u6570\u636E\u622A\u6B62\u6807\u6CE8**\uFF1A\u62A5\u544A\u9996\u9875\u6807\u6CE8\u6570\u636E\u622A\u6B62\u65E5\u671F\u548C\u62A5\u544A\u751F\u6210\u65E5\u671F
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

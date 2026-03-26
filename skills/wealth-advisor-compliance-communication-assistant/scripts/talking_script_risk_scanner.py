@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, asdict
 from typing import List, Dict
-import re
 import json
+import re
 import sys
 
 PATTERNS = {

@@ -1,0 +1,21 @@
+﻿{
+  "product_name": "某医疗险",
+  "insurance_type": "医疗险",
+  "underwriting_stage": "初审补件",
+  "risk_materials": [
+    "健康告知",
+    "体检报告OCR文本",
+    "核保初审意见"
+  ],
+  "identified_issues": [
+    "既往甲状腺结节病史描述不完整",
+    "体检提示结节分级，但未见原始彩超报告",
+    "初审意见要求补充近一年复查资料"
+  ],
+  "business_context": "业务人员准备一次性向客户说明补件需求",
+  "focus_points": [
+    "识别必须补件和建议补件",
+    "生成补件原因说明",
+    "减少二次追件"
+  ]
+}

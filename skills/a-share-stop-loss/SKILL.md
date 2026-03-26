@@ -38,3 +38,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A 股 T+1 下无法当日止损——需更谨慎的仓位管理
 4. 止损位不应频繁修改——避免情绪化调整
 5. 好的止损策略是在减少大亏和避免误杀之间的平衡
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

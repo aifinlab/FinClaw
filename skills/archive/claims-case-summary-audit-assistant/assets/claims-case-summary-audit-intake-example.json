@@ -1,0 +1,60 @@
+{
+  "product_name": "个人意外伤害保险",
+  "claim_type": "意外医疗",
+  "insured": {
+    "name": "王五",
+    "id_type": "身份证",
+    "id_number": "440101198806063218"
+  },
+  "applicant": {
+    "name": "王五",
+    "relationship": "本人"
+  },
+  "claim_stage": "复核前案件摘要整理",
+  "source_type": "OCR文本 + 系统导出字段 + 材料检查结果",
+  "user_focus": [
+    "提炼责任争议点",
+    "汇总关键证据",
+    "说明还需核实什么"
+  ],
+  "case_facts": {
+    "incident": "2026-02-11骑行途中摔伤右下肢后就诊",
+    "medical_path": "当日急诊，后续门诊复诊2次",
+    "current_status": "已申请意外医疗报销，待审核"
+  },
+  "materials": [
+    {
+      "type": "理赔申请书",
+      "status": "已提供"
+    },
+    {
+      "type": "事故经过说明",
+      "status": "已提供"
+    },
+    {
+      "type": "急诊病历",
+      "status": "已提供"
+    },
+    {
+      "type": "门诊病历",
+      "status": "已提供"
+    },
+    {
+      "type": "诊断证明",
+      "status": "已提供"
+    },
+    {
+      "type": "事故证明",
+      "status": "缺失"
+    },
+    {
+      "type": "费用资料",
+      "status": "已提供但金额勾稽待核实"
+    },
+    {
+      "type": "材料检查结果",
+      "status": "已提供"
+    }
+  ],
+  "review_notes": "当前事故真实性主要依据客户自述和首诊病历，缺少外部事故证明；费用资料与病历时间基本接近，但明细完整性仍需核对。"
+}

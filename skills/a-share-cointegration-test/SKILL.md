@@ -33,3 +33,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 同行业股票协整概率更高但非必然
 4. Johansen检验适合多变量，Engle-Granger适合两变量
 5. 半衰期过长(>60日)的协整关系实战价值有限
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

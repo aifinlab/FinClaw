@@ -1,0 +1,4 @@
+interface:
+  display_name: "理赔案件摘要助手 - 审核版"
+  short_description: "汇总理赔案件事实、证据、争议点与审核建议。"
+  default_prompt: "Use $claims-case-summary-audit-assistant to turn scattered claim materials into an audit-focused case summary covering core facts, key evidence, dispute points, unresolved issues, and next-step review suggestions."

@@ -58,3 +58,21 @@ python "$QSCRIPTS/rotation_tracker.py" --data sectors_flow.json --window 20
 2. 主力资金≠所有资金，小单散户资金方向常常相反
 3. 资金轮动往往滞后于行情——先涨后有资金流入
 4. A 股典型轮动周期：2-4 周为一轮
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

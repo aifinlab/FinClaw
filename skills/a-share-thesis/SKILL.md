@@ -86,3 +86,21 @@ python "$SCRIPTS/cn_stock_data.py" fund_flow --code [CODE] --days 30
 4. **分离事实与观点**：数据验证部分纯客观，个人判断仅在 brief 模式的结论部分出现
 5. **时间框架**：明确论点的时间框架（短线 1-3 月 / 中线 3-12 月 / 长线 1 年+）
 6. **与其他 skill 联动**：建议用 a-share-earnings-analysis 做更深入的财报验证，用 a-share-comps 做估值对标
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

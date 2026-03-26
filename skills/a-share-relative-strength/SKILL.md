@@ -32,3 +32,21 @@ RS = 标的价格 / 基准价格（标准化为100起点）
 3. RS持续走弱的股票即使便宜也需谨慎
 4. 板块RS比个股RS更稳定
 5. RS结合绝对趋势效果更好
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -9,6 +9,7 @@
 from __future__ import annotations
 import json
 from typing import Any, Dict, List
+import argparse
 
 CAUSE_RULES = {
     "产品规则问题": ["条款", "权益", "限制条件", "收费规则", "规则不清"],
@@ -18,6 +19,7 @@ CAUSE_RULES = {
     "管理与机制问题": ["培训不足", "质检", "升级机制", "监控", "长期没人处理"],
     "外部因素": ["合作机构", "商户", "通道", "清算", "政策变化"],
 }
+
 
 def score_causes(text: str) -> List[Dict[str, Any]]:
     text = text or ""
@@ -33,10 +35,12 @@ def score_causes(text: str) -> List[Dict[str, Any]]:
     scores.sort(key=lambda x: x["score"], reverse=True)
     return scores
 
+
 def analyze_records(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     result = []
     for item in records:
-        text = " ".join(str(item.get(k, "")) for k in ["title", "content", "summary", "processing_note"])
+        text = " ".join(str(item.get(k, ""))
+                        for k in ["title", "content", "summary", "processing_note"])
         scores = score_causes(text)
         merged = dict(item)
         merged["cause_scores"] = scores
@@ -45,8 +49,8 @@ def analyze_records(records: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         result.append(merged)
     return result
 
+
 if __name__ == "__main__":
-    import argparse
     parser = argparse.ArgumentParser(description="投诉根因打分脚本")
     parser.add_argument("--input", required=True, help="输入 JSON 文件路径")
     parser.add_argument("--output", required=True, help="输出 JSON 文件路径")

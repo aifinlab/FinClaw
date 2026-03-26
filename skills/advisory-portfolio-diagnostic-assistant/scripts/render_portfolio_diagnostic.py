@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-import argparse
-import json
 from pathlib import Path
 from typing import Any
+import argparse
+import json
 
 TITLE = "投顾组合诊断助手"
 
@@ -18,7 +18,7 @@ def render_list(items: list[Any]) -> str:
 
 
 def render_markdown(payload: dict[str, Any]) -> str:
-    return f\"\"\"# {TITLE}
+    return f"""# {TITLE}
 
 ## 一、结论摘要
 
@@ -39,7 +39,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
 ## 五、后续动作
 
 {render_list(payload.get("recommended_actions", []))}
-\"\"\"
+"""
 
 
 def main() -> None:

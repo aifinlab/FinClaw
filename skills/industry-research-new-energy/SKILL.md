@@ -198,3 +198,21 @@ description: |
 - [ ] 成本曲线逻辑正确（边际产能判断）
 - [ ] 政策影响具体（金额/比例量化）
 - [ ] 风险提示充分（产能过剩、技术迭代、贸易壁垒）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

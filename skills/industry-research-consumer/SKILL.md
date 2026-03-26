@@ -178,3 +178,21 @@ description: |
 - **库存周转天数**：衡量渠道库存健康度
 - **销售费用率**：反映品牌营销投入强度
 - **预收款/合同负债**：白酒等行业先行指标
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

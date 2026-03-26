@@ -12,9 +12,9 @@ Usage:
 
 import argparse
 import json
-import sys
 import numpy as np
 import pandas as pd
+import sys
 
 
 def load_data(flow_path: str, kline_path: str) -> tuple[pd.DataFrame, pd.DataFrame]:

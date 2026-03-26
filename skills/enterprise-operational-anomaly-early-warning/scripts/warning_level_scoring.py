@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """企业贷后预警等级评分示例脚本。"""
 from __future__ import annotations
-
 import json
+
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse
 
 SCORE_MAP = {"低": 1, "中": 2, "高": 3}
 
@@ -35,7 +36,6 @@ def score_warning_level(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
 
 
 def main() -> None:
-    import argparse
 
     parser = argparse.ArgumentParser(description="对预警信号进行分级评分")
     parser.add_argument("input", help="输入 JSON 文件路径")

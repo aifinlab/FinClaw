@@ -9,13 +9,13 @@ Usage:
 CSV格式: 列为各资产日收益率，列名为股票代码，无日期列（或第一列为date会自动跳过）
 """
 
+from scipy.optimize import minimize
 import argparse
 import json
-import sys
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize
+import sys
 
 
 # ---------------------------------------------------------------------------

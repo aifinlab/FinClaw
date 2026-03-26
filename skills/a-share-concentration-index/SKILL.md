@@ -30,3 +30,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A股近年行业集中度趋势上升（供给侧改革后）
 4. 筹码集中度可用股东人数变化衡量
 5. HHI > 2500为高度集中
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

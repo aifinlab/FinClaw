@@ -1,7 +1,7 @@
 """资产配置建议报告渲染脚本（示例）"""
 from __future__ import annotations
-import json
 from typing import Dict, Any, List
+import json
 
 def render_markdown(report: Dict[str, Any]) -> str:
     lines: List[str] = []

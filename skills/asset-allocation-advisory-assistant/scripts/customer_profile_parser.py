@@ -1,7 +1,7 @@
 """客户画像标准化脚本（示例）"""
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 RISK_MAP = {
     "保守型": 1,

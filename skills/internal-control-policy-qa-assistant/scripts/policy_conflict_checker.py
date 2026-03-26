@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
 
 POSITIVE = ["可以", "应当", "允许", "须", "必须"]
 NEGATIVE = ["不得", "禁止", "不可", "不应", "严禁"]

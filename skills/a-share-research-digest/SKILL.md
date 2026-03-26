@@ -75,3 +75,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE]
 - 提醒用户卖方研报的固有偏多倾向
 - 目标价仅供参考，不构成投资建议
 - 关注核心假设比关注结论更重要
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

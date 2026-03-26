@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import argparse
-import json
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
+import argparse
+import json
 
 
 def load_json(path: Path) -> Dict[str, List[str]]:

@@ -1,0 +1,35 @@
+{
+  "case_id": "CLM-RISK-2026-001",
+  "product_name": "某医疗保险",
+  "insurance_type": "医疗险",
+  "case_type": "住院医疗",
+  "event_date": "2026-02-10",
+  "current_status": "审核中",
+  "claim_amount": 186000,
+  "materials": [
+    "住院病历",
+    "出院小结",
+    "费用清单",
+    "投诉工单",
+    "调查记录",
+    "系统备注"
+  ],
+  "facts": {
+    "event_summary": "住院手术治疗后申请理赔",
+    "diagnosis": "胆道疾病",
+    "customer_status": "已多次催办并表达不满",
+    "history_hint": "曾有相似报案记录"
+  },
+  "risk_info": {
+    "multiple_complaints": true,
+    "investigation_involved": true,
+    "processing_delay": true,
+    "suspected_abnormal_expense": true
+  },
+  "user_focus": [
+    "风险等级",
+    "投诉风险",
+    "欺诈风险",
+    "是否建议升级处理"
+  ]
+}

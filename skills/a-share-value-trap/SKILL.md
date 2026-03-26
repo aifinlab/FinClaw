@@ -35,3 +35,21 @@ PE/PB低于行业均值的股票
 3. 行业衰退是最大的价值陷阱来源
 4. '便宜有便宜的道理'——需找到低估的真正原因
 5. 价值投资需要催化剂——没有催化剂的低估可能持续很久
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

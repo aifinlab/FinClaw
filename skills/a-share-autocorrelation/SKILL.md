@@ -30,3 +30,21 @@ lag 1-20的自相关系数
 3. A股日频负自相关较明显（T+1导致的隔日反转）
 4. 周频/月频正自相关更显著（中期动量）
 5. 自相关结构是时间序列策略的基础
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -6,69 +6,113 @@
 """
 
 import akshare as ak
-import pandas as pd
+from datetime import datetime
+
+
+def safe_get_value(df, row_idx=0, col_idx=0):
+    """安全获取DataFrame值"""
+    try:
+        if df is not None and not df.empty and len(df) > row_idx:
+            row = df.iloc[row_idx]
+            if len(row) > col_idx:
+                return str(row.iloc[col_idx])
+    except:
+        pass
+    return 'N/A'
+
 
 def get_latest_indicators():
     """获取最新宏观指标"""
     indicators = {}
     
+    # GDP
     try:
-        # GDP - 使用正确的字段名
         gdp_df = ak.macro_china_gdp_yearly()
-        indicators['gdp_quarter'] = gdp_df.iloc[-1]['日期']
-        indicators['gdp_yoy'] = str(gdp_df.iloc[-1]['今值'])
+        indicators['gdp_quarter'] = safe_get_value(gdp_df, 0, 0)
+        indicators['gdp_yoy'] = safe_get_value(gdp_df, 0, 2)
     except Exception as e:
         indicators['gdp_yoy'] = 'N/A'
     
+    # CPI
     try:
-        # CPI - 使用正确的字段名
         cpi_df = ak.macro_china_cpi()
-        indicators['cpi_date'] = cpi_df.iloc[-1]['月份']
-        indicators['cpi_yoy'] = str(cpi_df.iloc[-1]['全国-同比增长'])
+        indicators['cpi_date'] = safe_get_value(cpi_df, 0, 0)
+        # 尝试找同比列
+        cpi_cols = [c for c in cpi_df.columns if '同比' in c or '增长' in c]
+        if cpi_cols:
+            indicators['cpi_yoy'] = safe_get_value(cpi_df, 0, cpi_df.columns.get_loc(cpi_cols[0]))
+        else:
+            indicators['cpi_yoy'] = safe_get_value(cpi_df, 0, 1)
     except Exception as e:
         indicators['cpi_yoy'] = 'N/A'
     
+    # PPI
     try:
-        # PPI
         ppi_df = ak.macro_china_ppi()
-        indicators['ppi_yoy'] = str(ppi_df.iloc[-1].iloc[2])  # 第三列是同比
+        # 尝试找同比列
+        ppi_cols = [c for c in ppi_df.columns if '同比' in c or 'PPI' in c]
+        if ppi_cols:
+            indicators['ppi_yoy'] = safe_get_value(ppi_df, 0, ppi_df.columns.get_loc(ppi_cols[0]))
+        else:
+            indicators['ppi_yoy'] = safe_get_value(ppi_df, 0, 2)
     except Exception as e:
         indicators['ppi_yoy'] = 'N/A'
     
+    # M2
     try:
-        # M2
         m2_df = ak.macro_china_m2()
-        indicators['m2_yoy'] = str(m2_df.iloc[-1].iloc[2])  # M2同比
-        indicators['m1_yoy'] = str(m2_df.iloc[-1].iloc[4])  # M1同比
+        m2_cols = [c for c in m2_df.columns if 'M2' in c or '同比' in c]
+        if m2_cols:
+            indicators['m2_yoy'] = safe_get_value(m2_df, 0, m2_df.columns.get_loc(m2_cols[0]))
+        else:
+            indicators['m2_yoy'] = safe_get_value(m2_df, 0, 2)
+        
+        m1_cols = [c for c in m2_df.columns if 'M1' in c]
+        if m1_cols:
+            indicators['m1_yoy'] = safe_get_value(m2_df, 0, m2_df.columns.get_loc(m1_cols[0]))
+        else:
+            indicators['m1_yoy'] = safe_get_value(m2_df, 0, 4)
     except Exception as e:
         indicators['m2_yoy'] = 'N/A'
         indicators['m1_yoy'] = 'N/A'
     
+    # PMI
     try:
-        # PMI
         pmi_df = ak.macro_china_pmi()
-        indicators['pmi'] = str(pmi_df.iloc[-1].iloc[1])  # 制造业PMI
-        indicators['pmi_date'] = str(pmi_df.iloc[-1].iloc[0])  # 日期
+        pmi_cols = [c for c in pmi_df.columns if 'PMI' in c or '制造' in c]
+        if pmi_cols:
+            indicators['pmi'] = safe_get_value(pmi_df, 0, pmi_df.columns.get_loc(pmi_cols[0]))
+        else:
+            indicators['pmi'] = safe_get_value(pmi_df, 0, 1)
+        indicators['pmi_date'] = safe_get_value(pmi_df, 0, 0)
     except Exception as e:
         indicators['pmi'] = 'N/A'
     
+    # LPR
     try:
-        # LPR
         lpr_df = ak.macro_china_lpr()
-        indicators['lpr_1y'] = str(lpr_df.iloc[-1].iloc[1])  # 1年期
-        indicators['lpr_5y'] = str(lpr_df.iloc[-1].iloc[2])  # 5年期
+        if len(lpr_df.columns) >= 3:
+            indicators['lpr_1y'] = safe_get_value(lpr_df, 0, 1)
+            indicators['lpr_5y'] = safe_get_value(lpr_df, 0, 2)
+        else:
+            indicators['lpr_1y'] = 'N/A'
+            indicators['lpr_5y'] = 'N/A'
     except Exception as e:
         indicators['lpr_1y'] = 'N/A'
         indicators['lpr_5y'] = 'N/A'
     
+    # 汇率
     try:
-        # 汇率
         rmb_df = ak.macro_china_rmb()
-        indicators['usd_cny'] = str(rmb_df.iloc[-1].iloc[1])  # 美元/人民币
+        if len(rmb_df.columns) >= 2:
+            indicators['usd_cny'] = safe_get_value(rmb_df, 0, 1)
+        else:
+            indicators['usd_cny'] = 'N/A'
     except Exception as e:
         indicators['usd_cny'] = 'N/A'
     
     return indicators
+
 
 def judge_economic_cycle(gdp, cpi, pmi):
     """判断经济周期阶段"""
@@ -89,6 +133,7 @@ def judge_economic_cycle(gdp, cpi, pmi):
             return "过渡期", "➡️ 经济方向不明，观望为主"
     except:
         return "未知", "无法判断"
+
 
 def format_summary_report():
     """格式化宏观概览报告"""
@@ -112,8 +157,11 @@ def format_summary_report():
     # CPI
     cpi_val = indicators.get('cpi_yoy', 'N/A')
     if cpi_val != 'N/A':
-        cpi_f = float(cpi_val)
-        cpi_trend = "🔴 通胀压力" if cpi_f > 3 else "🟡 温和通胀" if cpi_f > 2 else "🟢 低通胀" if cpi_f > 0 else "⚪ 通缩风险"
+        try:
+            cpi_f = float(cpi_val)
+            cpi_trend = "🔴 通胀压力" if cpi_f > 3 else "🟡 温和通胀" if cpi_f > 2 else "🟢 低通胀" if cpi_f > 0 else "⚪ 通缩风险"
+        except:
+            cpi_trend = "N/A"
     else:
         cpi_trend = "N/A"
     print(f"{'CPI同比':<15} {cpi_val + '%':<15} {cpi_trend:<20}")
@@ -121,8 +169,11 @@ def format_summary_report():
     # PPI
     ppi_val = indicators.get('ppi_yoy', 'N/A')
     if ppi_val != 'N/A':
-        ppi_f = float(ppi_val)
-        ppi_trend = "🔴 工业通胀" if ppi_f > 5 else "🟡 温和上涨" if ppi_f > 0 else "🟢 价格下跌" if ppi_f > -2 else "⚪ 工业通缩"
+        try:
+            ppi_f = float(ppi_val)
+            ppi_trend = "🔴 工业通胀" if ppi_f > 5 else "🟡 温和上涨" if ppi_f > 0 else "🟢 价格下跌" if ppi_f > -2 else "⚪ 工业通缩"
+        except:
+            ppi_trend = "N/A"
     else:
         ppi_trend = "N/A"
     print(f"{'PPI同比':<15} {ppi_val + '%':<15} {ppi_trend:<20}")
@@ -134,8 +185,11 @@ def format_summary_report():
     # PMI
     pmi_val = indicators.get('pmi', 'N/A')
     if pmi_val != 'N/A':
-        pmi_f = float(pmi_val)
-        pmi_trend = "🟢 扩张区间" if pmi_f > 50 else "🔴 收缩区间"
+        try:
+            pmi_f = float(pmi_val)
+            pmi_trend = "🟢 扩张区间" if pmi_f > 50 else "🔴 收缩区间"
+        except:
+            pmi_trend = "N/A"
     else:
         pmi_trend = "N/A"
     print(f"{'制造业PMI':<15} {pmi_val:<15} {pmi_trend:<20}")
@@ -186,8 +240,9 @@ def format_summary_report():
         print("   现金: 10% ⚪")
     
     print("\n" + "=" * 70)
-    print("📌 数据来源: AkShare | 更新时间:", pd.Timestamp.now().strftime('%Y-%m-%d %H:%M'))
+    print(f"📌 数据来源: AkShare | 更新时间: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print("=" * 70)
+
 
 if __name__ == "__main__":
     format_summary_report()

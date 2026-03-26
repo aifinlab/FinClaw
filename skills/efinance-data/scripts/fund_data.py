@@ -3,12 +3,12 @@
 efinance 基金数据获取脚本
 支持：基金净值历史、持仓明细、行业分布、基金经理、阶段涨幅
 """
-import sys
-import json
 import argparse
-
 import efinance as ef
+import json
+
 import pandas as pd
+import sys
 
 
 def _df_to_json(df, max_rows=None):

@@ -1,10 +1,10 @@
-import argparse
-import csv
-import json
 from dataclasses import dataclass
 from datetime import datetime
 from statistics import median
 from typing import Dict, List, Tuple
+import argparse
+import csv
+import json
 
 
 @dataclass

@@ -1,13 +1,28 @@
-﻿#!/usr/bin/env python3
+﻿  # !/usr/bin/env python3
 """将投保方案整理为保额责任匹配分析结果。"""
 
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Any
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 RISK_TOPICS = {
     "家庭责任与保障目标": ["子女", "赡养", "房贷", "家庭责任", "教育", "养老", "家庭主要收入"],
@@ -167,7 +182,7 @@ def render_report(data: dict[str, Any]) -> str:
     next_steps = build_next_steps(text)
 
     lines = [
-        "# 保额责任匹配分析结果",
+        "  # 保额责任匹配分析结果",
         "",
         "一、方案基本信息",
         f"- 产品/险种：{basic['product_name']}",

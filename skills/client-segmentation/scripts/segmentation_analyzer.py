@@ -10,23 +10,23 @@
 4. 差异化服务清单生成
 
 使用示例：
-    from segmentation_analyzer import SegmentationAnalyzer
-    
+from dataclasses import dataclass
+
     analyzer = SegmentationAnalyzer()
-    
+
     customers = [
         {"name": "张三", "assets": 15000000, "annual_contribution": 800000, "activity": "活跃"},
         {"name": "李四", "assets": 3000000, "annual_contribution": 150000, "activity": "普通"},
         # ... 更多客户
     ]
-    
+
     results = analyzer.segment_customers(customers)
     print(analyzer.generate_distribution_report(results))
 """
 
-from typing import List, Dict
-from dataclasses import dataclass
 from datetime import datetime
+from segmentation_analyzer import SegmentationAnalyzer
+from typing import List, Dict
 
 
 @dataclass
@@ -44,7 +44,7 @@ class CustomerSegment:
 
 class SegmentationAnalyzer:
     """客户分层分析器"""
-    
+
     # 分层标准
     SEGMENTATION_CRITERIA = {
         "A": {  # 核心客户
@@ -68,7 +68,7 @@ class SegmentationAnalyzer:
             "segment_name": "基础客户",
         },
     }
-    
+
     # 各层级服务标准
     SERVICE_STANDARDS = {
         "A": {
@@ -96,45 +96,45 @@ class SegmentationAnalyzer:
             "services": ["标准化服务", "市场资讯推送", "活动群发"],
         },
     }
-    
+
     def __init__(self):
         pass
-    
+
     def determine_segment(self, customer: Dict) -> str:
         """
         确定客户层级
-        
+
         Args:
             customer: 客户信息
-        
+
         Returns:
             层级（A/B/C/D）
         """
         assets = customer.get("assets", 0)
         contribution = customer.get("annual_contribution", 0)
-        
+
         # 从高到低判断
         for segment in ["A", "B", "C", "D"]:
             criteria = self.SEGMENTATION_CRITERIA[segment]
             if assets >= criteria["min_assets"] and contribution >= criteria["min_contribution"]:
                 return segment
-        
+
         return "D"
-    
+
     def calculate_upgrade_path(self, customer: Dict, current_segment: str) -> Dict:
         """
         计算升级路径
-        
+
         Args:
             customer: 客户信息
             current_segment: 当前层级
-        
+
         Returns:
             升级路径信息
         """
         segments = ["D", "C", "B", "A"]
         current_index = segments.index(current_segment)
-        
+
         # 已经是最高级
         if current_index == 0:
             return {
@@ -144,14 +144,14 @@ class SegmentationAnalyzer:
                 "contribution_gap": 0,
                 "upgrade_path": "保持当前层级，深化服务",
             }
-        
+
         # 下一级目标
         next_segment = segments[current_index - 1]
         criteria = self.SEGMENTATION_CRITERIA[next_segment]
-        
+
         asset_gap = criteria["min_assets"] - customer.get("assets", 0)
         contribution_gap = criteria["min_contribution"] - customer.get("annual_contribution", 0)
-        
+
         return {
             "next_segment": next_segment,
             "segment_name": self.SEGMENTATION_CRITERIA[next_segment]["segment_name"],
@@ -159,23 +159,23 @@ class SegmentationAnalyzer:
             "contribution_gap": max(0, contribution_gap),
             "upgrade_path": f"资产提升至{criteria['min_assets'] / 10000:.0f}万，年贡献提升至{criteria['min_contribution'] / 10000:.0f}万",
         }
-    
+
     def segment_customers(self, customers: List[Dict]) -> List[Dict]:
         """
         批量分层客户
-        
+
         Args:
             customers: 客户列表
-        
+
         Returns:
             分层结果列表
         """
         results = []
-        
+
         for customer in customers:
             segment = self.determine_segment(customer)
             upgrade_info = self.calculate_upgrade_path(customer, segment)
-            
+
             result = {
                 **customer,
                 "segment": segment,
@@ -187,16 +187,16 @@ class SegmentationAnalyzer:
                 "upgrade_path": upgrade_info["upgrade_path"],
             }
             results.append(result)
-        
+
         return results
-    
+
     def generate_distribution_report(self, customers: List[Dict]) -> str:
         """
         生成分层分布报告
-        
+
         Args:
             customers: 分层后的客户列表
-        
+
         Returns:
             格式化报告文本
         """
@@ -206,52 +206,52 @@ class SegmentationAnalyzer:
         lines.append(f"生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M')}")
         lines.append("=" * 80)
         lines.append("")
-        
+
         # 按层级统计
         segment_counts = {"A": 0, "B": 0, "C": 0, "D": 0}
         segment_assets = {"A": 0, "B": 0, "C": 0, "D": 0}
         segment_contributions = {"A": 0, "B": 0, "C": 0, "D": 0}
-        
+
         for customer in customers:
             segment = customer.get("segment", "D")
             segment_counts[segment] += 1
             segment_assets[segment] += customer.get("assets", 0)
             segment_contributions[segment] += customer.get("annual_contribution", 0)
-        
+
         total_customers = len(customers)
         total_assets = sum(segment_assets.values())
         total_contributions = sum(segment_contributions.values())
-        
+
         # 分布表格
         lines.append("【分层分布】")
         lines.append("")
         lines.append(f"{'层级':<8} {'名称':<10} {'人数':<8} {'占比':<8} {'资产 (万)':<12} {'占比':<8} {'贡献 (万)':<12} {'占比':<8}")
         lines.append("-" * 80)
-        
+
         for segment in ["A", "B", "C", "D"]:
             count = segment_counts[segment]
             assets = segment_assets[segment] / 10000
             contributions = segment_contributions[segment] / 10000
-            
+
             count_pct = count / total_customers * 100 if total_customers > 0 else 0
             assets_pct = assets / (total_assets / 10000) * 100 if total_assets > 0 else 0
             contributions_pct = contributions / (total_contributions / 10000) * 100 if total_contributions > 0 else 0
-            
+
             name = self.SEGMENTATION_CRITERIA[segment]["segment_name"]
-            
+
             lines.append(
                 f"{segment:<8} {name:<10} {count:<8} {count_pct:<7.1f}% "
                 f"{assets:<12.0f} {assets_pct:<7.1f}% {contributions:<12.0f} {contributions_pct:<7.1f}%"
             )
-        
+
         lines.append("")
         lines.append(f"总计：{total_customers} 人，资产 {total_assets / 10000:.0f} 万，年贡献 {total_contributions / 10000:.0f} 万")
         lines.append("")
-        
+
         # 各层级服务标准
         lines.append("【各层级服务标准】")
         lines.append("")
-        
+
         for segment in ["A", "B", "C", "D"]:
             standard = self.SERVICE_STANDARDS[segment]
             lines.append(f"{segment} 级 - {self.SEGMENTATION_CRITERIA[segment]['segment_name']}:")
@@ -260,19 +260,19 @@ class SegmentationAnalyzer:
             lines.append(f"  服务方式：{standard['service_mode']}")
             lines.append(f"  服务内容：{', '.join(standard['services'])}")
             lines.append("")
-        
+
         lines.append("=" * 80)
-        
+
         return "\n".join(lines)
-    
+
     def generate_upgrade_plan(self, customers: List[Dict], target_segment: str = None) -> str:
         """
         生成升级计划
-        
+
         Args:
             customers: 分层后的客户列表
             target_segment: 目标层级（可选）
-        
+
         Returns:
             格式化升级计划文本
         """
@@ -281,28 +281,28 @@ class SegmentationAnalyzer:
         lines.append("客户层级升级计划")
         lines.append("=" * 80)
         lines.append("")
-        
+
         # 筛选有升级空间的客户
         upgrade_candidates = []
         for customer in customers:
             if customer.get("next_segment"):
                 if target_segment is None or customer.get("next_segment") == target_segment:
                     upgrade_candidates.append(customer)
-        
+
         if not upgrade_candidates:
             lines.append("暂无符合升级条件的客户")
             lines.append("=" * 80)
             return "\n".join(lines)
-        
+
         # 按资产差距排序
         upgrade_candidates.sort(key=lambda x: x.get("asset_gap", 0))
-        
+
         lines.append(f"可升级客户数：{len(upgrade_candidates)}")
         lines.append("")
-        
+
         lines.append(f"{'客户':<10} {'当前层级':<8} {'目标层级':<8} {'资产差距 (万)':<12} {'贡献差距 (万)':<12} {'升级路径':<30}")
         lines.append("-" * 80)
-        
+
         for customer in upgrade_candidates[:20]:  # 显示前 20 个
             lines.append(
                 f"{customer['name']:<10} {customer['segment_name']:<8} "
@@ -311,17 +311,17 @@ class SegmentationAnalyzer:
                 f"{customer.get('contribution_gap', 0) / 10000:<12.0f} "
                 f"{customer.get('upgrade_path', 'N/A'):<30}"
             )
-        
+
         lines.append("")
         lines.append("=" * 80)
-        
+
         return "\n".join(lines)
 
 
 # 快速测试
 if __name__ == "__main__":
     analyzer = SegmentationAnalyzer()
-    
+
     customers = [
         {"name": "张三", "assets": 15000000, "annual_contribution": 800000, "activity": "活跃"},
         {"name": "李四", "assets": 8000000, "annual_contribution": 400000, "activity": "活跃"},
@@ -329,7 +329,7 @@ if __name__ == "__main__":
         {"name": "赵六", "assets": 500000, "annual_contribution": 30000, "activity": "普通"},
         {"name": "钱七", "assets": 800000, "annual_contribution": 80000, "activity": "活跃"},
     ]
-    
+
     results = analyzer.segment_customers(customers)
     print(analyzer.generate_distribution_report(results))
     print("\n")

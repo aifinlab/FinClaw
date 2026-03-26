@@ -5,8 +5,8 @@
 用于生成客户追保通知和提醒
 """
 
-import json
 from datetime import datetime, timedelta
+import json
 
 # 通知模板
 NOTIFICATION_TEMPLATES = {
@@ -33,7 +33,7 @@ NOTIFICATION_TEMPLATES = {
 XX 证券股份有限公司
 {date}
 """,
-    
+
     "margin_call": """【XX 证券】追保通知
 
 尊敬的 {client_name}：
@@ -57,7 +57,7 @@ XX 证券股份有限公司
 XX 证券股份有限公司
 {date}
 """,
-    
+
     "liquidation_warning": """【XX 证券】平仓预告通知
 
 尊敬的 {client_name}：
@@ -80,16 +80,16 @@ XX 证券股份有限公司
 """
 }
 
-def calculate_required_amount(current_assets: float, current_liabilities: float, 
+def calculate_required_amount(current_assets: float, current_liabilities: float,
                                target_ratio: float = 150) -> float:
     """
     计算需追加金额
-    
+
     Args:
         current_assets: 当前总资产
         current_liabilities: 当前总负债
         target_ratio: 目标维保比例
-    
+
     Returns:
         需追加金额
     """
@@ -101,10 +101,10 @@ def calculate_required_amount(current_assets: float, current_liabilities: float,
 def get_notification_type(maintenance_ratio: float) -> str:
     """
     根据维保比例确定通知类型
-    
+
     Args:
         maintenance_ratio: 维保比例
-    
+
     Returns:
         通知类型 (warning/margin_call/liquidation_warning)
     """
@@ -120,28 +120,28 @@ def get_notification_type(maintenance_ratio: float) -> str:
 def generate_notification(client_data: dict) -> dict:
     """
     生成追保通知
-    
+
     Args:
         client_data: 客户数据
-    
+
     Returns:
         通知内容
     """
     maintenance_ratio = client_data.get("maintenance_ratio", 0)
     notification_type = get_notification_type(maintenance_ratio)
-    
+
     if not notification_type:
         return {
             "status": "no_action_required",
             "message": "维保比例正常，无需通知"
         }
-    
+
     # 计算需追加金额
     required_amount = calculate_required_amount(
         client_data.get("total_assets", 0),
         client_data.get("total_liabilities", 0)
     )
-    
+
     # 计算截止日期
     if notification_type == "warning":
         deadline = (datetime.now() + timedelta(days=5)).strftime("%Y-%m-%d")
@@ -149,7 +149,7 @@ def generate_notification(client_data: dict) -> dict:
         deadline = (datetime.now() + timedelta(days=2)).strftime("%Y-%m-%d")
     else:
         deadline = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
-    
+
     # 生成通知内容
     template = NOTIFICATION_TEMPLATES[notification_type]
     content = template.format(
@@ -164,7 +164,7 @@ def generate_notification(client_data: dict) -> dict:
         manager_phone=client_data.get("manager_phone", "95XXX"),
         date=datetime.now().strftime("%Y-%m-%d")
     )
-    
+
     return {
         "status": "notification_generated",
         "notification_type": notification_type,
@@ -178,15 +178,15 @@ def generate_notification(client_data: dict) -> dict:
 def generate_reminder_list(clients: list) -> dict:
     """
     生成追保提醒列表
-    
+
     Args:
         clients: 客户列表
-    
+
     Returns:
         提醒列表
     """
     reminders = []
-    
+
     for client in clients:
         notification = generate_notification(client)
         if notification["status"] == "notification_generated":
@@ -199,10 +199,10 @@ def generate_reminder_list(clients: list) -> dict:
                 "deadline": notification["deadline"],
                 "priority": get_priority(notification["notification_type"])
             })
-    
+
     # 按优先级排序
     reminders.sort(key=lambda x: x["priority"], reverse=True)
-    
+
     return {
         "generate_date": datetime.now().strftime("%Y-%m-%d"),
         "total_count": len(reminders),
@@ -219,7 +219,8 @@ def get_priority(notification_type: str) -> int:
     return priorities.get(notification_type, 0)
 
 if __name__ == "__main__":
-    # 示例数据
+    # 示例数据 - 注意：生产环境请从配置文件或环境变量读取
+    import os
     sample_client = {
         "client_id": "C001",
         "client_name": "张三",
@@ -227,8 +228,10 @@ if __name__ == "__main__":
         "total_assets": 1250000,
         "total_liabilities": 1000000,
         "manager_name": "李经理",
-        "manager_phone": "13800138000"
+        # 手机号从环境变量读取，避免硬编码
+        # 示例: DEFAULT_MANAGER_PHONE=13800138000 python generate_reminder.py
+        "manager_phone": os.environ.get("DEFAULT_MANAGER_PHONE", "请配置手机号")
     }
-    
+
     notification = generate_notification(sample_client)
     print(json.dumps(notification, ensure_ascii=False, indent=2))

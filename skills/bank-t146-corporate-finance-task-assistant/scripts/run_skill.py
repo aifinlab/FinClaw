@@ -1,17 +1,32 @@
-import json
-import sys
 from pathlib import Path
+from shared.corporate_ops_skill_engine import build_packet, load_input, render_markdown  # noqa: E402
+import argparse
 
 
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from shared.corporate_ops_skill_engine import build_packet, load_input, render_markdown  # noqa: E402
+import json
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 def main() -> None:
-    import argparse
+    import sys
 
     parser = argparse.ArgumentParser(description="Run t146 opportunity identification & monitoring skill.")
     parser.add_argument("--input", required=True, help="Input JSON path")
@@ -27,6 +42,19 @@ def main() -> None:
         print(content)
 
 
-if __name__ == "__main__":
-    main()
 
+def main():
+
+
+        main()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

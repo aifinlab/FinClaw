@@ -3,10 +3,11 @@
 
 from __future__ import annotations
 
-import argparse
-import json
 from pathlib import Path
 from typing import Any
+import argparse
+import json
+import sys
 
 TITLE = "销售话术助手"
 
@@ -14,11 +15,11 @@ TITLE = "销售话术助手"
 def render_list(items: list[Any]) -> str:
     if not items:
         return "- 无"
-    return "\\n".join(f"- {item}" for item in items)
+    return "\n".join(f"- {item}" for item in items)
 
 
 def render_markdown(payload: dict[str, Any]) -> str:
-    return f\"\"\"# {TITLE}
+    return f"""# {TITLE}
 
 ## 一、结论摘要
 
@@ -39,7 +40,7 @@ def render_markdown(payload: dict[str, Any]) -> str:
 ## 五、后续动作
 
 {render_list(payload.get("recommended_actions", []))}
-\"\"\"
+"""
 
 
 def main() -> None:
@@ -51,10 +52,24 @@ def main() -> None:
     payload = json.loads(Path(args.input).read_text(encoding="utf-8"))
     markdown = render_markdown(payload)
     if args.output:
-        Path(args.output).write_text(markdown + "\\n", encoding="utf-8")
+        Path(args.output).write_text(markdown + "\n", encoding="utf-8")
     else:
         print(markdown)
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

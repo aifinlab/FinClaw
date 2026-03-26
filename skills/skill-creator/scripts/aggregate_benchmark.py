@@ -34,12 +34,12 @@ The script supports two directory layouts:
                 └── run-1/grading.json
 """
 
+from datetime import datetime, timezone
+from pathlib import Path
 import argparse
 import json
 import math
 import sys
-from datetime import datetime, timezone
-from pathlib import Path
 
 
 def calculate_stats(values: list[float]) -> dict:

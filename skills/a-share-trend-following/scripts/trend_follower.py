@@ -11,13 +11,13 @@ A股趋势跟踪策略分析工具 (A-Share Trend Following Analyzer)
     python trend_follower.py --data kline.json --method all --output result.json
 """
 
+from typing import Optional
 import argparse
 import json
-import sys
-from typing import Optional
-
 import numpy as np
+
 import pandas as pd
+import sys
 
 
 # ── 指标计算 ──────────────────────────────────────────────────────────────
@@ -521,5 +521,19 @@ def main():
         print(output_json)
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

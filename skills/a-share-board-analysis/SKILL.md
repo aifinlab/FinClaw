@@ -85,3 +85,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [CODE] --freq daily --start [日
 4. **不做涨停预测**：不说"明天会涨停"、"可以打板"等预测性建议
 5. **炸板风险**：炸板股风险极大（冲高回落），需特别提示
 6. **数据时效**：涨停池数据盘中实时更新，收盘后为最终数据，需说明取数时点
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

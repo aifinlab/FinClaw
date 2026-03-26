@@ -123,3 +123,21 @@ python "$SCRIPTS/cn_stock_data.py" fund_flow --code [CODE] --days 30
 5. **结合资金面**：将 cn-stock-data 的资金流向数据与技术信号交叉验证
 6. **A 股特色**：注意 T+1 交易制度、涨跌停板（10%/20% 创业板科创板）、集合竞价等因素对技术分析的影响
 7. **技术指标需计算**：cn-stock-data 返回原始 OHLCV 数据，MA/MACD/RSI/KDJ/BOLL 等指标需要在分析时手动计算
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

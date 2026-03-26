@@ -14,7 +14,7 @@ SCRIPTS="$SKILLS_ROOT/cn-stock-data/scripts"
 python "$SCRIPTS/cn_stock_data.py" quote --code SH000001,SZ399001,SZ399006
 
 # 大盘K线（近期趋势，用于腾落线历史对比）
-python "$SCRIPTS/cn_stock_data.py" kline --code SH000001 --freq daily --start $(date -v-30d +%Y-%m-%d)
+python "$SCRIPTS/cn_stock_data.py" kline --code SH000001 --freq daily --start 
 ```
 
 全市场实时行情（核心数据，用于涨跌家数统计）：

@@ -6,15 +6,23 @@
 
 import akshare as ak
 import sys
+import time
 
-def get_index_quote(symbol="000300"):
-    """获取指数行情"""
-    try:
-        df = ak.index_zh_a_hist(symbol=symbol, period="daily")
-        return df
-    except Exception as e:
-        print(f"获取指数行情失败: {e}")
-        return None
+
+def get_index_quote(symbol="000300", max_retries=3):
+    """获取指数行情，带重试机制"""
+    for attempt in range(max_retries):
+        try:
+            df = ak.index_zh_a_hist(symbol=symbol, period="daily")
+            return df
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"[WARN] 第{attempt + 1}次尝试失败，1秒后重试...")
+                time.sleep(1)
+            else:
+                print(f"[ERROR] 获取指数行情失败（已重试{max_retries}次）: {e}")
+                return None
+
 
 def format_index(symbol):
     """格式化指数"""
@@ -28,12 +36,13 @@ def format_index(symbol):
         
         latest = df.iloc[-1]
         print(f"\n💡 最新数据:")
-        print(f"   收盘: {latest['收盘']}")
-        print(f"   涨跌: {latest['涨跌幅']}%")
+        print(f"   收盘: {latest.get('收盘', 'N/A')}")
+        print(f"   涨跌: {latest.get('涨跌幅', 'N/A')}%")
     else:
-        print("未获取到数据")
+        print("⚠️ 未获取到数据，请检查网络连接或指数代码")
     
     print("\n" + "=" * 80)
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

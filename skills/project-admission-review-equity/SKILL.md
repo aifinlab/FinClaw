@@ -47,3 +47,21 @@ python scripts/analyze.py --input processed.json --rules config/rules.json --bas
 - 规则命中可追溯
 - 保留自动生成需人工复核声明
 - 不输出投资建议、授信决策或法律最终意见
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

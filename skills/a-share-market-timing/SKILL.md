@@ -32,3 +32,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 右侧择时（趋势确认后行动）更稳健
 4. 多信号综合比单一信号更可靠
 5. 择时错误的代价是踏空——宁可少赚不可大亏
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

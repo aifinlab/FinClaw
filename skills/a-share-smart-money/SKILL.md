@@ -72,3 +72,21 @@ python scripts/smart_money_detector.py --flow flow.json --kline kline.json
 - 大单定义因券商而异，跨数据源对比时需注意口径差异
 - 短期资金流向噪声大，建议至少看 5-10 个交易日趋势
 - 本分析为量化辅助工具，不构成投资建议
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

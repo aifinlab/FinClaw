@@ -76,3 +76,21 @@ description: A股相关性分析/联动关系/相关系数计算。当用户说"
 - 分散化需要真正低相关的资产，同行业/同概念股往往高度相关
 - 停牌期间数据需剔除，否则会扭曲相关性计算
 - 数据为历史统计结果，不构成投资建议
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

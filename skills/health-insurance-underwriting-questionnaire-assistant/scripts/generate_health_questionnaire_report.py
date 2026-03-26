@@ -3,11 +3,26 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Any
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 SYSTEM_KEYWORDS = {

@@ -71,3 +71,21 @@ description: A股集合竞价/开盘博弈分析。当用户说"集合竞价"、
 ```
 
 参考 `references/opening-auction-guide.md` 获取详细方法论与 A股实证研究。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

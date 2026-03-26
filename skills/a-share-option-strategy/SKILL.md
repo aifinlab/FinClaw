@@ -128,3 +128,21 @@ df_300_greeks = ak.option_sse_greeks_em(symbol='510300')
 5. **A股期权为欧式**：ETF期权为欧式行权（到期日才能行权），不同于美式期权（随时行权），影响提前行权策略
 6. **合约乘数**：ETF期权合约单位为10000份，计算盈亏时需乘以合约乘数
 7. **与其他 skill 联动**：标的走势分析用 a-share-technical / a-share-etf，市场情绪用 a-share-sentiment，股指期货基差用 a-share-futures-analysis
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

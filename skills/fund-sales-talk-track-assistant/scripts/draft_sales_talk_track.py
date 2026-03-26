@@ -3,11 +3,27 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Any
 import argparse
 import csv
 import json
-from pathlib import Path
-from typing import Any
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 TASK_NAME = "销售话术助手"
 TASK_SUMMARY = "根据产品卖点、客群特征和合规边界生成基金销售话术草稿与异议应答。"
@@ -85,5 +101,19 @@ def main() -> None:
         print(text)
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

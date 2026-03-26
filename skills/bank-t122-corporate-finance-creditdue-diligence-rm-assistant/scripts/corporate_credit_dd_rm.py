@@ -1,7 +1,7 @@
-import argparse
-import json
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse
+import json
 
 
 REQUIRED_TOP_LEVEL = [

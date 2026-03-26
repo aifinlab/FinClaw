@@ -31,3 +31,21 @@ IC/IR分析、分组回测
 3. ROE高但自由现金流差→质量存疑
 4. 质量因子与价值因子结合效果更好
 5. A股财务造假风险需特别关注应计异常
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保摘要报告助手"
+  short_description: "汇总核保资料、风险重点和后续关注事项"
+  default_prompt: "Use $underwriting-summary-report-assistant to turn collected underwriting materials into a structured summary report with key risks, completeness assessment, pending issues, and next-step suggestions."

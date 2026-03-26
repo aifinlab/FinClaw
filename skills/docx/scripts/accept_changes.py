@@ -3,13 +3,20 @@
 Requires LibreOffice (soffice) to be installed.
 """
 
+from office.soffice import get_soffice_env
+from pathlib import Path
 import argparse
 import logging
 import shutil
-import subprocess
-from pathlib import Path
 
-from office.soffice import get_soffice_env
+import subprocess
+# ===== AkShare开源数据支持（新增） =====
+from skillsChoice.common.unified_data_api import (
+    get_data_api,
+    get_stock_quote,
+    get_index_quote,
+)
+# ====================================
 
 logger = logging.getLogger(__name__)
 

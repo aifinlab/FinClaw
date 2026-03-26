@@ -1,9 +1,10 @@
-import argparse
-import json
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
+import argparse
+import json
 
 import pandas as pd
+import sys
 
 
 @dataclass
@@ -176,5 +177,19 @@ def main() -> None:
     generate_report(args.rules, args.samples, args.output)
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

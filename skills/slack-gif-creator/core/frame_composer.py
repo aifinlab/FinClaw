@@ -6,10 +6,10 @@ Provides functions for drawing shapes, text, emojis, and compositing elements
 together to create animation frames.
 """
 
-from typing import Optional
-
-import numpy as np
 from PIL import Image, ImageDraw, ImageFont
+
+from typing import Optional
+import math
 
 
 def create_blank_frame(
@@ -156,7 +156,7 @@ def draw_star(
     Returns:
         Modified frame
     """
-    import math
+import numpy as np
 
     draw = ImageDraw.Draw(frame)
     x, y = center

@@ -35,3 +35,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 过度分化=板块轮动机会
 4. A股行业PE差异巨大——需用PB或PS辅助对比
 5. 新兴行业vs传统行业的估值差有趋势性成分
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

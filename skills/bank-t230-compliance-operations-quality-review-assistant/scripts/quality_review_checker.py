@@ -1,9 +1,9 @@
-import argparse
-import csv
-import json
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any
+import argparse
+import csv
+import json
 
 REQUIRED_FIELDS = [
     "record_id",

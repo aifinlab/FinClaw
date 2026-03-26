@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "skill_name": "regulatory-reporting-quality-validation",
+    "skill_path": "/Users/chengdongpo/.claude/skills/risk-and-compliance/regulatory-reporting-quality-validation",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-03-15T14:05:00Z",
+    "evals_run": ["single-report-validation", "cross-table-consistency", "custom-validation-rules"],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "configuration": "with_skill",
+      "mean_pass_rate": 1.0,
+      "stddev_pass_rate": 0.0,
+      "mean_duration_seconds": 100.7,
+      "mean_tokens": 16280,
+      "per_eval": [
+        {"eval_name": "single-report-validation", "pass_rate": 1.0, "passed": 13, "total": 13, "duration_seconds": 87.5, "tokens": 15936},
+        {"eval_name": "cross-table-consistency", "pass_rate": 1.0, "passed": 7, "total": 7, "duration_seconds": 72.9, "tokens": 16193},
+        {"eval_name": "custom-validation-rules", "pass_rate": 1.0, "passed": 7, "total": 7, "duration_seconds": 141.8, "tokens": 16711}
+      ]
+    },
+    {
+      "configuration": "without_skill",
+      "mean_pass_rate": 0.778,
+      "stddev_pass_rate": 0.065,
+      "mean_duration_seconds": 83.2,
+      "mean_tokens": 15552,
+      "per_eval": [
+        {"eval_name": "single-report-validation", "pass_rate": 0.769, "passed": 10, "total": 13, "duration_seconds": 70.8, "tokens": 15650},
+        {"eval_name": "cross-table-consistency", "pass_rate": 0.714, "passed": 5, "total": 7, "duration_seconds": 129.0, "tokens": 17784},
+        {"eval_name": "custom-validation-rules", "pass_rate": 0.857, "passed": 6, "total": 7, "duration_seconds": 48.9, "tokens": 13222}
+      ]
+    }
+  ],
+  "run_summary": {
+    "delta": {
+      "pass_rate": "+22.2pp",
+      "time_seconds": "+17.5",
+      "tokens": "+728"
+    }
+  },
+  "notes": [
+    "with_skill achieves 100% on all 3 evals; without_skill consistently misses structural/compliance requirements",
+    "without_skill fails on: conclusion-first structure (2/3 evals), severity grading (1/3), disclaimer statements (3/3)",
+    "Data correctness (finding errors) is comparable - the skill adds output structure, severity classification, and safety boundaries",
+    "Token usage is similar between both configurations; time difference is modest"
+  ]
+}

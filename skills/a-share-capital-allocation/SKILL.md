@@ -116,3 +116,21 @@ df = ak.stock_repurchase_em()  # A股回购汇总
 5. **关注定增/配股/可转债的摊薄效应**：再融资是"反回购"，需评估融资目的合理性
 6. **现金堆积≠好事**：大量闲置现金可能意味着管理层缺乏投资眼光或存在代理问题
 7. **与其他 skill 联动**：可用 a-share-earnings-analysis 深入财务细节，a-share-dividend 深入分红分析，a-share-event 分析具体并购/增发事件
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

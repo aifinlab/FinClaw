@@ -69,3 +69,21 @@ description: A股逆向选择/信息不对称分析。当用户说"逆向选择"
 ```
 
 参考 `references/adverse-selection-guide.md` 获取详细方法论与 A股实证研究。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

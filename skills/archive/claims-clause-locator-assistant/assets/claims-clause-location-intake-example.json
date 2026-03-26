@@ -1,0 +1,35 @@
+{
+  "case_id": "CLM-CLAUSE-2026-001",
+  "product_name": "某医疗保险",
+  "insurance_type": "医疗险",
+  "main_policy": "主险A",
+  "riders": [
+    "附加医疗险B"
+  ],
+  "case_type": "住院医疗",
+  "event_date": "2026-02-08",
+  "current_status": "审核中",
+  "materials": [
+    "住院病历",
+    "出院小结",
+    "费用清单",
+    "系统记录",
+    "条款文本"
+  ],
+  "facts": {
+    "scene": "住院医疗",
+    "diagnosis": "急性胆囊炎",
+    "treatment": "住院手术治疗",
+    "expense_type": "住院医疗费用"
+  },
+  "policy_terms_info": {
+    "has_full_terms": true,
+    "version_info": "2023版",
+    "focus": [
+      "责任条款",
+      "免责条款",
+      "等待期",
+      "医院范围"
+    ]
+  }
+}

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import json
 from typing import List, Dict
+import json
 
 def score_solution(item: Dict) -> int:
     score = 0

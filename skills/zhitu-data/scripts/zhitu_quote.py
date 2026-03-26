@@ -19,12 +19,13 @@ Stock code format:
     510300 - Fund/ETF
 """
 
-import sys
 import json
+import os
 import requests
+import sys
 
 API_BASE = "http://api.zhituapi.com"
-TOKEN = "ZHITU_TOKEN_LIMIT_TEST"
+TOKEN = os.environ.get("ZHITU_API_TOKEN", "")
 
 def get_quote(code):
     # Normalize code
@@ -37,7 +38,7 @@ def get_quote(code):
             code = code + '.SZ'
         elif code.startswith('4') or code.startswith('8'):
             code = code + '.BJ'
-    
+
     try:
         # Determine market type
         if '.HK' in code:
@@ -52,24 +53,24 @@ def get_quote(code):
         else:
             # A-shares
             url = f"{API_BASE}/hs/custom/realall?token={TOKEN}"
-        
+
         print(f"\n📈 Real-time Quote - {code}")
         print(f"{'='*70}\n")
-        
+
         resp = requests.get(url, timeout=10)
         data = resp.json()
-        
+
         # For custom/realall, we need to filter
         if 'data' in str(type(data)):
             # Direct response
             result = data
         else:
             result = data
-        
+
         # Parse and display
         if isinstance(result, dict):
             print(f"  Code: {code}")
-            
+
             # Common fields
             fields_map = {
                 'p': 'Price',
@@ -87,7 +88,7 @@ def get_quote(code):
                 'pb': 'P/B',
                 't': 'Time'
             }
-            
+
             for key, label in fields_map.items():
                 if key in result:
                     value = result[key]
@@ -101,13 +102,13 @@ def get_quote(code):
                         print(f"  {label:<15}: {value:.2f}%")
                     else:
                         print(f"  {label:<15}: {value}")
-            
+
             # Print JSON for parsing
             print(f"\n##QUOTE_META##")
             print(json.dumps(result, ensure_ascii=False))
         else:
             print(f"  Data: {result}")
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get quote: {e}")
         sys.exit(1)
@@ -119,6 +120,6 @@ if __name__ == "__main__":
         print("         python zhitu_quote.py 600519.SH")
         print("         python zhitu_quote.py 00700.HK")
         sys.exit(1)
-    
+
     code = sys.argv[1]
     get_quote(code)

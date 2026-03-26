@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 RISK_ORDER = {
     "保守型": 1,

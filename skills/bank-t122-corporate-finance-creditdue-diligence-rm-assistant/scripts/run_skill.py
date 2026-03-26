@@ -1,13 +1,28 @@
+from corporate_credit_dd_rm import build_packet, load_input, render_markdown  # noqa: E402
+from pathlib import Path
 import argparse
 import json
-import sys
-from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from corporate_credit_dd_rm import build_packet, load_input, render_markdown  # noqa: E402
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 def main() -> None:

@@ -1,13 +1,14 @@
 {
+  "_comment": "⚠️ 示例数据文件 - 生产环境请使用真实数据，手机号已从硬编码移除",
   "batch_id": "2026W11-t153",
   "time_window": "近30天",
   "goal": "新客经营",
   "customers": [
     {
       "customer_id": "R001",
-      "name": "张三",
+      "name": "张三(示例)",
       "segment": "零售A",
-      "mobile": "13812345678",
+      "mobile": "",
       "consent_marketing": true,
       "aum": 2400000,
       "deposit": 560000,
@@ -31,7 +32,7 @@
     },
     {
       "customer_id": "R002",
-      "name": "李四",
+      "name": "李四(示例)",
       "segment": "零售B",
       "mobile": "",
       "consent_marketing": false,

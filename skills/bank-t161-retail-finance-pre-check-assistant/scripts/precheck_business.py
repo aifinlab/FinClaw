@@ -1,6 +1,6 @@
+from typing import Any, Dict
 import argparse
 import json
-from typing import Any, Dict
 
 
 def to_float(value: Any) -> float:

@@ -49,3 +49,21 @@ python "$SCRIPTS/cn_stock_data.py" quote --code [CODE]
 3. 整理时间越长，突破后空间越大
 4. 假突破是常见陷阱——必须配合成交量确认
 5. 突破回踩不破支撑位是二次入场机会
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

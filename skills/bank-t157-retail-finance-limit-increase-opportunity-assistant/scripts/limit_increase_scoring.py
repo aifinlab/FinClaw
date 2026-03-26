@@ -1,7 +1,7 @@
+from typing import Any, Dict, List
 import argparse
 import csv
 import json
-from typing import Any, Dict, List
 
 
 def load_rows(path: str) -> List[Dict[str, Any]]:

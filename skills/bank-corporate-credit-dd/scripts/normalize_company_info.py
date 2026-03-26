@@ -7,9 +7,24 @@ Usage:
 
 from __future__ import annotations
 
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 FIELDS = {
     "company_name": ["company_name", "企业名称", "客户名称"],
@@ -55,5 +70,19 @@ def main() -> int:
     return 0
 
 
+
+def main():
+
+
+        raise SystemExit(main())
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

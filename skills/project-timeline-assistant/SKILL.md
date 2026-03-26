@@ -144,3 +144,21 @@ description: |
 - [ ] 进度汇总准确
 - [ ] 风险预警及时
 - [ ] 报告人信息完整
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

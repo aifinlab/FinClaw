@@ -41,3 +41,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 融券难借且成本高——限制了做空能力
 4. 对冲只消除Beta风险——Alpha也可能为负
 5. 对冲比例非一成不变——需定期再平衡
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -9,9 +9,9 @@
 """
 
 from __future__ import annotations
+from typing import Dict, List, Any
 import json
 import sys
-from typing import Dict, List, Any
 
 
 def to_map(items: List[Dict[str, Any]]) -> Dict[str, float]:

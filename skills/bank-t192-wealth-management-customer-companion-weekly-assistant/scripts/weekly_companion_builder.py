@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import argparse
-import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+import argparse
+import json
 
 
 @dataclass
@@ -19,6 +19,12 @@ class WeeklyCompanionInput:
     todos: List[Dict[str, Any]] = field(default_factory=list)
     constraints: Optional[List[str]] = None
     report_date: Optional[str] = None
+
+
+def validate_input(data: Dict[str, Any]) -> None:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
 
 
 def _format_section(title: str, lines: List[str]) -> str:

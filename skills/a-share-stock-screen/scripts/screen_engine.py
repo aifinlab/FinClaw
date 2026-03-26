@@ -2,17 +2,22 @@
 """A-share stock screening engine using cn-stock-data unified layer.
 
 Usage:
-  python screen_engine.py --min-roe 15 --max-pe 30 --min-profit-growth 20 --top 20
-  python screen_engine.py --strategy value --top 20
-  python screen_engine.py --strategy growth --top 20
+    python screen_engine.py --min-roe 15 --max-pe 30 --min-profit-growth 20 --top 20
+    python screen_engine.py --strategy value --top 20
+    python screen_engine.py --strategy growth --top 20
 """
+import sys
+import adata
 import argparse
 import json
-import sys
 import os
 import subprocess
 
-CN_STOCK_DATA = os.path.join(os.environ.get("SKILLS_ROOT", os.path.expanduser("~/.claude/skills")), "cn-stock-data/scripts/cn_stock_data.py")
+CN_STOCK_DATA = os.path.join(
+    os.environ.get(
+        "SKILLS_ROOT",
+        os.path.expanduser("~/.claude/skills")),
+    "cn-stock-data/scripts/cn_stock_data.py")
 
 
 def run_cmd(args_list):
@@ -38,15 +43,16 @@ def get_all_finance(codes):
 
 
 def screen(min_roe=0, max_pe=9999, min_profit_growth=-9999,
-           max_debt_ratio=100, min_gross_margin=0, top=20):
+            max_debt_ratio=100, min_gross_margin=0, top=20):
     """Screen stocks by financial criteria."""
     # Get stock list via adata
     try:
         sys.path.insert(0, os.path.dirname(CN_STOCK_DATA))
-        import adata
+
         all_stocks = adata.stock.info.all_code()
         if all_stocks is None or all_stocks.empty:
-            print(json.dumps({"ok": False, "error": "Failed to get stock list"}))
+            print(json.dumps(
+                {"ok": False, "error": "Failed to get stock list"}))
             return
     except Exception as e:
         print(json.dumps({"ok": False, "error": f"adata not available: {e}"}))
@@ -54,7 +60,9 @@ def screen(min_roe=0, max_pe=9999, min_profit_growth=-9999,
 
     # Filter to A-shares only (6xxxx=SH, 0xxxx/3xxxx=SZ)
     codes = all_stocks["stock_code"].tolist()
-    a_share_codes = [c for c in codes if c.startswith(("6", "0", "3")) and len(c) == 6]
+    a_share_codes = [
+        c for c in codes if c.startswith(
+            ("6", "0", "3")) and len(c) == 6]
 
     # Sample if too many (full market scan is slow)
     if len(a_share_codes) > 200:
@@ -90,9 +98,11 @@ def screen(min_roe=0, max_pe=9999, min_profit_growth=-9999,
         try:
             if roe is not None and float(roe) < min_roe:
                 continue
-            if gross_margin is not None and float(gross_margin) < min_gross_margin:
+            if gross_margin is not None and float(
+                    gross_margin) < min_gross_margin:
                 continue
-            if net_profit_yoy is not None and float(net_profit_yoy) < min_profit_growth:
+            if net_profit_yoy is not None and float(
+                    net_profit_yoy) < min_profit_growth:
                 continue
             if debt_ratio is not None and float(debt_ratio) > max_debt_ratio:
                 continue
@@ -136,25 +146,39 @@ def main():
     parser.add_argument("--max-debt-ratio", type=float, default=60)
     parser.add_argument("--min-gross-margin", type=float, default=0)
     parser.add_argument("--top", type=int, default=20)
-    parser.add_argument("--strategy", choices=["value", "growth", "dividend", "northbound"],
-                        help="Use preset strategy")
+    parser.add_argument(
+        "--strategy",
+        choices=[
+            "value",
+            "growth",
+            "dividend",
+            "northbound"],
+        help="Use preset strategy")
     args = parser.parse_args()
 
     if args.strategy == "value":
         screen(min_roe=15, max_pe=20, min_profit_growth=10, max_debt_ratio=50,
-               min_gross_margin=30, top=args.top)
+                min_gross_margin=30, top=args.top)
     elif args.strategy == "growth":
-        screen(min_roe=12, max_pe=9999, min_profit_growth=30, max_debt_ratio=60,
-               top=args.top)
+        screen(
+            min_roe=12,
+            max_pe=9999,
+            min_profit_growth=30,
+            max_debt_ratio=60,
+            top=args.top)
     elif args.strategy == "dividend":
-        screen(min_roe=10, max_pe=15, min_profit_growth=-9999, max_debt_ratio=50,
-               top=args.top)
+        screen(
+            min_roe=10,
+            max_pe=15,
+            min_profit_growth=-9999,
+            max_debt_ratio=50,
+            top=args.top)
     else:
         screen(min_roe=args.min_roe, max_pe=args.max_pe,
-               min_profit_growth=args.min_profit_growth,
-               max_debt_ratio=args.max_debt_ratio,
-               min_gross_margin=args.min_gross_margin,
-               top=args.top)
+                min_profit_growth=args.min_profit_growth,
+                max_debt_ratio=args.max_debt_ratio,
+                min_gross_margin=args.min_gross_margin,
+                top=args.top)
 
 
 if __name__ == "__main__":

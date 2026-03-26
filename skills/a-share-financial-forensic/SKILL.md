@@ -35,3 +35,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 审计师意见非标(保留/无法表示)=重大红旗
 4. A股造假特征：虚增营收+虚构现金流+体外循环
 5. 财务异常≠必然造假——需结合行业特征判断
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -103,3 +103,21 @@ python "$SCRIPTS/cn_stock_data.py" north_flow
 4. **区分建议的优先级**：高风险问题（过度集中/财务风险）优先于优化建议（再平衡）
 5. **尊重用户策略**：如果用户有明确的投资策略（如集中持仓），不强行建议分散
 6. **与其他 skill 联动**：对组合中个股可用 a-share-earnings-analysis 深入分析、a-share-technical 看技术面、a-share-thesis 梳理持仓逻辑
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,8 +1,8 @@
-import argparse
 from pathlib import Path
-import sys
-
 from volatility_comfort_pack import main as run_main
+import argparse
+
+import sys
 
 
 if __name__ == "__main__":

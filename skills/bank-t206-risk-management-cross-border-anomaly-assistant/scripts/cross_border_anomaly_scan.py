@@ -1,8 +1,8 @@
+from dataclasses import dataclass
+from typing import Dict, List
 import argparse
 import csv
 import json
-from dataclasses import dataclass
-from typing import Dict, List
 
 
 @dataclass

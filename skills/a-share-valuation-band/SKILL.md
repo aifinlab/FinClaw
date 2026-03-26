@@ -69,3 +69,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 5. **指数优于个股**：指数估值分位的均值回归特性更强，参考价值更高
 6. **行业适配**：银行用 PB，科技/SaaS 用 PS，消费用 PE，周期用 PB
 7. **输出必须包含**：当前值、百分位排名、历史区间（min/median/max）、判断结论
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

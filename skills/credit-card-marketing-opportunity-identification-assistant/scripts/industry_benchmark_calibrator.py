@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 def calibrate(record: Dict[str, Any], benchmark: Dict[str, Any]) -> Dict[str, Any]:
     calibrated_score = record.get("score", 0)

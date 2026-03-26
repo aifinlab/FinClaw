@@ -1,8 +1,8 @@
-import argparse
-import csv
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Dict, List, Optional
+import argparse
+import csv
 
 
 REQUIRED_FIELDS = {
@@ -75,10 +75,10 @@ def collect_missing_fields(row: Dict[str, str]) -> List[str]:
 
 
 def compute_risk_score(days_past_due: Optional[int],
-                       rule_hits: Optional[int],
-                       due_amount: Optional[float],
-                       paid_amount: Optional[float],
-                       historical_avg_dpd: Optional[float]) -> int:
+                    rule_hits: Optional[int],
+                    due_amount: Optional[float],
+                    paid_amount: Optional[float],
+                    historical_avg_dpd: Optional[float]) -> int:
     score = 0
     if days_past_due is not None:
         score += min(days_past_due * 2, 40)
@@ -108,9 +108,9 @@ def determine_risk_level(score: int) -> str:
 
 
 def build_summary(days_past_due: Optional[int],
-                  rule_hits: Optional[int],
-                  paid_ratio: Optional[float],
-                  historical_avg_dpd: Optional[float]) -> str:
+                rule_hits: Optional[int],
+                paid_ratio: Optional[float],
+                historical_avg_dpd: Optional[float]) -> str:
     parts = []
     if days_past_due is not None:
         parts.append(f"逾期天数{days_past_due}天")

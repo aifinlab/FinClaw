@@ -4,10 +4,10 @@
 再融资尽调问题清单生成脚本
 """
 
-import argparse
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any
+import argparse
 
 # 再融资尽调问题模板
 REFINANCE_QUESTIONS = {
@@ -119,7 +119,7 @@ def generate_questions(financing_type: str = '定增') -> Dict[str, Any]:
         'categories': [],
         'total_questions': 0
     }
-    
+
     question_num = 1
     for category_id, category_data in REFINANCE_QUESTIONS.items():
         category = {
@@ -127,51 +127,51 @@ def generate_questions(financing_type: str = '定增') -> Dict[str, Any]:
             'title': category_data['title'],
             'questions': []
         }
-        
+
         for q in category_data['questions']:
             category['questions'].append({
                 'num': question_num,
                 'question': q
             })
             question_num += 1
-        
+
         results['categories'].append(category)
         results['total_questions'] += len(category_data['questions'])
-    
+
     results['generate_date'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    
+
     return results
 
 
 def generate_report(results: Dict[str, Any], output_path: str) -> str:
     """生成问题清单报告"""
     lines = []
-    
+
     lines.append("# 再融资尽职调查问题清单\n")
     lines.append(f"生成时间：{results['generate_date']}")
     lines.append(f"融资类型：{results['financing_type']}\n")
     lines.append("---\n")
-    
+
     lines.append(f"## 问题概况\n")
     lines.append(f"- 问题类别：{len(results['categories'])} 类")
     lines.append(f"- 问题总数：{results['total_questions']} 项\n")
-    
+
     # 各类问题
     for category in results['categories']:
         lines.append(f"## {category['title']}\n")
         for q in category['questions']:
             lines.append(f"{q['num']}. {q['question']}")
         lines.append("")
-    
+
     # 输出报告
     report_content = "\n".join(lines)
-    
+
     output_file = Path(output_path) / f"再融资尽调问题清单_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(report_content)
-    
+
     print(f"问题清单已生成：{output_file}")
     return report_content
 
@@ -180,19 +180,19 @@ def main():
     parser = argparse.ArgumentParser(description='再融资尽调问题清单生成工具')
     parser.add_argument('--type', '-t', default='定增', help='融资类型（定增/配股/可转债）')
     parser.add_argument('--output', '-o', required=True, help='输出报告目录')
-    
+
     args = parser.parse_args()
-    
+
     print("=" * 60)
     print("再融资尽调问题清单生成工具")
     print("=" * 60)
-    
+
     print(f"\n[1/2] 生成问题清单（融资类型：{args.type}）...")
     results = generate_questions(args.type)
-    
+
     print(f"\n[2/2] 生成问题清单报告...")
     generate_report(results, args.output)
-    
+
     print("\n" + "=" * 60)
     print("生成摘要")
     print("=" * 60)

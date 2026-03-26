@@ -4,7 +4,7 @@ sockets may be blocked (e.g., sandboxed VMs).  Detects the restriction
 at runtime and applies an LD_PRELOAD shim if needed.
 
 Usage:
-    from office.soffice import run_soffice, get_soffice_env
+from office.soffice import run_soffice, get_soffice_env
 
     # Option 1 – run soffice directly
     result = run_soffice(["--headless", "--convert-to", "pdf", "input.docx"])
@@ -14,11 +14,12 @@ Usage:
     subprocess.run(["soffice", ...], env=env)
 """
 
+import tempfile
+from pathlib import Path
 import os
 import socket
 import subprocess
-import tempfile
-from pathlib import Path
+import sys
 
 
 def get_soffice_env() -> dict:
@@ -35,7 +36,6 @@ def get_soffice_env() -> dict:
 def run_soffice(args: list[str], **kwargs) -> subprocess.CompletedProcess:
     env = get_soffice_env()
     return subprocess.run(["soffice"] + args, env=env, **kwargs)
-
 
 
 _SHIM_SO = Path(tempfile.gettempdir()) / "lo_socket_shim.so"
@@ -63,7 +63,6 @@ def _ensure_shim() -> Path:
     )
     src.unlink()
     return _SHIM_SO
-
 
 
 _SHIM_SOURCE = r"""
@@ -98,7 +97,7 @@ static void init(void) {
     real_accept     = dlsym(RTLD_NEXT, "accept");
     real_close      = dlsym(RTLD_NEXT, "close");
     real_read       = dlsym(RTLD_NEXT, "read");
-    for (int i = 0; i < 1024; i++) {
+    for (int i = 0; i < 1024; i++) {:
         peer_of[i] = -1;
         wake_r[i]  = -1;
         wake_w[i]  = -1;
@@ -107,17 +106,17 @@ static void init(void) {
 
 /* ---- socket ---------------------------------------------------------- */
 int socket(int domain, int type, int protocol) {
-    if (domain == AF_UNIX) {
+    if (domain == AF_UNIX) {:
         int fd = real_socket(domain, type, protocol);
-        if (fd >= 0) return fd;
+        if (fd >= 0) return fd;:
         /* socket(AF_UNIX) blocked – fall back to socketpair(). */
         int sv[2];
-        if (real_socketpair(domain, type, protocol, sv) == 0) {
-            if (sv[0] >= 0 && sv[0] < 1024) {
+        if (real_socketpair(domain, type, protocol, sv) == 0) {:
+            if (sv[0] >= 0 && sv[0] < 1024) {:
                 is_shimmed[sv[0]] = 1;
                 peer_of[sv[0]]    = sv[1];
                 int wp[2];
-                if (pipe(wp) == 0) {
+                if (pipe(wp) == 0) {:
                     wake_r[sv[0]] = wp[0];
                     wake_w[sv[0]] = wp[1];
                 }
@@ -132,7 +131,7 @@ int socket(int domain, int type, int protocol) {
 
 /* ---- listen ---------------------------------------------------------- */
 int listen(int sockfd, int backlog) {
-    if (sockfd >= 0 && sockfd < 1024 && is_shimmed[sockfd]) {
+    if (sockfd >= 0 && sockfd < 1024 && is_shimmed[sockfd]) {:
         listener_fd = sockfd;
         return 0;
     }
@@ -141,9 +140,9 @@ int listen(int sockfd, int backlog) {
 
 /* ---- accept ---------------------------------------------------------- */
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
-    if (sockfd >= 0 && sockfd < 1024 && is_shimmed[sockfd]) {
+    if (sockfd >= 0 && sockfd < 1024 && is_shimmed[sockfd]) {:
         /* Block until close() writes to the wake pipe. */
-        if (wake_r[sockfd] >= 0) {
+        if (wake_r[sockfd] >= 0) {:
             char buf;
             real_read(wake_r[sockfd], &buf, 1);
         }
@@ -155,20 +154,20 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 
 /* ---- close ----------------------------------------------------------- */
 int close(int fd) {
-    if (fd >= 0 && fd < 1024 && is_shimmed[fd]) {
+    if (fd >= 0 && fd < 1024 && is_shimmed[fd]) {:
         int was_listener = (fd == listener_fd);
         is_shimmed[fd] = 0;
 
-        if (wake_w[fd] >= 0) {              /* unblock accept() */
+        if (wake_w[fd] >= 0) {              /* unblock accept() */:
             char c = 0;
             write(wake_w[fd], &c, 1);
             real_close(wake_w[fd]);
             wake_w[fd] = -1;
         }
-        if (wake_r[fd] >= 0) { real_close(wake_r[fd]); wake_r[fd]  = -1; }
+        if (wake_r[fd] >= 0) { real_close(wake_r[fd]); wake_r[fd]  = -1; }:
         if (peer_of[fd] >= 0) { real_close(peer_of[fd]); peer_of[fd] = -1; }
 
-        if (was_listener)
+        if (was_listener):
             _exit(0);                        /* conversion done – exit */
     }
     return real_close(fd);
@@ -176,8 +175,6 @@ int close(int fd) {
 """
 
 
-
 if __name__ == "__main__":
-    import sys
-    result = run_soffice(sys.argv[1:])
-    sys.exit(result.returncode)
+   result = run_soffice(sys.argv[1:])
+   sys.exit(result.returncode)

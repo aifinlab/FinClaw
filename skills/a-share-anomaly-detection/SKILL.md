@@ -39,3 +39,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. A股信息泄露常见——异常可能先于公告
 4. 单日异常可能是噪音——连续异常更值得关注
 5. 成交量异常通常比价格异常更有预测价值
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

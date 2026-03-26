@@ -37,3 +37,21 @@ CVaR = E[Loss | Loss > VaR]，尾部平均损失
 3. 参数法假设正态分布——A股收益率尖峰肥尾，会低估风险
 4. 持有期不同VaR差异巨大——日VaR × √T ≈ T日VaR（近似）
 5. 回测VaR：实际突破次数应接近理论水平
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

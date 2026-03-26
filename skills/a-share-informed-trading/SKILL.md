@@ -70,3 +70,21 @@ description: A股知情交易/PIN模型分析。当用户说"知情交易"、"PI
 ```
 
 参考 `references/informed-trading-guide.md` 获取详细方法论与 A股实证研究。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,0 +1,83 @@
+# ========== A类数据配置文件模板 ==========
+# 这些配置用于API数据获取模块
+
+# API配置
+data_api:
+  # akshare配置
+  akshare:
+    enabled: true
+    timeout: 30
+    retry_count: 3
+  
+  # 备用数据源
+  backup_sources:
+    - name: "tushare"
+      token: "${TUSHARE_TOKEN}"
+    - name: "baostock"
+      enabled: true
+  
+  # 限速配置
+  rate_limit:
+    requests_per_second: 10
+    requests_per_minute: 300
+
+# 缓存配置
+cache:
+  enabled: true
+  directory: "/tmp/fund_data_cache"
+  default_ttl: 3600  # 默认缓存1小时
+  
+  # 不同数据的缓存时间
+  ttl_settings:
+    stock_list: 3600        # 股票列表1小时
+    fund_list: 3600         # 基金列表1小时
+    market_indices: 300     # 市场指数5分钟
+    historical_prices: 86400  # 历史价格1天
+    financial_metrics: 86400  # 财务指标1天
+    fund_nav: 1800          # 基金净值30分钟
+
+# 数据更新调度
+data_schedule:
+  stock_list:
+    frequency: "daily"
+    time: "09:00"
+  
+  market_indices:
+    frequency: "realtime"
+    interval_minutes: 5
+  
+  fund_nav:
+    frequency: "daily"
+    time: "19:00"
+
+# 市场配置
+markets:
+  A股:
+    trading_hours:
+      morning:
+        start: "09:30"
+        end: "11:30"
+      afternoon:
+        start: "13:00"
+        end: "15:00"
+    price_limits:
+      主板: {up: 0.10, down: -0.10}
+      创业板: {up: 0.20, down: -0.20}
+      科创板: {up: 0.20, down: -0.20}
+      ST股票: {up: 0.05, down: -0.05}
+  
+  港股通:
+    trading_hours:
+      morning:
+        start: "09:30"
+        end: "12:00"
+      afternoon:
+        start: "13:00"
+        end: "16:00"
+
+# 节假日配置（可从API获取，这里作为备用）
+holidays:
+  data_source: "api"  # api 或 config
+  years:
+    - 2024
+    - 2025

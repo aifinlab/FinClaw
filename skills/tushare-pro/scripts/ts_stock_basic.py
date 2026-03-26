@@ -13,9 +13,24 @@ Environment:
     TUSHARE_TOKEN - Your Tushare API token
 """
 
-import sys
-import os
 import json
+import os
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 def get_stock_basic(ts_code=None):
     try:
@@ -23,18 +38,18 @@ def get_stock_basic(ts_code=None):
     except ImportError:
         print("[ERROR] tushare not installed. Run: pip install tushare")
         sys.exit(1)
-    
+
     # Get token from environment
     token = os.environ.get('TUSHARE_TOKEN')
     if not token:
         print("[ERROR] TUSHARE_TOKEN not set")
         print("Please set your Tushare token: export TUSHARE_TOKEN='your-token'")
         sys.exit(1)
-    
+
     try:
         # Initialize Tushare Pro
         pro = ts.pro_api(token)
-        
+
         if ts_code:
             # Query specific stock
             df = pro.stock_basic(ts_code=ts_code)
@@ -42,14 +57,14 @@ def get_stock_basic(ts_code=None):
             # Query all stocks (limit to first 20)
             df = pro.stock_basic()
             df = df.head(20)
-        
+
         if df.empty:
             print(f"[INFO] No data found for {ts_code}")
             sys.exit(0)
-        
+
         print(f"\n📊 Stock Basic Information")
         print(f"{'='*80}")
-        
+
         results = []
         for _, row in df.iterrows():
             result = {
@@ -62,7 +77,7 @@ def get_stock_basic(ts_code=None):
                 'list_date': row.get('list_date', 'N/A'),
                 'is_hs': row.get('is_hs', 'N')
             }
-            
+
             print(f"\n  代码: {result['ts_code']}")
             print(f"  名称: {result['name']}")
             print(f"  地区: {result['area']}")
@@ -71,13 +86,13 @@ def get_stock_basic(ts_code=None):
             print(f"  上市日期: {result['list_date']}")
             print(f"  沪深港通: {'是' if result['is_hs'] == 'Y' else '否'}")
             print(f"  {'-'*60}")
-            
+
             results.append(result)
-        
+
         # Print JSON for parsing
         print(f"\n##BASIC_META##")
         print(json.dumps(results, ensure_ascii=False))
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get data: {e}")
         sys.exit(1)

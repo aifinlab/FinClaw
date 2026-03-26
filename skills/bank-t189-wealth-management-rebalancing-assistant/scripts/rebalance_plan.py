@@ -4,28 +4,28 @@ Rebalancing plan generator for wealth management.
 
 Input (JSON):
 {
-  "as_of": "2026-03-15",
-  "base_ccy": "CNY",
-  "portfolio": {
+"as_of": "2026-03-15",
+"base_ccy": "CNY",
+"portfolio": {
     "cash": 20000.0,
     "holdings": [
-      {"asset": "债券基金A", "value": 150000.0},
-      {"asset": "权益基金B", "value": 120000.0},
-      {"asset": "黄金ETF", "value": 30000.0}
+    {"asset": "债券基金A", "value": 150000.0},
+    {"asset": "权益基金B", "value": 120000.0},
+    {"asset": "黄金ETF", "value": 30000.0}
     ]
-  },
-  "targets": [
+},
+"targets": [
     {"asset": "债券基金A", "target_weight": 0.45},
     {"asset": "权益基金B", "target_weight": 0.40},
     {"asset": "黄金ETF", "target_weight": 0.10},
     {"asset": "现金", "target_weight": 0.05}
-  ],
-  "constraints": {
+],
+"constraints": {
     "tolerance": 0.02,
     "min_trade_value": 2000.0,
     "max_trade_value": null,
     "allow_cash": true
-  }
+}
 }
 
 Output (CSV):
@@ -36,11 +36,11 @@ Notes:
 - It does not account for fees, taxes, or liquidity gates.
 """
 
+from typing import Dict, List, Tuple
 import argparse
 import csv
 import json
 import math
-from typing import Dict, List, Tuple
 
 
 def _load_json(path: str) -> Dict:
@@ -80,7 +80,7 @@ def _build_current(holdings: List[Dict], cash: float) -> Dict[str, float]:
 
 
 def _calc_trades(current: Dict[str, float], targets: List[Dict], tolerance: float,
-                 min_trade_value: float, max_trade_value: float) -> Tuple[List[Dict], Dict]:
+                min_trade_value: float, max_trade_value: float) -> Tuple[List[Dict], Dict]:
     total_value = sum(current.values())
     target_map = {t["asset"]: _safe_float(t.get("target_weight")) for t in targets}
     target_map = {k: v for k, v in target_map.items() if k}

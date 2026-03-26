@@ -1,9 +1,10 @@
-import argparse
-import csv
-import json
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Dict, List, Tuple
+import argparse
+import csv
+import json
+import sys
 
 
 @dataclass
@@ -138,5 +139,19 @@ def main() -> None:
         json.dump(report, handle, ensure_ascii=False, indent=2)
 
 
+
+def main():
+
+
+        main()
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n操作被用户中断")
+        sys.exit(0)
+    except Exception as e:
+        print(f"错误: {e}")
+        sys.exit(1)

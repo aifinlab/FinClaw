@@ -22,12 +22,28 @@ Arguments:
     days: Number of days (default: 30)
 """
 
-import sys
 import json
+import os
 import requests
+import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 API_BASE = "https://api.zhituapi.com"
-TOKEN = "ZHITU_TOKEN_LIMIT_TEST"
+TOKEN = os.environ.get("ZHITU_API_TOKEN", "")
 
 def get_tech_indicator(code, indicator, days=30):
     # Normalize code
@@ -39,56 +55,56 @@ def get_tech_indicator(code, indicator, days=30):
             code = code + '.SZ'
         elif code.startswith('4') or code.startswith('8'):
             code = code + '.BJ'
-    
+
     indicator = indicator.upper()
     valid_indicators = ['MACD', 'KDJ', 'BOLL', 'MA']
-    
+
     if indicator not in valid_indicators:
         print(f"[ERROR] Invalid indicator. Choose from: {', '.join(valid_indicators)}")
         sys.exit(1)
-    
+
     try:
         url = f"{API_BASE}/hs/history/{indicator.lower()}/{code}/d/n?token={TOKEN}"
-        
+
         print(f"\n📈 Technical Indicator - {code}")
         print(f"Indicator: {indicator}\n")
         print(f"{'='*80}")
-        
+
         resp = requests.get(url, timeout=10)
         data = resp.json()
-        
+
         if not isinstance(data, list) or len(data) == 0:
             print(f"[INFO] No data found for {code}")
             sys.exit(0)
-        
+
         # Take last N days
         data = data[-days:]
-        
+
         # Display based on indicator type
         if indicator == 'MACD':
             print(f"  {'Date':<12} {'DIF':>10} {'DEA':>10} {'MACD':>10}")
             print(f"  {'-'*50}")
             for item in data:
                 print(f"  {item.get('d', 'N/A'):<12} {float(item.get('dif', 0)):>10.4f} {float(item.get('dea', 0)):>10.4f} {float(item.get('macd', 0)):>10.4f}")
-        
+
         elif indicator == 'KDJ':
             print(f"  {'Date':<12} {'K':>8} {'D':>8} {'J':>8}")
             print(f"  {'-'*40}")
             for item in data:
                 print(f"  {item.get('d', 'N/A'):<12} {float(item.get('k', 0)):>8.2f} {float(item.get('d', 0)):>8.2f} {float(item.get('j', 0)):>8.2f}")
-        
+
         elif indicator == 'BOLL':
             print(f"  {'Date':<12} {'UP':>10} {'MID':>10} {'LOW':>10}")
             print(f"  {'-'*50}")
             for item in data:
                 print(f"  {item.get('d', 'N/A'):<12} {float(item.get('up', 0)):>10.2f} {float(item.get('mid', 0)):>10.2f} {float(item.get('low', 0)):>10.2f}")
-        
+
         elif indicator == 'MA':
             print(f"  {'Date':<12} {'MA5':>10} {'MA10':>10} {'MA20':>10} {'MA60':>10}")
             print(f"  {'-'*60}")
             for item in data:
                 print(f"  {item.get('d', 'N/A'):<12} {float(item.get('ma5', 0)):>10.2f} {float(item.get('ma10', 0)):>10.2f} {float(item.get('ma20', 0)):>10.2f} {float(item.get('ma60', 0)):>10.2f}")
-        
+
         # Print JSON for parsing
         print(f"\n##TECH_META##")
         print(json.dumps({
@@ -97,7 +113,7 @@ def get_tech_indicator(code, indicator, days=30):
             'count': len(data),
             'data': data
         }, ensure_ascii=False))
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get data: {e}")
         sys.exit(1)
@@ -113,9 +129,9 @@ if __name__ == "__main__":
         print("  BOLL - Bollinger Bands")
         print("  MA   - Moving Average")
         sys.exit(1)
-    
+
     code = sys.argv[1]
     indicator = sys.argv[2].upper()
     days = int(sys.argv[3]) if len(sys.argv) > 3 else 30
-    
+
     get_tech_indicator(code, indicator, days)

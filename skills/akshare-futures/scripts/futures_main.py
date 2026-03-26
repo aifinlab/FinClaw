@@ -6,7 +6,24 @@
 """
 
 import akshare as ak
+import re
+import subprocess
 import sys
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 def get_main_contract(exchange="shfe"):
     """
@@ -28,7 +45,7 @@ def get_all_main_contracts():
         "zce": "郑州商品交易所",
         "cffex": "中国金融期货交易所"
     }
-    
+
     results = {}
     for code, name in exchanges.items():
         try:
@@ -36,7 +53,7 @@ def get_all_main_contracts():
             results[name] = symbol
         except:
             results[name] = "N/A"
-    
+
     return results
 
 def format_main_contract_report():
@@ -44,20 +61,20 @@ def format_main_contract_report():
     print("=" * 70)
     print("🎯 期货主力合约列表")
     print("=" * 70)
-    
+
     contracts = get_all_main_contracts()
-    
+
     print("\n📋 各交易所主力合约:")
     print("-" * 70)
     for exchange, symbol in contracts.items():
         print(f"   {exchange:<25} {symbol}")
-    
+
     # 主力合约说明
     print("\n💡 主力合约说明:")
     print("   主力合约是指成交量和持仓量最大的合约")
     print("   通常在合约首次上市时确定，当其他合约持仓量")
     print("   超过当前主力合约1.1倍时切换")
-    
+
     print("\n" + "=" * 70)
 
 def show_usage():
@@ -76,12 +93,27 @@ def show_usage():
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         exchange = sys.argv[1]
+        # 验证交易所代码，只允许预定义的有效值
+        valid_exchanges = ["shfe", "dce", "zce", "cffex"]
+        if exchange not in valid_exchanges:
+            print(f"❌ 无效的交易所代码: {exchange}")
+            print(f"有效代码: {', '.join(valid_exchanges)}")
+            sys.exit(1)
+
         symbol = get_main_contract(exchange)
         if symbol:
+            # 验证symbol格式（只允许字母、数字、点）
+            if not re.match(r'^[a-zA-Z0-9.]+$', symbol):
+                print(f"❌ 无效的合约代码: {symbol}")
+                sys.exit(1)
+
             print(f"\n✅ {exchange} 主力合约: {symbol}")
-            # 获取行情
-            import os
-            os.system(f"python futures_quote.py {symbol}")
+            # 使用subprocess.run代替os.system，避免命令注入
+            try:
+                subprocess.run([sys.executable, "futures_quote.py", symbol], check=True)
+            except subprocess.CalledProcessError as e:
+                print(f"❌ 执行失败: {e}")
+                sys.exit(1)
         else:
             print(f"❌ 无法获取 {exchange} 主力合约")
     else:

@@ -81,3 +81,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [CODE] --freq daily --start [日
 4. **解禁不等于一定卖**：解禁只是获得卖出权利，实际减持需看股东意愿和市场环境，但会形成心理压力
 5. **举牌规则**：持股达5%需披露，每增减5%需再次披露，触发要约收购线为30%
 6. **不做交易建议**：只分析股权结构和风险，不建议"买入/卖出"
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

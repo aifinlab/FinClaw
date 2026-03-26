@@ -46,3 +46,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 因子拥挤度是最有效的反转信号之一
 4. A 股风格轮动比海外更剧烈——大小盘轮动尤为明显
 5. 保持因子分散化比精准择时更重要
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Smart routing + fallback executor for cn-stock-data unified layer."""
+from adapters import EfinanceAdapter, AkshareAdapter, AdataAdapter, SnowballAdapter, AshareAdapter
+from code_converter import parse_code, is_cross_market
 import sys
 import traceback
-from code_converter import parse_code, is_cross_market
-from adapters import EfinanceAdapter, AkshareAdapter, AdataAdapter, SnowballAdapter, AshareAdapter
 
 # ── Priority chains per data type ─────────────────────────────────────
 ROUTE_CONFIG = {

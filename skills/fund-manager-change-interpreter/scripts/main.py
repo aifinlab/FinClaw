@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+from datetime import datetime
+from pathlib import Path
 import argparse
 import json
 import re
-from pathlib import Path
-from datetime import datetime
 
 SKILL_META = {
     "display_name": "基金经理变更公告解读助手",
@@ -42,11 +42,11 @@ def extract_fund_info(text: str, fund_code: str, fund_name: str) -> dict:
     if not fund_code:
         match = re.search(FUND_CODE_PATTERN, text)
         fund_code = match.group(0) if match else ""
-    
+
     if not fund_name:
         name_match = re.search(FUND_NAME_PATTERN, text)
         fund_name = name_match.group(0) if name_match else ""
-    
+
     # 提取基金简称
     fund_short_name = fund_name
     if "(" in fund_name and ")" in fund_name:
@@ -54,7 +54,7 @@ def extract_fund_info(text: str, fund_code: str, fund_name: str) -> dict:
         short_match = re.search(r"\(([^)]+)\)", fund_name)
         if short_match:
             fund_short_name = short_match.group(1)
-    
+
     return {
         "fund_name": fund_name,
         "fund_code": fund_code,
@@ -65,21 +65,21 @@ def extract_fund_info(text: str, fund_code: str, fund_name: str) -> dict:
 def extract_dates(text: str) -> dict:
     """提取日期信息"""
     dates = re.findall(DATE_PATTERN, text)
-    
+
     # 尝试识别公告日期和生效日期
     announcement_date = ""
     effective_date = ""
-    
+
     if dates:
         # 第一个日期通常为公告日期
         announcement_date = dates[0]
         # 尝试标准化日期格式
         announcement_date = normalize_date(announcement_date)
-        
+
         if len(dates) > 1:
             effective_date = dates[1]
             effective_date = normalize_date(effective_date)
-    
+
     return {
         "announcement_date": announcement_date,
         "effective_date": effective_date,
@@ -90,14 +90,14 @@ def normalize_date(date_str: str) -> str:
     """标准化日期格式为YYYY-MM-DD"""
     if not date_str:
         return ""
-    
+
     # 处理中文日期格式
     if "年" in date_str and "月" in date_str and "日" in date_str:
         match = re.search(r"(\d{4})年(\d{1,2})月(\d{1,2})日", date_str)
         if match:
             year, month, day = match.groups()
             return f"{year}-{int(month):02d}-{int(day):02d}"
-    
+
     # 处理其他格式
     for fmt in ["%Y-%m-%d", "%Y/%m/%d", "%Y.%m.%d"]:
         try:
@@ -105,21 +105,21 @@ def normalize_date(date_str: str) -> str:
             return dt.strftime("%Y-%m-%d")
         except ValueError:
             continue
-    
+
     return date_str
 
 def extract_manager_names(text: str) -> dict:
     """提取经理姓名"""
     # 查找中文姓名
     name_matches = re.findall(MANAGER_NAME_PATTERN + r"{2,3}", text)
-    
+
     # 去重
     unique_names = list(set(name_matches))
-    
+
     # 尝试识别离任经理和新任经理
     departing_managers = []
     new_managers = []
-    
+
     # 基于上下文关键词判断
     for name in unique_names:
         # 查找姓名周围的上下文
@@ -131,7 +131,7 @@ def extract_manager_names(text: str) -> dict:
                 departing_managers.append(name)
             elif any(keyword in context for keyword in ["增聘", "新任", "接任", "担任"]):
                 new_managers.append(name)
-    
+
     return {
         "all_managers_found": unique_names,
         "departing_managers": departing_managers,
@@ -142,7 +142,7 @@ def extract_manager_names(text: str) -> dict:
 def determine_event_type(text: str, managers_info: dict) -> str:
     """确定事件类型"""
     text_lower = text.lower()
-    
+
     if "离任" in text and "增聘" in text:
         return "离任兼增聘"
     elif "离任" in text:
@@ -153,7 +153,7 @@ def determine_event_type(text: str, managers_info: dict) -> str:
         return "变更"
     elif "调整" in text:
         return "调整"
-    
+
     # 根据经理信息推断
     if managers_info["departing_managers"] and managers_info["new_managers"]:
         return "离任兼增聘"
@@ -161,7 +161,7 @@ def determine_event_type(text: str, managers_info: dict) -> str:
         return "离任"
     elif managers_info["new_managers"]:
         return "增聘"
-    
+
     return "未知"
 
 def extract_change_reason(text: str) -> str:
@@ -170,7 +170,7 @@ def extract_change_reason(text: str) -> str:
         "工作安排", "个人原因", "公司安排", "内部调整", "岗位变动",
         "职业发展", "退休", "离职", "调动", "其他原因"
     ]
-    
+
     for keyword in reason_keywords:
         if keyword in text:
             # 提取包含关键词的句子
@@ -178,7 +178,7 @@ def extract_change_reason(text: str) -> str:
             match = re.search(pattern, text)
             if match:
                 return match.group(0)
-    
+
     return "公告未明确说明"
 
 def analyze_management_stability(event_type: str, managers_info: dict) -> str:
@@ -202,12 +202,12 @@ def analyze_style_continuity(event_type: str, text: str) -> str:
             return "公告提及投资框架/理念将延续，风格扰动可能较小。"
         elif "调整" in text or "变化" in text or "优化" in text:
             return "公告提及投资框架可能调整，风格或有变化。"
-    
+
     if event_type == "离任":
         return "原经理离任可能带来一定风格扰动，需观察新任经理管理风格。"
     elif event_type == "增聘":
         return "增聘经理可能带来新的投研视角，但核心框架可能保持稳定。"
-    
+
     return "公告未明确提及风格延续性，需结合后续持仓变化观察。"
 
 def assess_impact_level(event_type: str, managers_info: dict) -> str:
@@ -226,18 +226,18 @@ def assess_impact_level(event_type: str, managers_info: dict) -> str:
 def generate_follow_up_suggestions(event_type: str, impact_level: str) -> list:
     """生成跟踪建议"""
     suggestions = []
-    
+
     if impact_level in ["高", "中"]:
         suggestions.append("跟踪后续季报持仓变化")
-    
+
     if event_type in ["离任", "离任兼增聘", "增聘"]:
         suggestions.append("核查新任经理过往管理产品经历")
-    
+
     suggestions.append("观察基金公司后续人事稳定性")
-    
+
     if impact_level == "高":
         suggestions.append("评估是否调整投资组合配置")
-    
+
     return suggestions
 
 def build_output(text: str, fund_code: str, fund_name: str) -> dict:
@@ -246,22 +246,22 @@ def build_output(text: str, fund_code: str, fund_name: str) -> dict:
     fund_info = extract_fund_info(text, fund_code, fund_name)
     dates_info = extract_dates(text)
     managers_info = extract_manager_names(text)
-    
+
     # 确定事件类型和原因
     event_type = determine_event_type(text, managers_info)
     change_reason = extract_change_reason(text)
-    
+
     # 投研分析
     management_stability = analyze_management_stability(event_type, managers_info)
     style_continuity = analyze_style_continuity(event_type, text)
     impact_level = assess_impact_level(event_type, managers_info)
-    
+
     # 生成事件摘要
     event_summary = generate_event_summary(event_type, fund_info, managers_info)
-    
+
     # 生成跟踪建议
     follow_up_suggestions = generate_follow_up_suggestions(event_type, impact_level)
-    
+
     # 构建完整输出
     output = {
         "skill": SKILL_META["display_name"],
@@ -295,13 +295,13 @@ def build_output(text: str, fund_code: str, fund_name: str) -> dict:
         "follow_up_suggestions": follow_up_suggestions,
         "limitations": "以上结论仅基于公告文本，未结合历史业绩、持仓和公司投研平台进行扩展验证。"
     }
-    
+
     return output
 
 def generate_event_summary(event_type: str, fund_info: dict, managers_info: dict) -> str:
     """生成事件摘要"""
     fund_name = fund_info.get("fund_short_name", fund_info.get("fund_name", ""))
-    
+
     if event_type == "离任" and managers_info["departing_managers"]:
         managers = "、".join(managers_info["departing_managers"])
         return f"{fund_name}基金经理{managers}离任。"
@@ -313,22 +313,22 @@ def generate_event_summary(event_type: str, fund_info: dict, managers_info: dict
         new = "、".join(managers_info["new_managers"]) if managers_info["new_managers"] else ""
         if departing and new:
             return f"{fund_name}基金经理{departing}离任，同时增聘{new}。"
-    
+
     return f"{fund_name}发生基金经理{event_type}事件。"
 
 def generate_tags(event_type: str, managers_info: dict, impact_level: str) -> list:
     """生成标签"""
     tags = [event_type]
-    
+
     if managers_info["departing_managers"]:
         tags.append("经理离任")
     if managers_info["new_managers"]:
         tags.append("经理增聘")
     if len(managers_info["all_managers_found"]) > 1:
         tags.append("多经理管理")
-    
+
     tags.append(f"影响{impact_level}")
-    
+
     return tags
 
 def main():
@@ -338,23 +338,23 @@ def main():
     parser.add_argument("--fund_code", type=str, default="", help="基金代码")
     parser.add_argument("--fund_name", type=str, default="", help="基金名称")
     parser.add_argument("--output", type=str, default="output.json", help="输出文件路径")
-    
+
     args = parser.parse_args()
-    
+
     # 加载文本
     text = load_text(args.file, args.text)
-    
+
     if not text:
         print("错误：未提供公告文本")
         return
-    
+
     # 处理文本
     result = build_output(text, args.fund_code, args.fund_name)
-    
+
     # 输出结果
     with open(args.output, 'w', encoding='utf-8') as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
-    
+
     print(f"分析完成，结果已保存至 {args.output}")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

@@ -2,13 +2,13 @@
 """配对交易分析工具 - 协整检验/价差分析/交易信号/回测"""
 import argparse
 import json
-import sys
 import numpy as np
 import pandas as pd
+import sys
 
+HAS_STATSMODELS = True
 try:
     from statsmodels.tsa.stattools import adfuller, coint
-    HAS_STATSMODELS = True
 except ImportError:
     HAS_STATSMODELS = False
 
@@ -19,7 +19,12 @@ def load_prices(path: str) -> pd.Series:
     if isinstance(data, dict) and "data" in data:
         data = data["data"]
     df = pd.DataFrame(data)
-    close_col = next((c for c in ["close", "收盘", "收盘价"] if c in df.columns), None)
+    close_col = next(
+        (c for c in [
+            "close",
+            "收盘",
+            "收盘价"] if c in df.columns),
+        None)
     date_col = next((c for c in ["date", "日期"] if c in df.columns), None)
     if not close_col or not date_col:
         raise ValueError(f"需要 date + close 列，当前列: {list(df.columns)}")
@@ -31,16 +36,22 @@ def adf_test(series):
     if not HAS_STATSMODELS:
         return {"error": "需要 statsmodels 库"}
     result = adfuller(series.dropna(), autolag="AIC")
-    return {"adf_stat": round(result[0], 4), "p_value": round(result[1], 4),
-            "critical_1pct": round(result[4]["1%"], 4), "critical_5pct": round(result[4]["5%"], 4),
-            "is_stationary": result[1] < 0.05}
+    return {
+        "adf_stat": round(
+            result[0], 4), "p_value": round(
+            result[1], 4), "critical_1pct": round(
+                result[4]["1%"], 4), "critical_5pct": round(
+                    result[4]["5%"], 4), "is_stationary": result[1] < 0.05}
 
 
 def cointegration_test(s1, s2):
     if not HAS_STATSMODELS:
         return {"error": "需要 statsmodels 库"}
     score, p_value, _ = coint(s1, s2)
-    return {"coint_stat": round(score, 4), "p_value": round(p_value, 4), "is_cointegrated": p_value < 0.05}
+    return {
+        "coint_stat": round(
+            score, 4), "p_value": round(
+            p_value, 4), "is_cointegrated": p_value < 0.05}
 
 
 def calc_hedge_ratio(s1, s2):
@@ -135,19 +146,23 @@ def main():
     halflife = calc_halflife(spread)
     bt = backtest(zscore, spread, args.entry, args.exit, args.stop)
 
-    result = {
-        "ok": True,
-        "n_observations": len(common),
-        "correlation": correlation,
-        "adf_stock1": adf1,
-        "adf_stock2": adf2,
-        "cointegration": coint_result,
-        "hedge_ratio": {"beta": beta, "alpha": alpha},
-        "halflife_days": halflife,
-        "current_zscore": round(float(zscore.iloc[-1]), 4) if len(zscore) > 0 and not np.isnan(zscore.iloc[-1]) else None,
-        "spread_stats": {"mean": round(float(spread.mean()), 4), "std": round(float(spread.std()), 4)},
-        "backtest": bt,
-    }
+    result = {"ok": True,
+                "n_observations": len(common),
+                "correlation": correlation,
+                "adf_stock1": adf1,
+                "adf_stock2": adf2,
+                "cointegration": coint_result,
+                "hedge_ratio": {"beta": beta,
+                                "alpha": alpha},
+                "halflife_days": halflife,
+                "current_zscore": round(float(zscore.iloc[-1]),
+                                        4) if len(zscore) > 0 and not np.isnan(zscore.iloc[-1]) else None,
+                "spread_stats": {"mean": round(float(spread.mean()),
+                                                4),
+                                "std": round(float(spread.std()),
+                                            4)},
+                "backtest": bt,
+                }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保补件提示助手"
+  short_description: "整理核保补件清单、补件说明与业务跟进重点"
+  default_prompt: "Use $underwriting-supplement-request-assistant to turn underwriting information gaps into a clear supplement request list with priorities, explanations, communication points, and follow-up suggestions."

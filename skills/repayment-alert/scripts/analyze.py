@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-import argparse, json, re, sys
 from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse, json, re, sys
+# ===== AkShare开源数据支持（新增） =====
+from skillsChoice.common.unified_data_api import (
+    get_data_api,
+)
+# ====================================
 
 def load_items(path: Path) -> List[Dict[str, Any]]:
     raw = path.read_text(encoding='utf-8').strip()
@@ -66,11 +71,9 @@ def main():
     for x in sorted(out,key=lambda z:z['score'])[:a.top]:
         lines.append(f"- {x['id']} | score={x['score']} | level={x['level']} | reasons={'; '.join(x['reasons'][:4]) or 'N/A'}")
     lines += ['','## 三、基线',f"- baseline_version: {base.get('version','unknown')}",'','## 四、免责声明','- 本报告由系统自动生成，仅用于业务初筛。','- 结论需由业务、风控、法务人工复核后使用。','- 本报告不构成投资建议、授信决策或法律意见。']
-    rep='
-'.join(lines)
+    rep='\n'.join(lines)
     if a.output: Path(a.output).write_text(rep,encoding='utf-8')
-    else: sys.stdout.write(rep+'
-')
+    else: sys.stdout.write(rep+'\n')
 
 if __name__=='__main__':
     main()

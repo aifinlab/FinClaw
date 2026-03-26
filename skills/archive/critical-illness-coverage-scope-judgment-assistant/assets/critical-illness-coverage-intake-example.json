@@ -1,0 +1,40 @@
+{
+  "case_id": "CLM-CI-2026-001",
+  "product_name": "某重疾保险",
+  "insurance_type": "重疾险",
+  "coverage_module": "单次给付重大疾病",
+  "disease_name": "甲状腺恶性肿瘤",
+  "first_visit_date": "2026-01-12",
+  "diagnosis_date": "2026-01-20",
+  "current_status": "审核中",
+  "insured_role": "被保险人",
+  "materials": [
+    "门诊病历",
+    "住院病历",
+    "诊断证明",
+    "病理报告",
+    "影像报告",
+    "手术记录",
+    "出院小结"
+  ],
+  "facts": {
+    "onset_summary": "体检发现甲状腺结节后进一步检查",
+    "diagnosis": "甲状腺恶性肿瘤",
+    "pathology": "术后病理提示恶性肿瘤",
+    "treatment": [
+      "甲状腺手术",
+      "术后复查"
+    ]
+  },
+  "policy_terms": {
+    "waiting_period": "90天",
+    "definition_focus": "恶性肿瘤-重度需满足病理学检查结果并符合条款定义",
+    "exclusion_focus": "不包括轻度恶性肿瘤或未达到重度标准情形",
+    "multiple_claim_rule": "单次给付"
+  },
+  "user_focus": [
+    "定义是否匹配",
+    "是否存在免责或边界问题",
+    "当前材料是否足以支持判断"
+  ]
+}

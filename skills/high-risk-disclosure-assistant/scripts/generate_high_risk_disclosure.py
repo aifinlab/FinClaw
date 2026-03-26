@@ -1,13 +1,28 @@
-﻿#!/usr/bin/env python3
+﻿  # !/usr/bin/env python3
 """将核保相关风险资料整理为高风险告知结果。"""
 
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Any
 import argparse
 import json
 import sys
-from pathlib import Path
-from typing import Any
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 RISK_TOPICS = {
     "健康风险事项": ["病史", "住院", "手术", "复查", "随访", "结节", "肿瘤", "慢病", "长期用药", "异常"],
@@ -185,7 +200,7 @@ def render_report(data: dict[str, Any]) -> str:
     next_steps = build_next_steps(text, findings)
 
     lines = [
-        "# 高风险告知整理结果",
+        "  # 高风险告知整理结果",
         "",
         "一、告知背景信息",
         f"- 产品/险种：{basic['product_name']}",

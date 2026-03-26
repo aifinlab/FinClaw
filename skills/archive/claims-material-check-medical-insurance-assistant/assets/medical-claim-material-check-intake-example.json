@@ -1,0 +1,22 @@
+{
+  "product_name": "某医疗险",
+  "insurance_type": "医疗险",
+  "claim_scene": "住院报销",
+  "insured_person": {
+    "name": "张某",
+    "age": 36,
+    "gender": "男"
+  },
+  "source_materials": [
+    "理赔申请书",
+    "身份证照片",
+    "出院记录",
+    "住院发票",
+    "费用清单OCR文本"
+  ],
+  "focus_points": [
+    "判断是否具备基础受理条件",
+    "识别关键缺失项",
+    "检查票据与病历是否匹配"
+  ]
+}

@@ -107,3 +107,21 @@ df_contract = ak.futures_zh_daily_sina(symbol='IF2603')
 4. **参与门槛提示**：股指期货开户门槛50万+验资+知识测试+交易经验，保证金比例约12%-15%，杠杆约7-8倍，需提示风险
 5. **IC/IM 长期贴水**：中证500/中证1000期货长期处于贴水状态，这是A股特有现象，主要因量化对冲需求旺盛
 6. **与其他 skill 联动**：现货走势分析用 a-share-index-analysis，北向资金用 a-share-northbound，市场情绪综合用 a-share-sentiment
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

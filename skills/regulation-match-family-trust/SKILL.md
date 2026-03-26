@@ -50,3 +50,21 @@ python scripts/t821_analysis.py --input processed.json --rules config/rules.json
 - 明确数据缺口与假设边界
 - 所有输出结论必须保留人工复核提示
 - 不输出投资建议、授信结论或法律最终意见
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

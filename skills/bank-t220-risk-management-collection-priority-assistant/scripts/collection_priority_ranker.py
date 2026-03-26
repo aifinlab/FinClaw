@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import argparse
-import json
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
+import argparse
+import json
 
 import pandas as pd
 

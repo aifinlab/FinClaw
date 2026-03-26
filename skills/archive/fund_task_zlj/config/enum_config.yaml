@@ -1,0 +1,411 @@
+# ========== C类数据配置文件模板 ==========
+# 静态参考类数据配置 - 枚举定义
+
+# 风险等级定义
+risk_levels:
+  R1:
+    name: "低风险"
+    description: "产品结构简单，过往业绩及净值的历史波动率低"
+    suitable_products:
+      - "货币基金"
+      - "同业存单基金"
+      - "国债"
+      - "银行存款"
+    
+  R2:
+    name: "中低风险"
+    description: "产品结构简单，过往业绩及净值的历史波动率较低"
+    suitable_products:
+      - "债券基金"
+      - "偏债混合"
+      - "固收+"
+    
+  R3:
+    name: "中等风险"
+    description: "产品结构较简单，过往业绩及净值的历史波动率一般"
+    suitable_products:
+      - "混合基金"
+      - "指数基金"
+      - "FOF"
+      - "REITs"
+    
+  R4:
+    name: "中高风险"
+    description: "产品结构较复杂，过往业绩及净值的历史波动率较高"
+    suitable_products:
+      - "股票基金"
+      - "QDII"
+      - "商品基金"
+      - "杠杆基金"
+    
+  R5:
+    name: "高风险"
+    description: "产品结构复杂，过往业绩及净值的历史波动率很高"
+    suitable_products:
+      - "衍生品基金"
+      - "复杂结构化产品"
+      - "私募股权投资"
+
+# 投资者风险类型
+investor_risk_types:
+  C1:
+    name: "保守型"
+    risk_tolerance: "低"
+    investment_horizon: "短期"
+    suitable_products: ["R1"]
+    
+  C2:
+    name: "稳健型"
+    risk_tolerance: "中低"
+    investment_horizon: "中短期"
+    suitable_products: ["R1", "R2"]
+    
+  C3:
+    name: "平衡型"
+    risk_tolerance: "中等"
+    investment_horizon: "中期"
+    suitable_products: ["R1", "R2", "R3"]
+    
+  C4:
+    name: "成长型"
+    risk_tolerance: "中高"
+    investment_horizon: "中长期"
+    suitable_products: ["R1", "R2", "R3", "R4"]
+    
+  C5:
+    name: "进取型"
+    risk_tolerance: "高"
+    investment_horizon: "长期"
+    suitable_products: ["R1", "R2", "R3", "R4", "R5"]
+
+# 交易所配置
+exchanges:
+  SSE:
+    name: "上海证券交易所"
+    short_name: "上交所"
+    market_code: "SH"
+    country: "中国"
+    boards:
+      - name: "主板"
+        code_prefixes: ["600", "601", "603", "605"]
+      - name: "科创板"
+        code_prefixes: ["688", "689"]
+    
+  SZSE:
+    name: "深圳证券交易所"
+    short_name: "深交所"
+    market_code: "SZ"
+    country: "中国"
+    boards:
+      - name: "主板"
+        code_prefixes: ["000", "001", "002"]
+      - name: "创业板"
+        code_prefixes: ["300", "301"]
+    
+  BSE:
+    name: "北京证券交易所"
+    short_name: "北交所"
+    market_code: "BJ"
+    country: "中国"
+    boards:
+      - name: "北交所"
+        code_prefixes: ["43", "83", "87", "88"]
+
+# 基金类型配置
+fund_types:
+  equity:
+    code: "EQUITY"
+    name: "股票型"
+    risk_level: "高"
+    description: "80%以上资产投资于股票"
+    subtypes:
+      - "普通股票型"
+      - "被动指数型"
+      - "增强指数型"
+    
+  bond:
+    code: "BOND"
+    name: "债券型"
+    risk_level: "中低"
+    description: "80%以上资产投资于债券"
+    subtypes:
+      - "纯债型"
+      - "一级债基"
+      - "二级债基"
+      - "可转债"
+      - "指数债基"
+    
+  hybrid:
+    code: "HYBRID"
+    name: "混合型"
+    risk_level: "中高"
+    description: "股票和债券投资比例灵活"
+    subtypes:
+      - "偏股混合型"
+      - "偏债混合型"
+      - "平衡混合型"
+      - "灵活配置型"
+    
+  mmf:
+    code: "MMF"
+    name: "货币型"
+    risk_level: "低"
+    description: "投资于货币市场工具"
+
+# 费率配置
+fee_structure:
+  purchase:
+    equity:
+      - min: 0
+        max: 1000000
+        rate: 0.015
+      - min: 1000000
+        max: 5000000
+        rate: 0.012
+      - min: 5000000
+        max: 10000000
+        rate: 0.008
+      - min: 10000000
+        rate: 0.01
+    
+    bond:
+      - min: 0
+        max: 1000000
+        rate: 0.008
+      - min: 1000000
+        max: 5000000
+        rate: 0.005
+      - min: 5000000
+        rate: 0.003
+    
+    mmf:
+      - min: 0
+        rate: 0
+  
+  redemption:
+    equity:
+      - days_min: 0
+        days_max: 7
+        rate: 0.015
+      - days_min: 7
+        days_max: 30
+        rate: 0.0075
+      - days_min: 30
+        days_max: 365
+        rate: 0.005
+      - days_min: 365
+        rate: 0
+    
+    bond:
+      - days_min: 0
+        days_max: 7
+        rate: 0.015
+      - days_min: 7
+        days_max: 30
+        rate: 0.001
+      - days_min: 30
+        rate: 0
+  
+  management:
+    active_equity: 0.015
+    index_equity: 0.005
+    bond: 0.006
+    hybrid: 0.012
+    mmf: 0.0033
+    fof: 0.01
+  
+  custody:
+    equity: 0.0025
+    bond: 0.002
+    hybrid: 0.0025
+    mmf: 0.001
+    fof: 0.002
+
+# 销售渠道配置
+sales_channels:
+  direct:
+    name: "直销"
+    fee_discount: 1.0
+    subchannels:
+      - "柜台"
+      - "网上直销"
+      - "APP"
+      - "电话"
+    
+  bank:
+    name: "银行代销"
+    fee_discount: 0.6
+    major_banks:
+      - code: "ICBC"
+        name: "工商银行"
+      - code: "CCB"
+        name: "建设银行"
+      - code: "ABC"
+        name: "农业银行"
+      - code: "BOC"
+        name: "中国银行"
+      - code: "CMB"
+        name: "招商银行"
+    
+  securities:
+    name: "券商代销"
+    fee_discount: 0.4
+    major_securities:
+      - "中信证券"
+      - "华泰证券"
+      - "国泰君安"
+      - "招商证券"
+    
+  third_party:
+    name: "第三方销售"
+    fee_discount: 0.1
+    platforms:
+      - "蚂蚁财富"
+      - "天天基金"
+      - "理财通"
+      - "京东金融"
+
+# 业绩指标定义
+performance_metrics:
+  return:
+    - code: "TOTAL_RETURN"
+      name: "累计收益"
+      description: "投资期内的总收益率"
+    
+    - code: "ANNUAL_RETURN"
+      name: "年化收益"
+      description: "换算为年化收益率"
+    
+    - code: "ALPHA"
+      name: "超额收益"
+      description: "相对于基准的超额收益"
+  
+  risk:
+    - code: "VOLATILITY"
+      name: "波动率"
+      description: "收益率的标准差"
+      annualized: true
+    
+    - code: "MAX_DRAWDOWN"
+      name: "最大回撤"
+      description: "从高点到低点的最大跌幅"
+    
+    - code: "VAR"
+      name: "VaR"
+      description: "风险价值"
+  
+  risk_adjusted:
+    - code: "SHARPE"
+      name: "夏普比率"
+      description: "(收益-无风险利率)/波动率"
+    
+    - code: "SORTINO"
+      name: "索提诺比率"
+      description: "(收益-无风险利率)/下行波动率"
+    
+    - code: "CALMAR"
+      name: "卡玛比率"
+      description: "年化收益/最大回撤"
+    
+    - code: "INFO_RATIO"
+      name: "信息比率"
+      description: "超额收益/跟踪误差"
+
+# 基准指数配置
+benchmark_indices:
+  domestic:
+    - code: "000300.SH"
+      name: "沪深300"
+      description: "A股大盘股代表指数"
+    
+    - code: "000905.SH"
+      name: "中证500"
+      description: "A股中盘股代表指数"
+    
+    - code: "000852.SH"
+      name: "中证1000"
+      description: "A股小盘股代表指数"
+    
+    - code: "399006.SZ"
+      name: "创业板指"
+      description: "创业板核心指数"
+  
+  international:
+    - code: "SPX"
+      name: "标普500"
+      market: "US"
+    
+    - code: "HSI"
+      name: "恒生指数"
+      market: "HK"
+
+# 文档类型配置
+document_types:
+  fund_contract:
+    name: "基金合同"
+    category: "募集"
+    required: true
+    retention_years: 20
+  
+  prospectus:
+    name: "招募说明书"
+    category: "募集"
+    required: true
+    retention_years: 20
+  
+  quarterly_report:
+    name: "季度报告"
+    category: "定期"
+    frequency: "季度"
+    retention_years: 20
+  
+  annual_report:
+    name: "年度报告"
+    category: "定期"
+    frequency: "年度"
+    retention_years: 20
+  
+  manager_change:
+    name: "基金经理变更"
+    category: "临时"
+    disclosure_hours: 2
+
+# 交易时间配置
+trading_hours:
+  A股:
+    morning:
+      start: "09:30"
+      end: "11:30"
+    afternoon:
+      start: "13:00"
+      end: "15:00"
+    
+  港股通:
+    morning:
+      start: "09:30"
+      end: "12:00"
+    afternoon:
+      start: "13:00"
+      end: "16:00"
+
+# 涨跌幅限制
+price_limits:
+  主板:
+    up: 0.10
+    down: -0.10
+  
+  创业板:
+    up: 0.20
+    down: -0.20
+  
+  科创板:
+    up: 0.20
+    down: -0.20
+  
+  ST股票:
+    up: 0.05
+    down: -0.05
+  
+  北交所:
+    up: 0.30
+    down: -0.30

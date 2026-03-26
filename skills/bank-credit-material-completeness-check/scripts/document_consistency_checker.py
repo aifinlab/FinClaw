@@ -5,11 +5,11 @@
 
 from __future__ import annotations
 
-import json
-import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List
+import json
+import sys
 
 KEY_FIELDS = [
     "企业名称",

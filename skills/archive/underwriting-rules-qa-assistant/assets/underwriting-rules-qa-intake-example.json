@@ -1,0 +1,17 @@
+{
+  "product_name": "某重疾险",
+  "insurance_type": "重疾险",
+  "rule_topic": "高血压核保规则",
+  "applicable_context": "健康险人工核保答疑",
+  "source_materials": [
+    "产品核保规则摘录",
+    "内部操作口径",
+    "业务问题描述"
+  ],
+  "user_question": "一级高血压、已服药控制，一般是否需要补件或转人工审核？",
+  "focus_points": [
+    "承保边界",
+    "补件条件",
+    "是否需要人工审核"
+  ]
+}

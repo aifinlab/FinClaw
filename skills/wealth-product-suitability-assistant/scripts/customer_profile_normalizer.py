@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 def normalize_customer_profile(payload: Dict[str, Any]) -> Dict[str, Any]:
     customer = payload.get("customer", {})

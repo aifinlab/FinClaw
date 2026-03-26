@@ -1,0 +1,4 @@
+interface:
+  display_name: "核保技能导航助手"
+  short_description: "帮助选择核保技能并规划调用顺序"
+  default_prompt: "Use $underwriting-skill-map-assistant to choose the right underwriting skill or workflow based on the user task, explain the boundaries, and suggest the best calling order."

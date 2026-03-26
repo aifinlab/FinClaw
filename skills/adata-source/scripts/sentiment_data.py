@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """adata 情绪数据获取脚本：北向资金、热门排行"""
-import sys
-import json
-import argparse
 import adata
+import argparse
+import json
 import pandas as pd
+import sys
 
 
 def _df_to_json(df, max_rows=None):

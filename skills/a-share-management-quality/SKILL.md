@@ -93,3 +93,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [CODE] --freq daily --start [日
 4. **好公司+差管理层=风险**：再好的商业模式也可能被不靠谱的管理层毁掉
 5. **不做交易建议**：只评估管理层质量，不建议"因为管理层好所以买入"
 6. **数据时效**：管理层信息可能有滞后，分析时注明信息截止日期
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

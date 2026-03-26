@@ -138,3 +138,21 @@ description: |
 - [ ] 审核结论合理
 - [ ] 补充/复核事项具体
 - [ ] 审核人信息完整
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

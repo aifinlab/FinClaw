@@ -1,7 +1,14 @@
-import argparse
 from pathlib import Path
+import argparse
 import subprocess
 import sys
+# ===== AkShare开源数据支持（新增） =====
+from skillsChoice.common.unified_data_api import (
+    get_data_api,
+    get_financial_report,
+    get_fund_quote,
+)
+# ====================================
 
 
 def main() -> None:

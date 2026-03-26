@@ -35,3 +35,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 衰竭缺口是反转信号——需及时止盈/止损
 4. 连续多个缺口通常意味着极端行情
 5. 涨跌停造成的缺口需特殊处理
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

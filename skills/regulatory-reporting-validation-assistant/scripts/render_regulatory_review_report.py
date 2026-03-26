@@ -3,9 +3,9 @@
 """将结构化校验结果渲染为 Markdown 报告。"""
 
 from __future__ import annotations
+from typing import Any, Dict, List
 import json
 import sys
-from typing import Any, Dict, List
 
 
 def render(payload: Dict[str, Any]) -> str:

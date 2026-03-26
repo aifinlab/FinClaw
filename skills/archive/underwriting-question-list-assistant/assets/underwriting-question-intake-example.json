@@ -1,0 +1,21 @@
+{
+  "product_name": "某重疾险",
+  "insurance_type": "重疾险",
+  "underwriting_stage": "首次补问",
+  "risk_materials": [
+    "健康告知",
+    "体检报告OCR文本",
+    "核保初审意见"
+  ],
+  "identified_issues": [
+    "既往胃息肉手术史时间不清",
+    "体检提示肝功能异常但未见复查结论",
+    "告知与初审意见对饮酒频率描述不一致"
+  ],
+  "business_context": "业务人员准备电话向客户集中补问",
+  "focus_points": [
+    "识别必须优先追问的问题",
+    "按主题整理提问顺序",
+    "减少反复追问"
+  ]
+}

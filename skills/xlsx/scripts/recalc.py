@@ -3,16 +3,16 @@ Excel Formula Recalculation Script
 Recalculates all formulas in an Excel file using LibreOffice
 """
 
+from office.soffice import get_soffice_env
+from openpyxl import load_workbook
+from pathlib import Path
 import json
 import os
 import platform
+
 import subprocess
+
 import sys
-from pathlib import Path
-
-from office.soffice import get_soffice_env
-
-from openpyxl import load_workbook
 
 MACRO_DIR_MACOS = "~/Library/Application Support/LibreOffice/4/user/basic/Standard"
 MACRO_DIR_LINUX = "~/.config/libreoffice/4/user/basic/Standard"
@@ -91,7 +91,7 @@ def recalc(filename, timeout=30):
 
     result = subprocess.run(cmd, capture_output=True, text=True, env=get_soffice_env())
 
-    if result.returncode != 0 and result.returncode != 124:  
+    if result.returncode != 0 and result.returncode != 124:
         error_msg = result.stderr or "Unknown error during recalculation"
         if "Module1" in error_msg or "RecalculateAndSave" not in error_msg:
             return {"error": "LibreOffice macro not configured properly"}
@@ -136,7 +136,7 @@ def recalc(filename, timeout=30):
             if locations:
                 result["error_summary"][err_type] = {
                     "count": len(locations),
-                    "locations": locations[:20],  
+                    "locations": locations[:20],
                 }
 
         wb_formulas = load_workbook(filename, data_only=False)

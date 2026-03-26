@@ -93,3 +93,21 @@ python "$SCRIPTS/cn_stock_data.py" kline --code [CODE] --freq daily --start [季
    - 对机构大幅增持的股票用 a-share-earnings-analysis 分析基本面
    - 对行业配置变动用 a-share-sector 做行业研究
    - 对机构偏好变化用 a-share-northbound 交叉验证（国内机构 vs 外资）
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

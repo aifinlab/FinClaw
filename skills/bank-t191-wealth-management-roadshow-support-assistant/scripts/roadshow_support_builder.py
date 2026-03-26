@@ -3,19 +3,34 @@
 将结构化输入转为标准化路演支持材料（Markdown）。
 
 使用方式:
-  python roadshow_support_builder.py --input input.json --output output.md
+python roadshow_support_builder.py --input input.json --output output.md
 
 输入字段参考 SKILL.md 中的说明。
 """
 
 from __future__ import annotations
 
-import argparse
-import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
+import argparse
+import json
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 PLACEHOLDER = "【待补充】"

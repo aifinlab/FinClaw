@@ -159,3 +159,21 @@ python "$SCRIPTS/cn_stock_data.py" fund_flow --code [CODE] --days 60
 5. **周期股逆向思维**：周期行业在最悲观时往往接近底部，在最乐观时往往接近顶部；PE 最高点可能是最佳买点
 6. **财务洗澡要辨别**：大额减值计提可能是新管理层"甩包袱"的信号（利好反转），也可能是真的资产恶化（利空）
 7. **与其他 skill 联动**：反转后的持续跟踪用 a-share-earnings-analysis；行业周期判断用 a-share-sector；估值验证用 a-share-comps
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

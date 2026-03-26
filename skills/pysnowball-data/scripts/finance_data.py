@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """pysnowball 财务和高级数据（需要 token）
 使用前需设置 token：
-  import pysnowball as ball
+import argparse
   ball.set_token('xq_a_token=你的token;')
 或通过 --token 参数传入
 """
-import sys
 import json
-import argparse
 import pysnowball as ball
+import pysnowball as ball
+import sys
 
 
 def _safe_call(func, *args, **kwargs):

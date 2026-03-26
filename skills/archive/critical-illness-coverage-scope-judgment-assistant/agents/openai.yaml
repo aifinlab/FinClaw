@@ -1,0 +1,4 @@
+interface:
+  display_name: "责任范围判断助手-重疾版"
+  short_description: "辅助判断重疾理赔定义匹配、责任边界与关键限制因素。"
+  default_prompt: "Use $critical-illness-coverage-scope-judgment-assistant to analyze a critical illness insurance claim, compare the diagnosis and supporting evidence with policy definitions, identify waiting-period or exclusion risks, assess material sufficiency, and produce a structured preliminary coverage opinion."

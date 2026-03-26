@@ -10,11 +10,11 @@ Example:
     python utils/package_skill.py skills/public/my-skill ./dist
 """
 
+from pathlib import Path
+from scripts.quick_validate import validate_skill
 import fnmatch
 import sys
 import zipfile
-from pathlib import Path
-from scripts.quick_validate import validate_skill
 
 # Patterns to exclude when packaging skills.
 EXCLUDE_DIRS = {"__pycache__", "node_modules"}

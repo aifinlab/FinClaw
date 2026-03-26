@@ -1,7 +1,7 @@
 """资产配置建议引擎（示例）"""
 from __future__ import annotations
-import json
 from typing import Dict, Any, List
+import json
 
 BASE_PLANS = {
     "保守型": {"现金": (20, 35), "固收": (45, 65), "权益": (5, 15), "多资产": (0, 10)},

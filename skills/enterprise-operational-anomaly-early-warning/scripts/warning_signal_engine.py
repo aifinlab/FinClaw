@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """企业贷后预警信号识别示例脚本。"""
 from __future__ import annotations
-
 import json
+
 from pathlib import Path
 from typing import Any, Dict, List
+import argparse
 
 
 def _ratio_change(curr: float | None, prev: float | None) -> float | None:
@@ -38,7 +39,9 @@ def detect_warning_signals(data: Dict[str, Any]) -> List[Dict[str, Any]]:
         })
 
     ar_days = data.get("ar_days", {})
-    ar_days_change = _ratio_change(ar_days.get("current"), ar_days.get("previous"))
+    ar_days_change = _ratio_change(
+        ar_days.get("current"),
+        ar_days.get("previous"))
     if ar_days_change is not None and ar_days_change >= 0.2:
         signals.append({
             "维度": "经营异常",
@@ -93,7 +96,6 @@ def detect_warning_signals(data: Dict[str, Any]) -> List[Dict[str, Any]]:
 
 
 def main() -> None:
-    import argparse
 
     parser = argparse.ArgumentParser(description="识别企业贷后预警信号")
     parser.add_argument("input", help="输入 JSON 文件路径")

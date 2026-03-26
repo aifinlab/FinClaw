@@ -71,3 +71,21 @@ description: A股期权Greeks/风险敞口分析。当用户说"Greeks"、"Delta
 ```
 
 参考 `references/option-greeks-guide.md` 获取详细方法论与 A股实证研究。
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

@@ -1,8 +1,8 @@
+from datetime import datetime
+from typing import Any, Dict, List
 import argparse
 import csv
 import json
-from datetime import datetime
-from typing import Any, Dict, List
 
 DATE_FMT = "%Y-%m-%d"
 

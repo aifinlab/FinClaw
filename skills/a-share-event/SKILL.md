@@ -96,3 +96,21 @@ Web 搜索类似事件的历史案例：
 4. **关注细节**：增发价格/回购价格区间/减持比例/激励条件等细节决定影响程度
 5. **不做简单类推**：历史类似事件仅供参考，不能直接预测本次结果
 6. **与其他 skill 联动**：事件分析后可用 a-share-earnings-analysis 评估财务影响，用 a-share-thesis 更新投资论点
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

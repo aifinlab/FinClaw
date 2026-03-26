@@ -178,3 +178,21 @@ description: |
 - [ ] 临床数据解读专业（有效性 + 安全性）
 - [ ] 风险提示充分（研发失败、政策、竞争）
 - [ ] 结论对投资/业务决策有参考价值
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

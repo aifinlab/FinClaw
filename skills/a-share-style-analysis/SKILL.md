@@ -29,3 +29,21 @@ python "$SCRIPTS/cn_stock_data.py" finance --code [CODE]
 3. 风格漂移是基金评估的重要维度
 4. A股常用风格维度：大盘价值/大盘成长/小盘价值/小盘成长
 5. R² > 0.9 说明风格指数解释力强
+
+## 使用示例
+
+### 示例 1: 基本使用
+
+```python
+# 调用 skill
+result = run_skill({
+    "param1": "value1",
+    "param2": "value2"
+})
+```
+
+### 示例 2: 命令行使用
+
+```bash
+python scripts/run_skill.py --input data.json
+```

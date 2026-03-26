@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Ashare 行情数据获取脚本 — 基于新浪+腾讯双核心"""
-import sys
-import json
+from Ashare import get_price
 import argparse
+import json
 import os
 
 # 将 Ashare.py 所在目录加入路径
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from Ashare import get_price
 import pandas as pd
+import sys
 
 
 def quote(code, count=10, frequency="1d", end_date=""):

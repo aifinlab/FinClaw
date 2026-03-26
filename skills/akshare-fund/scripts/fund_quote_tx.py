@@ -14,11 +14,14 @@ Fund code format:
     - LOF: 160106 (南方高增)
 """
 
-import sys
 import json
 import requests
+import sys
+import traceback
+
 
 def get_fund_quote_tx(fund_code):
+    """获取基金实时行情（腾讯财经API）"""
     try:
         # Tencent Finance API for funds (ETF/LOF use same format as stocks)
         # Determine exchange prefix
@@ -28,24 +31,24 @@ def get_fund_quote_tx(fund_code):
             symbol = f"sz{fund_code}"
         else:
             symbol = fund_code
-        
+
         url = f"https://qt.gtimg.cn/q={symbol}"
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
         }
-        
+
         resp = requests.get(url, headers=headers, timeout=10)
         resp.encoding = 'gbk'
-        
+
         data = resp.text
         if not data or '~' not in data:
             print(f"[ERROR] No data for fund {fund_code}")
             sys.exit(1)
-        
+
         # Parse Tencent format: v_fu_510300="1~300ETF~510300..."
         content = data.split('"')[1]
         fields = content.split('~')
-        
+
         # Field mapping for funds
         result = {
             "code": fields[2] if len(fields) > 2 else fund_code,
@@ -59,10 +62,10 @@ def get_fund_quote_tx(fund_code):
             "change_pct": float(fields[32]) if len(fields) > 32 and fields[32] else 0,
             "volume": int(fields[36]) if len(fields) > 36 and fields[36] else 0,
             "amount": float(fields[37]) if len(fields) > 37 and fields[37] else 0,
-            "iopv": float(fields[46]) if len(fields) > 46 and fields[46] else 0,  # IOPV for ETF
-            "discount": float(fields[47]) if len(fields) > 47 and fields[47] else 0,  # Discount/Premium
+            "iopv": float(fields[46]) if len(fields) > 46 and fields[46] else 0,
+            "discount": float(fields[47]) if len(fields) > 47 and fields[47] else 0,
         }
-        
+
         # Print readable format
         change_emoji = "📈" if result['change'] >= 0 else "📉"
         print(f"\n📊 {result['name']} ({result['code']})")
@@ -82,16 +85,16 @@ def get_fund_quote_tx(fund_code):
         if result['discount']:
             premium_emoji = "🔴" if result['discount'] > 0 else "🟢"
             print(f"  折溢价: {premium_emoji} {result['discount']:.2f}%")
-        
+
         # Print JSON for parsing
         print(f"\n##FUND_META##")
         print(json.dumps(result, ensure_ascii=False, default=str))
-        
+
     except Exception as e:
         print(f"[ERROR] Failed to get fund quote: {e}")
-        import traceback
         traceback.print_exc()
         sys.exit(1)
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -99,6 +102,6 @@ if __name__ == "__main__":
         print("Example: python fund_quote_tx.py 510300")
         print("         python fund_quote_tx.py 512800")
         sys.exit(1)
-    
+
     fund_code = sys.argv[1]
     get_fund_quote_tx(fund_code)

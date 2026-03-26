@@ -1,8 +1,8 @@
+from pathlib import Path
+from typing import Dict, List
 import argparse
 import json
 import re
-from pathlib import Path
-from typing import Dict, List
 
 SPEAKER_RE = re.compile(r"^(?P<speaker>\S+)[：: ](?P<content>.+)$")
 

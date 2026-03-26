@@ -3,12 +3,12 @@
 efinance 债券（可转债）数据获取脚本
 支持：可转债实时行情、历史K线、基本信息、资金流向
 """
-import sys
-import json
 import argparse
-
 import efinance as ef
+import json
+
 import pandas as pd
+import sys
 
 
 def _df_to_json(df, max_rows=None):

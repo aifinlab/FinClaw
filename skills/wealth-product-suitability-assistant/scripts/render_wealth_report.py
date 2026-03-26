@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 from typing import Any, Dict, List
+import json
 
 def render_report(customer_summary: Dict[str, Any], recommendations: List[Dict[str, Any]]) -> str:
     recommendations = sorted(recommendations, key=lambda x: x.get("适配得分", 0), reverse=True)

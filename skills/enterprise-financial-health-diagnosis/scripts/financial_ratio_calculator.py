@@ -7,9 +7,30 @@
 """
 
 from __future__ import annotations
+from typing import Dict, Any, List
 import json
 import sys
-from typing import Dict, Any, List
+# ===== AkShare开源数据支持（新增） =====
+from skillsChoice.common.unified_data_api import (
+    get_data_api,
+    get_financial_report,
+)
+# ====================================
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 
 def safe_div(a, b):
@@ -28,22 +49,150 @@ def avg(a, b):
 
 
 def calc_metrics(row: Dict[str, Any]) -> Dict[str, Any]:
-    assets = row.get("总资产")
-    liabilities = row.get("总负债")
-    current_assets = row.get("流动资产")
-    current_liabilities = row.get("流动负债")
-    inventory = row.get("存货", 0) or 0
-    prepayments = row.get("预付款项", 0) or 0
-    revenue = row.get("营业收入")
-    cost = row.get("营业成本")
-    net_profit = row.get("净利润")
-    ebit = row.get("息税前利润")
-    interest = row.get("利息支出")
-    op_cf = row.get("经营活动现金流净额")
-    capex = row.get("资本性支出")
-    receivables_avg = row.get("平均应收账款")
-    inventory_avg = row.get("平均存货")
-    assets_avg = row.get("平均总资产")
+    assets = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("总资产")
+    liabilities = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("总负债")
+    current_assets = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("流动资产")
+    current_liabilities = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("流动负债")
+    inventory = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("存货", 0) or 0
+    prepayments = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("预付款项", 0) or 0
+    revenue = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("营业收入")
+    cost = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("营业成本")
+    net_profit = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("净利润")
+    ebit = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("息税前利润")
+    interest = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("利息支出")
+    op_cf = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("经营活动现金流净额")
+    capex = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("资本性支出")
+    receivables_avg = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("平均应收账款")
+    inventory_avg = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("平均存货")
+    assets_avg = ro# 优先尝试开源数据
+    try:
+        result = get_data_with_fallback("stock_history", symbol)
+        if result is not None:
+            return result
+    except:
+        pass
+    # 原Wind API调用
+    w.get("平均总资产")
 
     return {
         "资产负债率": safe_div(liabilities, assets),

@@ -3,11 +3,26 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from typing import Any
 import argparse
 import csv
 import json
-from pathlib import Path
-from typing import Any
+
+
+def validate_input(data: dict) -> dict:
+    """验证输入参数"""
+    if not isinstance(data, dict):
+        raise ValueError("输入必须是字典类型")
+
+    required_fields = []  # 添加必填字段
+    for field in required_fields:
+        if field not in data:
+            raise ValueError(f"缺少必填字段: {field}")
+
+    return data
+
+
 
 TASK_NAME = "基金经理画像助手"
 TASK_SUMMARY = "对基金经理的履历、投资框架、风格稳定性、回撤特征和沟通标签做结构化画像。"

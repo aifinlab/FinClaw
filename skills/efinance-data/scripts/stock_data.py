@@ -3,13 +3,13 @@
 efinance 股票数据获取脚本
 支持：实时行情、历史K线、基本信息、十大股东、资金流向、龙虎榜、业绩报表
 """
-import sys
-import json
-import argparse
 from datetime import datetime, timedelta
-
+import argparse
 import efinance as ef
+import json
+
 import pandas as pd
+import sys
 
 
 def _df_to_json(df, max_rows=None):
