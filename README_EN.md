@@ -391,6 +391,8 @@ We sincerely invite industry peers to explore innovative paradigms for the deep 
 
 📧 [zhang.liwen@shufe.edu.cn](mailto:zhang.liwen@shufe.edu.cn)
 📧 [chengdongpo@mail.sufe.edu.cn](mailto:chengdongpo@mail.sufe.edu.cn)
+📧 [liaohui@xyzq.com.cn](mailto:liaohui@xyzq.com.cn)
+
 
 👉If you would like to engage in deeper discussions on project co-construction, scientific research, talent cultivation, or industrial applications, please scan the QR code and fill out the form.
 <div align="center">
