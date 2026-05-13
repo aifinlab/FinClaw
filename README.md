@@ -348,6 +348,7 @@ git push origin feature/your-feature
 
 📧 [zhang.liwen@shufe.edu.cn](mailto:zhang.liwen@shufe.edu.cn)
 📧 [chengdongpo@mail.sufe.edu.cn](mailto:chengdongpo@mail.sufe.edu.cn)
+📧 [liaohui@xyzq.com.cn](mailto:liaohui@xyzq.com.cn)
 
 👉若你希望在项目共建、科学研究、人才培养和产业应用等方向深入交流，请扫码填表。
 <div align="center">
